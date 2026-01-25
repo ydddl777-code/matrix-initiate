@@ -61,7 +61,7 @@ export const BootSequence = ({ onComplete }: BootSequenceProps) => {
             key={index}
             className={cn(
               "flex items-center gap-2 transition-opacity duration-300",
-              msg.isSuccess ? "text-primary text-glow-gold" : "text-secondary"
+              msg.isSuccess ? "text-primary text-glow-purple font-bold" : "text-foreground"
             )}
           >
             <span className={cn(msg.isSuccess && "font-bold")}>
@@ -71,7 +71,7 @@ export const BootSequence = ({ onComplete }: BootSequenceProps) => {
               <span className="terminal-cursor" />
             )}
             {isComplete && !msg.isSuccess && (
-              <span className="text-primary/60 text-xs ml-2">[OK]</span>
+              <span className="text-secondary text-xs ml-2 font-bold">[OK]</span>
             )}
           </div>
         );

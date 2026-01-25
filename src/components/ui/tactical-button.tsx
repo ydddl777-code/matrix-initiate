@@ -9,27 +9,26 @@ const tacticalButtonVariants = cva(
     variants: {
       variant: {
         primary: [
-          "bg-transparent border-2 border-primary text-primary",
-          "hover:bg-primary hover:text-primary-foreground",
-          "before:absolute before:inset-0 before:bg-primary/10",
+          "bg-primary text-primary-foreground border-2 border-primary",
+          "hover:bg-primary/90",
+          "shadow-[0_0_20px_hsl(var(--primary)/0.3)]",
           "after:absolute after:inset-[-4px] after:border after:border-primary/30",
-          "pulse-glow",
         ].join(" "),
         secondary: [
-          "bg-transparent border border-secondary text-secondary",
-          "hover:bg-secondary/20",
-          "shadow-[0_0_10px_hsl(var(--secondary)/0.3)]",
+          "bg-secondary text-secondary-foreground border border-secondary",
+          "hover:bg-secondary/90",
+          "shadow-[0_0_15px_hsl(var(--secondary)/0.3)]",
         ].join(" "),
         ghost: [
-          "bg-transparent text-muted-foreground",
-          "hover:text-primary hover:bg-primary/10",
+          "bg-transparent text-foreground border border-primary/30",
+          "hover:bg-primary/10 hover:border-primary",
         ].join(" "),
         initiate: [
-          "bg-gradient-to-r from-primary/20 to-primary/5 border-2 border-primary text-primary",
-          "hover:from-primary/30 hover:to-primary/10",
+          "bg-gradient-to-r from-primary to-primary/80 text-primary-foreground border-2 border-primary",
+          "hover:from-primary/90 hover:to-primary/70",
           "pulse-glow",
-          "before:absolute before:inset-[-2px] before:border before:border-primary/20",
-          "after:absolute after:inset-[-6px] after:border after:border-primary/10",
+          "before:absolute before:inset-[-2px] before:border before:border-secondary/40",
+          "after:absolute after:inset-[-6px] after:border after:border-primary/20",
         ].join(" "),
       },
       size: {

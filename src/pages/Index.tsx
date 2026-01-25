@@ -40,14 +40,13 @@ const Index = () => {
                     variant="initiate"
                     size="xl"
                     onClick={handleInitiate}
-                    className="animate-pulse-border"
                   >
                     INITIATE PROTOCOL
                   </TacticalButton>
-                  <p className="font-terminal text-xs text-muted-foreground/60">
+                  <p className="font-terminal text-xs text-muted-foreground/80">
                     "For we wrestle not against flesh and blood..."
                     <br />
-                    <span className="text-primary/60">— Ephesians 6:12</span>
+                    <span className="text-secondary">— Ephesians 6:12</span>
                   </p>
                 </div>
               )}
@@ -61,7 +60,7 @@ const Index = () => {
               {screenState === "ready" && (
                 <div className="space-y-8 animate-fade-in">
                   <div className="space-y-2">
-                    <p className="font-display text-2xl text-primary text-glow-gold">
+                    <p className="font-display text-2xl text-primary text-glow-purple">
                       SYSTEM ONLINE
                     </p>
                     <p className="font-terminal text-sm text-secondary">
@@ -69,12 +68,12 @@ const Index = () => {
                     </p>
                   </div>
                   
-                  <div className="p-4 border border-primary/30 bg-primary/5">
-                    <p className="font-terminal text-xs text-muted-foreground">
-                      PGAI_STATUS: <span className="text-primary">OPERATIONAL</span>
+                  <div className="p-4 border border-primary/30 bg-primary/5 rounded">
+                    <p className="font-terminal text-xs text-foreground">
+                      PGAI_STATUS: <span className="text-primary font-bold">OPERATIONAL</span>
                     </p>
-                    <p className="font-terminal text-xs text-muted-foreground mt-1">
-                      WARFARE_MODE: <span className="text-secondary">STANDBY</span>
+                    <p className="font-terminal text-xs text-foreground mt-1">
+                      WARFARE_MODE: <span className="text-secondary font-bold">STANDBY</span>
                     </p>
                   </div>
 
@@ -94,7 +93,7 @@ const Index = () => {
               <div className="flex justify-between items-center text-xs font-terminal text-muted-foreground">
                 <span>SYS: {screenState.toUpperCase()}</span>
                 <span className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                  <span className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
                   SECURE CONNECTION
                 </span>
                 <span>PGAI v1.0</span>
@@ -104,19 +103,19 @@ const Index = () => {
         </HUDFrame>
       </div>
 
-      {/* Corner HUD elements */}
-      <div className="fixed top-4 left-4 font-terminal text-xs text-muted-foreground/50">
+      {/* Corner HUD elements - Dark text on light background */}
+      <div className="fixed top-4 left-4 font-terminal text-xs text-muted-foreground">
         <div>LAT: 33.7490° N</div>
         <div>LON: 84.3880° W</div>
       </div>
-      <div className="fixed top-4 right-4 font-terminal text-xs text-muted-foreground/50 text-right">
+      <div className="fixed top-4 right-4 font-terminal text-xs text-muted-foreground text-right">
         <div>FREQ: 777 MHz</div>
         <div>SIGNAL: ████████░░</div>
       </div>
-      <div className="fixed bottom-4 left-4 font-terminal text-xs text-muted-foreground/50">
+      <div className="fixed bottom-4 left-4 font-terminal text-xs text-muted-foreground">
         <div>© PROJECT S.W.H.P.</div>
       </div>
-      <div className="fixed bottom-4 right-4 font-terminal text-xs text-muted-foreground/50 text-right">
+      <div className="fixed bottom-4 right-4 font-terminal text-xs text-muted-foreground text-right">
         <div>ENCRYPTED</div>
       </div>
     </div>
