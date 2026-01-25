@@ -1,54 +1,51 @@
 export const BackgroundEffects = () => {
   return (
     <>
-      {/* Base gradient */}
+      {/* Base clinical gradient - bright white/silver */}
       <div 
         className="fixed inset-0 -z-30"
         style={{
           background: `
-            radial-gradient(ellipse at 30% 20%, hsl(280 60% 8%) 0%, transparent 50%),
-            radial-gradient(ellipse at 70% 80%, hsl(260 50% 6%) 0%, transparent 50%),
-            radial-gradient(ellipse at 50% 50%, hsl(270 40% 5%) 0%, hsl(270 50% 3%) 100%)
+            radial-gradient(ellipse at 30% 20%, hsl(45 80% 95%) 0%, transparent 50%),
+            radial-gradient(ellipse at 70% 80%, hsl(270 30% 95%) 0%, transparent 50%),
+            linear-gradient(180deg, hsl(240 20% 98%) 0%, hsl(240 15% 96%) 50%, hsl(240 20% 98%) 100%)
           `,
         }}
       />
       
-      {/* Fog overlay */}
+      {/* Subtle light overlay */}
       <div 
-        className="fixed inset-0 -z-20 fog-overlay opacity-60"
+        className="fixed inset-0 -z-20 light-overlay opacity-60"
       />
       
-      {/* Grid pattern */}
+      {/* Grid pattern - royal purple lines */}
       <div 
-        className="fixed inset-0 -z-10 opacity-[0.03]"
-        style={{
-          backgroundImage: `
-            linear-gradient(hsl(var(--primary)) 1px, transparent 1px),
-            linear-gradient(90deg, hsl(var(--primary)) 1px, transparent 1px)
-          `,
-          backgroundSize: '50px 50px',
-        }}
+        className="fixed inset-0 -z-10 clinical-grid"
       />
       
-      {/* Vignette */}
+      {/* Soft radial highlight - center illumination */}
       <div 
         className="fixed inset-0 -z-5 pointer-events-none"
         style={{
-          background: 'radial-gradient(ellipse at center, transparent 0%, hsl(270 50% 3% / 0.8) 100%)',
+          background: 'radial-gradient(ellipse at center, hsl(0 0% 100% / 0.6) 0%, transparent 70%)',
         }}
       />
       
-      {/* Ambient particles */}
+      {/* Ambient light particles */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-        {[...Array(20)].map((_, i) => (
+        {[...Array(15)].map((_, i) => (
           <div
             key={i}
-            className="absolute w-1 h-1 rounded-full bg-primary/30"
+            className="absolute w-2 h-2 rounded-full"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-              animation: `float ${5 + Math.random() * 10}s ease-in-out infinite`,
+              background: i % 2 === 0 
+                ? 'hsl(45 90% 60% / 0.3)' 
+                : 'hsl(270 70% 60% / 0.2)',
+              animation: `float ${8 + Math.random() * 12}s ease-in-out infinite`,
               animationDelay: `${Math.random() * 5}s`,
+              filter: 'blur(1px)',
             }}
           />
         ))}
@@ -61,8 +58,8 @@ export const BackgroundEffects = () => {
             opacity: 0.3;
           }
           50% { 
-            transform: translateY(-20px) translateX(10px);
-            opacity: 0.6;
+            transform: translateY(-30px) translateX(15px);
+            opacity: 0.5;
           }
         }
       `}</style>

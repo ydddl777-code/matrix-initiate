@@ -8,18 +8,18 @@ interface LogoProps {
 export const Logo = ({ className, animate = true }: LogoProps) => {
   return (
     <div className={cn("text-center", className)}>
-      {/* Main Logo Text */}
+      {/* Main Logo Text - Royal Purple */}
       <h1 
         className={cn(
           "font-display text-6xl md:text-8xl font-black tracking-[0.3em] text-primary",
-          "text-glow-gold",
+          "text-glow-purple",
           animate && "animate-glow-pulse"
         )}
       >
         S.W.H.P.
       </h1>
       
-      {/* Subtitle */}
+      {/* Subtitle - Gold */}
       <div className="mt-4 space-y-1">
         <p className="font-ceremonial text-lg md:text-xl tracking-[0.2em] text-secondary uppercase">
           Spiritual Wickedness
@@ -29,11 +29,11 @@ export const Logo = ({ className, animate = true }: LogoProps) => {
         </p>
       </div>
       
-      {/* Decorative line */}
+      {/* Decorative line - Gold */}
       <div className="mt-6 flex items-center justify-center gap-4">
-        <div className="h-px w-16 bg-gradient-to-r from-transparent via-primary to-transparent" />
-        <div className="w-2 h-2 rotate-45 border border-primary bg-primary/20" />
-        <div className="h-px w-16 bg-gradient-to-r from-transparent via-primary to-transparent" />
+        <div className="h-px w-16 bg-gradient-to-r from-transparent via-secondary to-transparent" />
+        <div className="w-2 h-2 rotate-45 border border-secondary bg-secondary/20" />
+        <div className="h-px w-16 bg-gradient-to-r from-transparent via-secondary to-transparent" />
       </div>
       
       {/* Protocol tag */}
