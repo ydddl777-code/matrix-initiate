@@ -36,9 +36,9 @@ export const Logo = ({ className, animate = true }: LogoProps) => {
         <div className="h-px w-16 bg-gradient-to-r from-transparent via-secondary to-transparent" />
       </div>
       
-      {/* Protocol tag */}
+      {/* Headquarters tag */}
       <p className="mt-4 font-terminal text-xs tracking-widest text-muted-foreground">
-        [ TACTICAL WARFARE INTERFACE v1.0 ]
+        [ THE HEADQUARTERS • EAST NEW YORK ]
       </p>
     </div>
   );

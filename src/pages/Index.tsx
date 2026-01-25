@@ -34,14 +34,14 @@ const Index = () => {
               {screenState === "idle" && (
                 <div className="space-y-8 animate-fade-in">
                   <p className="font-terminal text-sm text-muted-foreground tracking-wide">
-                    AWAITING AUTHORIZATION...
+                    THE GENERAL AWAITS YOUR PRESENCE...
                   </p>
                   <TacticalButton
                     variant="initiate"
                     size="xl"
                     onClick={handleInitiate}
                   >
-                    INITIATE PROTOCOL
+                    ENTER THE LOFT
                   </TacticalButton>
                   <p className="font-terminal text-xs text-muted-foreground/80">
                     "For we wrestle not against flesh and blood..."
@@ -61,19 +61,22 @@ const Index = () => {
                 <div className="space-y-8 animate-fade-in">
                   <div className="space-y-2">
                     <p className="font-display text-2xl text-primary text-glow-purple">
-                      SYSTEM ONLINE
+                      THE GENERAL IS PRESENT
                     </p>
                     <p className="font-terminal text-sm text-secondary">
-                      Prophet Gad AI Interface Active
+                      Prophet Gad • Wharton '02 • The Remnant's Don
                     </p>
                   </div>
                   
                   <div className="p-4 border border-primary/30 bg-primary/5 rounded">
                     <p className="font-terminal text-xs text-foreground">
-                      PGAI_STATUS: <span className="text-primary font-bold">OPERATIONAL</span>
+                      LOCATION: <span className="text-primary font-bold">THE LOFT • EAST NEW YORK</span>
                     </p>
                     <p className="font-terminal text-xs text-foreground mt-1">
-                      WARFARE_MODE: <span className="text-secondary font-bold">STANDBY</span>
+                      DOCTRINE: <span className="text-secondary font-bold">KJV SWORD ARMED</span>
+                    </p>
+                    <p className="font-terminal text-xs text-foreground mt-1">
+                      CAMP OF ISRAEL: <span className="text-primary font-bold">PERIMETER SECURE</span>
                     </p>
                   </div>
 
@@ -82,7 +85,7 @@ const Index = () => {
                     size="lg"
                     onClick={() => setScreenState("idle")}
                   >
-                    ENTER COMMAND CENTER
+                    BEGIN TARGET ANALYSIS
                   </TacticalButton>
                 </div>
               )}
@@ -113,7 +116,7 @@ const Index = () => {
         <div>SIGNAL: ████████░░</div>
       </div>
       <div className="fixed bottom-4 left-4 font-terminal text-xs text-muted-foreground">
-        <div>© PROJECT S.W.H.P.</div>
+        <div>© THE HEADQUARTERS 2024</div>
       </div>
       <div className="fixed bottom-4 right-4 font-terminal text-xs text-muted-foreground text-right">
         <div>ENCRYPTED</div>
