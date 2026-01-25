@@ -2,8 +2,7 @@ import { useState } from "react";
 import { Logo } from "./Logo";
 import { HUDFrame } from "./HUDFrame";
 import { BootSequence } from "./BootSequence";
-import { FrequencyEmitter } from "./FrequencyEmitter";
-import { Armory } from "./Armory";
+import { TheVault } from "./armory/TheVault";
 import { TacticalButton } from "./ui/tactical-button";
 
 type ScreenState = "booting" | "ready";
@@ -97,14 +96,9 @@ export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
                     </p>
                   </div>
 
-                  {/* Frequency Emitter */}
-                  <div>
-                    <FrequencyEmitter onUnlockFull={() => console.log("Unlock full frequency")} />
-                  </div>
-
-                  {/* Armory */}
+                  {/* The Vault (Armory) */}
                   <div className="pt-6 border-t border-sanctuary-primary/10">
-                    <Armory onPurchase={(id, upsell) => console.log("Purchase:", id, upsell)} />
+                    <TheVault onPurchase={(item) => console.log("Purchase:", item)} />
                   </div>
 
                   {/* Action Buttons */}
