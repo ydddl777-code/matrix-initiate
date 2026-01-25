@@ -6,7 +6,21 @@
 
 @layer base {
   :root {
-    /* The Armor of Light - Clinical Celestial Palette */
+    /* === BATTLEFIELD THEME (Dark Landing) === */
+    --battlefield-bg: 270 50% 3%;
+    --battlefield-gold: 45 80% 50%;
+    --battlefield-neon: 200 100% 60%;
+    --battlefield-purple: 270 70% 30%;
+    --battlefield-text: 0 0% 95%;
+    
+    /* === SANCTUARY THEME (Bright Interior) === */
+    --sanctuary-bg: 240 20% 98%;
+    --sanctuary-primary: 270 70% 35%;
+    --sanctuary-gold: 45 70% 40%;
+    --sanctuary-text: 270 60% 15%;
+    --sanctuary-muted: 270 30% 50%;
+    
+    /* Default theme tokens (used by shadcn components) */
     --background: 240 20% 98%;
     --foreground: 270 60% 15%;
 
@@ -155,6 +169,15 @@
 
   .text-glow-purple {
     text-shadow: 0 0 20px hsl(270 70% 35% / 0.4), 0 0 40px hsl(270 70% 35% / 0.2);
+  }
+  
+  /* Battlefield glow effects (Dark theme) */
+  .battlefield-text-glow {
+    text-shadow: 0 0 20px hsl(var(--battlefield-gold) / 0.6), 0 0 40px hsl(var(--battlefield-gold) / 0.3);
+  }
+  
+  .battlefield-border-glow {
+    box-shadow: 0 0 15px hsl(var(--battlefield-gold) / 0.3), 0 0 30px hsl(var(--battlefield-gold) / 0.15);
   }
 
   /* Pulsing animation - Light */
