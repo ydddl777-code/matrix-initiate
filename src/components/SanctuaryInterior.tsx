@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Logo } from "./Logo";
 import { HUDFrame } from "./HUDFrame";
 import { BootSequence } from "./BootSequence";
+import { FrequencyEmitter } from "./FrequencyEmitter";
+import { Armory } from "./Armory";
 import { TacticalButton } from "./ui/tactical-button";
 
 type ScreenState = "booting" | "ready";
@@ -71,9 +73,9 @@ export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
               )}
 
               {screenState === "ready" && (
-                <div className="space-y-8 animate-fade-in">
+                <div className="space-y-10 animate-fade-in">
+                  {/* Status Header */}
                   <div className="space-y-2">
-                    {/* SOLID text - no glow on white background */}
                     <p className="font-display text-2xl text-sanctuary-primary font-bold">
                       THE GENERAL IS PRESENT
                     </p>
@@ -82,6 +84,7 @@ export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
                     </p>
                   </div>
                   
+                  {/* Status Panel */}
                   <div className="p-4 border border-sanctuary-primary/30 bg-sanctuary-primary/5 rounded">
                     <p className="font-terminal text-xs text-sanctuary-text">
                       LOCATION: <span className="text-sanctuary-primary font-bold">THE LOFT • EAST NEW YORK</span>
@@ -94,20 +97,33 @@ export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
                     </p>
                   </div>
 
-                  <TacticalButton
-                    variant="primary"
-                    size="lg"
-                    onClick={() => {}}
-                  >
-                    BEGIN TARGET ANALYSIS
-                  </TacticalButton>
-                  
-                  <button
-                    onClick={onExit}
-                    className="block mx-auto mt-4 font-terminal text-xs text-sanctuary-muted hover:text-sanctuary-primary transition-colors"
-                  >
-                    [ EXIT TO OUTER GATE ]
-                  </button>
+                  {/* Frequency Emitter */}
+                  <div>
+                    <FrequencyEmitter onUnlockFull={() => console.log("Unlock full frequency")} />
+                  </div>
+
+                  {/* Armory */}
+                  <div className="pt-6 border-t border-sanctuary-primary/10">
+                    <Armory onPurchase={(id, upsell) => console.log("Purchase:", id, upsell)} />
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="space-y-4">
+                    <TacticalButton
+                      variant="primary"
+                      size="lg"
+                      onClick={() => {}}
+                    >
+                      BEGIN TARGET ANALYSIS
+                    </TacticalButton>
+                    
+                    <button
+                      onClick={onExit}
+                      className="block mx-auto font-terminal text-xs text-sanctuary-muted hover:text-sanctuary-primary transition-colors"
+                    >
+                      [ EXIT TO OUTER GATE ]
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
