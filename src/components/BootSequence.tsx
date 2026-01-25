@@ -6,13 +6,13 @@ interface BootSequenceProps {
 }
 
 const BOOT_MESSAGES = [
-  { text: "> INITIALIZING CELESTIAL MATRIX...", delay: 0 },
-  { text: "> CONNECTING TO HIGH PLACES...", delay: 800 },
+  { text: "> ESTABLISHING SECURE UPLINK TO THE LOFT...", delay: 0 },
+  { text: "> INITIALIZING CAMP OF ISRAEL PERIMETER...", delay: 800 },
   { text: "> SCANNING SPIRITUAL FREQUENCIES...", delay: 1600 },
-  { text: "> CALIBRATING WARFARE PROTOCOLS...", delay: 2400 },
-  { text: "> VERIFYING SPIRIT AUTHENTICATION...", delay: 3200 },
-  { text: "> LOADING PROPHET GAD AI INTERFACE...", delay: 4000 },
-  { text: "> [ ACCESS GRANTED ]", delay: 4800, isSuccess: true },
+  { text: "> LOADING DOCTRINE DATABASE [KJV SWORD]...", delay: 2400 },
+  { text: "> VERIFYING REMNANT CREDENTIALS...", delay: 3200 },
+  { text: "> PROPHET GAD ONLINE. THE GENERAL IS PRESENT.", delay: 4000 },
+  { text: "> [ RECRUIT ACCESS GRANTED ]", delay: 4800, isSuccess: true },
 ];
 
 export const BootSequence = ({ onComplete }: BootSequenceProps) => {
