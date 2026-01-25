@@ -24,6 +24,25 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        
+        // Battlefield (Dark Landing) Theme
+        battlefield: {
+          bg: "hsl(var(--battlefield-bg))",
+          gold: "hsl(var(--battlefield-gold))",
+          neon: "hsl(var(--battlefield-neon))",
+          purple: "hsl(var(--battlefield-purple))",
+          text: "hsl(var(--battlefield-text))",
+        },
+        
+        // Sanctuary (Bright Interior) Theme
+        sanctuary: {
+          bg: "hsl(var(--sanctuary-bg))",
+          primary: "hsl(var(--sanctuary-primary))",
+          gold: "hsl(var(--sanctuary-gold))",
+          text: "hsl(var(--sanctuary-text))",
+          muted: "hsl(var(--sanctuary-muted))",
+        },
+        
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",

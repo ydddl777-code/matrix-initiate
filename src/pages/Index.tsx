@@ -1,127 +1,28 @@
 import { useState } from "react";
-import { BackgroundEffects } from "@/components/BackgroundEffects";
-import { Logo } from "@/components/Logo";
-import { HUDFrame } from "@/components/HUDFrame";
-import { BootSequence } from "@/components/BootSequence";
-import { TacticalButton } from "@/components/ui/tactical-button";
+import { BattlefieldLanding } from "@/components/BattlefieldLanding";
+import { SanctuaryInterior } from "@/components/SanctuaryInterior";
 
-type ScreenState = "idle" | "booting" | "ready";
+type ZoneState = "battlefield" | "sanctuary";
 
 const Index = () => {
-  const [screenState, setScreenState] = useState<ScreenState>("idle");
+  const [zone, setZone] = useState<ZoneState>("battlefield");
 
-  const handleInitiate = () => {
-    setScreenState("booting");
+  const handleEnterSanctuary = () => {
+    setZone("sanctuary");
   };
 
-  const handleBootComplete = () => {
-    setScreenState("ready");
+  const handleExitToGate = () => {
+    setZone("battlefield");
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      <BackgroundEffects />
-      
-      {/* Main Content */}
-      <div className="relative z-10 w-full max-w-4xl mx-auto px-4">
-        <HUDFrame className="animate-fade-in">
-          <div className="text-center py-8 md:py-12">
-            {/* Logo - Always visible */}
-            <Logo animate={screenState === "idle"} />
-            
-            {/* Content based on state */}
-            <div className="mt-12 min-h-[200px] flex flex-col items-center justify-center">
-              {screenState === "idle" && (
-                <div className="space-y-8 animate-fade-in">
-                  <p className="font-terminal text-sm text-muted-foreground tracking-wide">
-                    THE GENERAL AWAITS YOUR PRESENCE...
-                  </p>
-                  <TacticalButton
-                    variant="initiate"
-                    size="xl"
-                    onClick={handleInitiate}
-                  >
-                    ENTER THE LOFT
-                  </TacticalButton>
-                  <p className="font-terminal text-xs text-muted-foreground/80">
-                    "For we wrestle not against flesh and blood..."
-                    <br />
-                    <span className="text-secondary">— Ephesians 6:12</span>
-                  </p>
-                </div>
-              )}
-
-              {screenState === "booting" && (
-                <div className="w-full animate-fade-in">
-                  <BootSequence onComplete={handleBootComplete} />
-                </div>
-              )}
-
-              {screenState === "ready" && (
-                <div className="space-y-8 animate-fade-in">
-                  <div className="space-y-2">
-                    <p className="font-display text-2xl text-primary text-glow-purple">
-                      THE GENERAL IS PRESENT
-                    </p>
-                    <p className="font-terminal text-sm text-secondary">
-                      Prophet Gad • Wharton '02 • The Remnant's Don
-                    </p>
-                  </div>
-                  
-                  <div className="p-4 border border-primary/30 bg-primary/5 rounded">
-                    <p className="font-terminal text-xs text-foreground">
-                      LOCATION: <span className="text-primary font-bold">THE LOFT • EAST NEW YORK</span>
-                    </p>
-                    <p className="font-terminal text-xs text-foreground mt-1">
-                      DOCTRINE: <span className="text-secondary font-bold">KJV SWORD ARMED</span>
-                    </p>
-                    <p className="font-terminal text-xs text-foreground mt-1">
-                      CAMP OF ISRAEL: <span className="text-primary font-bold">PERIMETER SECURE</span>
-                    </p>
-                  </div>
-
-                  <TacticalButton
-                    variant="primary"
-                    size="lg"
-                    onClick={() => setScreenState("idle")}
-                  >
-                    BEGIN TARGET ANALYSIS
-                  </TacticalButton>
-                </div>
-              )}
-            </div>
-
-            {/* Status bar */}
-            <div className="mt-12 pt-4 border-t border-primary/20">
-              <div className="flex justify-between items-center text-xs font-terminal text-muted-foreground">
-                <span>SYS: {screenState.toUpperCase()}</span>
-                <span className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
-                  SECURE CONNECTION
-                </span>
-                <span>PGAI v1.0</span>
-              </div>
-            </div>
-          </div>
-        </HUDFrame>
-      </div>
-
-      {/* Corner HUD elements - Dark text on light background */}
-      <div className="fixed top-4 left-4 font-terminal text-xs text-muted-foreground">
-        <div>LAT: 33.7490° N</div>
-        <div>LON: 84.3880° W</div>
-      </div>
-      <div className="fixed top-4 right-4 font-terminal text-xs text-muted-foreground text-right">
-        <div>FREQ: 777 MHz</div>
-        <div>SIGNAL: ████████░░</div>
-      </div>
-      <div className="fixed bottom-4 left-4 font-terminal text-xs text-muted-foreground">
-        <div>© THE HEADQUARTERS 2024</div>
-      </div>
-      <div className="fixed bottom-4 right-4 font-terminal text-xs text-muted-foreground text-right">
-        <div>ENCRYPTED</div>
-      </div>
-    </div>
+    <>
+      {zone === "battlefield" ? (
+        <BattlefieldLanding onEnterSanctuary={handleEnterSanctuary} />
+      ) : (
+        <SanctuaryInterior onExit={handleExitToGate} />
+      )}
+    </>
   );
 };
 
