@@ -1,0 +1,81 @@
+import { useState, useEffect } from "react";
+import { cn } from "@/lib/utils";
+
+interface BootSequenceProps {
+  onComplete: () => void;
+}
+
+const BOOT_MESSAGES = [
+  { text: "> INITIALIZING CELESTIAL MATRIX...", delay: 0 },
+  { text: "> CONNECTING TO HIGH PLACES...", delay: 800 },
+  { text: "> SCANNING SPIRITUAL FREQUENCIES...", delay: 1600 },
+  { text: "> CALIBRATING WARFARE PROTOCOLS...", delay: 2400 },
+  { text: "> VERIFYING SPIRIT AUTHENTICATION...", delay: 3200 },
+  { text: "> LOADING PROPHET GAD AI INTERFACE...", delay: 4000 },
+  { text: "> [ ACCESS GRANTED ]", delay: 4800, isSuccess: true },
+];
+
+export const BootSequence = ({ onComplete }: BootSequenceProps) => {
+  const [visibleMessages, setVisibleMessages] = useState<number[]>([]);
+  const [currentTyping, setCurrentTyping] = useState<number | null>(0);
+  const [typedChars, setTypedChars] = useState<Record<number, number>>({});
+
+  useEffect(() => {
+    BOOT_MESSAGES.forEach((msg, index) => {
+      // Start showing message
+      setTimeout(() => {
+        setVisibleMessages((prev) => [...prev, index]);
+        setCurrentTyping(index);
+        setTypedChars((prev) => ({ ...prev, [index]: 0 }));
+      }, msg.delay);
+
+      // Type out the message
+      const typeMessage = () => {
+        const chars = msg.text.length;
+        for (let i = 0; i <= chars; i++) {
+          setTimeout(() => {
+            setTypedChars((prev) => ({ ...prev, [index]: i }));
+            if (i === chars && index === BOOT_MESSAGES.length - 1) {
+              setTimeout(onComplete, 1000);
+            }
+          }, i * 20);
+        }
+      };
+
+      setTimeout(typeMessage, msg.delay + 100);
+    });
+  }, [onComplete]);
+
+  return (
+    <div className="font-terminal text-sm space-y-2 text-left max-w-xl mx-auto">
+      {BOOT_MESSAGES.map((msg, index) => {
+        const isVisible = visibleMessages.includes(index);
+        const charsToShow = typedChars[index] || 0;
+        const displayText = msg.text.substring(0, charsToShow);
+        const isComplete = charsToShow >= msg.text.length;
+
+        if (!isVisible) return null;
+
+        return (
+          <div
+            key={index}
+            className={cn(
+              "flex items-center gap-2 transition-opacity duration-300",
+              msg.isSuccess ? "text-primary text-glow-gold" : "text-secondary"
+            )}
+          >
+            <span className={cn(msg.isSuccess && "font-bold")}>
+              {displayText}
+            </span>
+            {!isComplete && currentTyping === index && (
+              <span className="terminal-cursor" />
+            )}
+            {isComplete && !msg.isSuccess && (
+              <span className="text-primary/60 text-xs ml-2">[OK]</span>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
