@@ -22,6 +22,7 @@ export const TheVault = ({ onPurchase }: TheVaultProps) => {
       price: 5.00,
       duration: "5:00",
       isUnlocked: false,
+      audioUrl: "/audio/the-unsealed-book.mp3",
     },
     {
       id: "as-enoch-walked",
@@ -32,6 +33,7 @@ export const TheVault = ({ onPurchase }: TheVaultProps) => {
       price: 5.00,
       duration: "TBD",
       isUnlocked: false,
+      audioUrl: "/audio/as-enoch-walked.mp3",
     },
     {
       id: "no-false-wisdom",
