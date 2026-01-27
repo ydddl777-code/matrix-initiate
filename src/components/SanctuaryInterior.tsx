@@ -3,6 +3,7 @@ import { Logo } from "./Logo";
 import { HUDFrame } from "./HUDFrame";
 import { BootSequence } from "./BootSequence";
 import { TheVault } from "./armory/TheVault";
+import { TribesGallery } from "./tribes/TribesGallery";
 import { TacticalButton } from "./ui/tactical-button";
 
 type ScreenState = "booting" | "ready";
@@ -99,6 +100,11 @@ export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
                   {/* The Vault (Armory) */}
                   <div className="pt-6 border-t border-sanctuary-primary/10">
                     <TheVault onPurchase={(item) => console.log("Purchase:", item)} />
+                  </div>
+
+                  {/* Tribes Gallery */}
+                  <div className="pt-6 border-t border-sanctuary-primary/10">
+                    <TribesGallery />
                   </div>
 
                   {/* Action Buttons */}
