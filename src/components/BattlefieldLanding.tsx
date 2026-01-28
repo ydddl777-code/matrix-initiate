@@ -210,6 +210,19 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
         <div>ENCRYPTED</div>
       </div>
 
+      {/* Corner Video Loop */}
+      <div className="fixed bottom-20 right-4 z-20 w-32 md:w-48 rounded overflow-hidden border border-battlefield-gold/30 shadow-lg shadow-battlefield-gold/20">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-auto"
+        >
+          <source src="/video/corner-loop.mp4" type="video/mp4" />
+        </video>
+      </div>
+
       <style>{`
         @keyframes storm-drift {
           0% { 
