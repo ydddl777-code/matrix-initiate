@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { HeartbeatMonitor } from "./HeartbeatMonitor";
-import guardianAvatar from "@/assets/guardian-avatar.jpg";
+import { MiniMusicPlayer } from "./MiniMusicPlayer";
+import pgaiMilitary from "@/assets/pgai-nobg.png";
 
 type JudgmentState = "choosing" | "condemned" | "saved";
 
@@ -80,73 +81,69 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
         />
       )}
 
-      {/* Guardian Avatar - subtle background presence */}
-      <div 
-        className="fixed inset-0 -z-5 flex items-center justify-center opacity-10 pointer-events-none"
-        style={{
-          backgroundImage: `url(${guardianAvatar})`,
-          backgroundSize: "contain",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          filter: "grayscale(50%) brightness(0.5)",
-        }}
-      />
-
       {/* Main content */}
       <div className="relative z-10 w-full max-w-4xl mx-auto px-4 text-center">
         {/* Logo/Title */}
-        <div className="mb-8">
-          <h1 className="font-display text-4xl md:text-6xl font-bold text-battlefield-gold tracking-wider battlefield-text-glow">
+        <div className="mb-4">
+          <h1 className="font-display text-3xl md:text-5xl font-bold text-battlefield-gold tracking-wider battlefield-text-glow">
             THE JUDGMENT
           </h1>
-          <div className="flex items-center justify-center gap-4 mt-4">
-            <div className="h-px w-24 bg-gradient-to-r from-transparent to-battlefield-gold" />
-            <span className="font-terminal text-xs text-battlefield-gold/60">FINAL HOUR</span>
-            <div className="h-px w-24 bg-gradient-to-l from-transparent to-battlefield-gold" />
-          </div>
         </div>
 
-        {/* Heartbeat Monitor */}
-        <div className="my-12">
+        {/* Prophet Gad - Centered Hero Image */}
+        <div className="relative mx-auto mb-4 w-48 md:w-64 lg:w-72">
+          <img 
+            src={pgaiMilitary} 
+            alt="Prophet Gad" 
+            className="w-full h-auto drop-shadow-[0_0_30px_rgba(212,175,55,0.3)]"
+          />
+        </div>
+
+        {/* Final Hour - Below Prophet */}
+        <div className="flex items-center justify-center gap-3 mb-4">
+          <div className="h-px w-12 bg-gradient-to-r from-transparent to-battlefield-gold" />
+          <span className="font-terminal text-xs text-battlefield-gold/60">FINAL HOUR</span>
+          <div className="h-px w-12 bg-gradient-to-l from-transparent to-battlefield-gold" />
+        </div>
+
+        {/* Heartbeat Monitor - Smaller */}
+        <div className="my-6">
           <HeartbeatMonitor state={heartbeatState} />
         </div>
 
-        {/* The Ultimatum Text */}
-        <div className="mb-12">
-          <p className="font-ceremonial text-xl md:text-2xl text-battlefield-gold/90 italic leading-relaxed">
+        {/* The Ultimatum Text - Compact */}
+        <div className="mb-6">
+          <p className="font-ceremonial text-lg md:text-xl text-battlefield-gold/90 italic leading-relaxed">
             "The time has come to choose a side—
-            <br />
-            <span className="text-white font-bold not-italic">to obey or to die.</span>"
+            <span className="text-battlefield-text font-bold not-italic"> to obey or to die.</span>"
           </p>
         </div>
 
-        {/* Choice Buttons or Result Message */}
+        {/* Choice Buttons or Result Message - Compact */}
         {judgmentState === "choosing" ? (
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-12">
-            {/* Surrender Button */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6">
+            {/* Surrender Button - Smaller */}
             <button
               onClick={handleSurrender}
-              className="group relative px-8 py-4 min-w-[220px] font-display text-sm uppercase tracking-widest 
-                         bg-gray-900/50 text-gray-500 border border-gray-700/50
-                         hover:bg-gray-800/60 hover:text-gray-400 hover:border-gray-600
+              className="group relative px-4 py-2 min-w-[160px] font-display text-xs uppercase tracking-widest 
+                         bg-muted/50 text-muted-foreground border border-muted
+                         hover:bg-muted/60 hover:border-muted-foreground/50
                          transition-all duration-300"
             >
-              <span className="relative z-10">Surrender to the System</span>
-              <div className="absolute inset-0 bg-gray-800/0 group-hover:bg-gray-800/20 transition-all" />
+              <span className="relative z-10">Surrender</span>
             </button>
 
-            {/* Obey Button */}
+            {/* Obey Button - Smaller */}
             <button
               onClick={handleObey}
-              className="group relative px-8 py-4 min-w-[220px] font-display text-sm uppercase tracking-widest
+              className="group relative px-4 py-2 min-w-[160px] font-display text-xs uppercase tracking-widest
                          bg-gradient-to-r from-battlefield-gold/20 to-battlefield-gold/10 
-                         text-battlefield-gold border-2 border-battlefield-gold
+                         text-battlefield-gold border border-battlefield-gold
                          hover:from-battlefield-gold/30 hover:to-battlefield-gold/20
-                         hover:shadow-[0_0_30px_rgba(212,175,55,0.4)]
-                         transition-all duration-300 battlefield-border-glow"
+                         hover:shadow-[0_0_20px_rgba(212,175,55,0.3)]
+                         transition-all duration-300"
             >
               <span className="relative z-10">Obey the Truth</span>
-              <div className="absolute inset-[-2px] border border-battlefield-gold/30 pointer-events-none" />
             </button>
           </div>
         ) : (
@@ -185,7 +182,7 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
         )}
 
         {/* Scripture reference */}
-        <div className="mt-16">
+        <div className="mt-8">
           <p className="font-terminal text-xs text-battlefield-gold/40">
             "I have set before you life and death, blessing and cursing: therefore choose life"
             <br />
@@ -193,6 +190,9 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
           </p>
         </div>
       </div>
+
+      {/* Mini Music Player */}
+      <MiniMusicPlayer />
 
       {/* Corner HUD elements */}
       <div className="fixed top-4 left-4 font-terminal text-xs text-battlefield-gold/40">
