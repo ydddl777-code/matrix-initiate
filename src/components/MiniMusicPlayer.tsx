@@ -57,20 +57,18 @@ export const MiniMusicPlayer = () => {
         onEnded={handleTrackEnd}
       />
       
-      {/* Big Mute/Unmute Button - Prominent Red */}
+      {/* BIG RED Emergency Mute Button - Always Prominent */}
       <button
         onClick={toggleMute}
-        className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${
-          isMuted 
-            ? "bg-red-600 hover:bg-red-500 shadow-lg shadow-red-600/50" 
-            : "bg-battlefield-gold/20 hover:bg-battlefield-gold/30 border border-battlefield-gold/50"
-        }`}
-        title={isMuted ? "Unmute" : "Mute"}
+        className="w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 
+                   bg-red-600 hover:bg-red-500 shadow-lg shadow-red-600/50 hover:shadow-red-500/70
+                   border-2 border-red-400 hover:scale-105 active:scale-95"
+        title={isMuted ? "Unmute Audio" : "MUTE (Emergency Silence)"}
       >
         {isMuted ? (
-          <VolumeX className="w-6 h-6 text-white" />
+          <VolumeX className="w-7 h-7 text-white" />
         ) : (
-          <Volume2 className="w-6 h-6 text-battlefield-gold" />
+          <Volume2 className="w-7 h-7 text-white animate-pulse" />
         )}
       </button>
 
