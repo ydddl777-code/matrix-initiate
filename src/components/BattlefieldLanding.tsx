@@ -103,6 +103,7 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
           <video 
             src="/video/gad-greeting.mp4"
             autoPlay
+            muted
             playsInline
             className="w-32 md:w-48 lg:w-56 h-auto z-10 rounded-sm"
             style={{
