@@ -7,7 +7,11 @@ const audioTracks = [
   { src: "/audio/the-unsealed-book.mp3", title: "The Unsealed Book" },
 ];
 
-export const MiniMusicPlayer = () => {
+interface MiniMusicPlayerProps {
+  onPlayingChange?: (isPlaying: boolean) => void;
+}
+
+export const MiniMusicPlayer = ({ onPlayingChange }: MiniMusicPlayerProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
@@ -19,8 +23,10 @@ export const MiniMusicPlayer = () => {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
+        onPlayingChange?.(false);
       } else {
         audioRef.current.play();
+        onPlayingChange?.(true);
       }
       setIsPlaying(!isPlaying);
     }

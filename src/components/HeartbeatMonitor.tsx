@@ -1,13 +1,26 @@
 import { useEffect, useRef } from "react";
+import { Volume2, VolumeX } from "lucide-react";
+import { useHeartbeatAudio } from "@/hooks/useHeartbeatAudio";
 
 interface HeartbeatMonitorProps {
   state: "normal" | "vitality" | "flatline";
+  isMuted?: boolean;
+  onToggleMute?: () => void;
+  isExternalAudioPlaying?: boolean;
 }
 
-export const HeartbeatMonitor = ({ state }: HeartbeatMonitorProps) => {
+export const HeartbeatMonitor = ({ 
+  state, 
+  isMuted = false, 
+  onToggleMute,
+  isExternalAudioPlaying = false 
+}: HeartbeatMonitorProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number>(0);
   const offsetRef = useRef(0);
+
+  // Audio hook
+  useHeartbeatAudio({ state, isMuted, isExternalAudioPlaying });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -24,12 +37,12 @@ export const HeartbeatMonitor = ({ state }: HeartbeatMonitorProps) => {
       ctx.clearRect(0, 0, width, height);
       
       // Glow effect
-      ctx.shadowBlur = 20;
+      ctx.shadowBlur = 15;
       ctx.shadowColor = state === "flatline" ? "#ef4444" : "#d4af37";
       
       ctx.beginPath();
       ctx.strokeStyle = state === "flatline" ? "#ef4444" : "#d4af37";
-      ctx.lineWidth = 3;
+      ctx.lineWidth = 2;
 
       const speed = state === "vitality" ? 4 : state === "flatline" ? 0 : 2;
       offsetRef.current += speed;
@@ -39,28 +52,21 @@ export const HeartbeatMonitor = ({ state }: HeartbeatMonitorProps) => {
         let y = centerY;
 
         if (state === "flatline") {
-          // Flatline - straight line
           y = centerY;
         } else {
-          // Heartbeat pattern
-          const cycle = adjustedX % 120;
+          const cycle = adjustedX % 80;
           
-          if (cycle > 40 && cycle < 50) {
-            // Small P wave
-            y = centerY - Math.sin((cycle - 40) * Math.PI / 10) * 10;
-          } else if (cycle > 55 && cycle < 60) {
-            // Q dip
-            y = centerY + 8;
-          } else if (cycle > 60 && cycle < 70) {
-            // R spike (main peak)
-            const peak = state === "vitality" ? 50 : 35;
-            y = centerY - Math.sin((cycle - 60) * Math.PI / 10) * peak;
-          } else if (cycle > 70 && cycle < 75) {
-            // S dip
-            y = centerY + 12;
-          } else if (cycle > 80 && cycle < 95) {
-            // T wave
-            y = centerY - Math.sin((cycle - 80) * Math.PI / 15) * 15;
+          if (cycle > 25 && cycle < 32) {
+            y = centerY - Math.sin((cycle - 25) * Math.PI / 7) * 6;
+          } else if (cycle > 35 && cycle < 38) {
+            y = centerY + 5;
+          } else if (cycle > 38 && cycle < 45) {
+            const peak = state === "vitality" ? 25 : 18;
+            y = centerY - Math.sin((cycle - 38) * Math.PI / 7) * peak;
+          } else if (cycle > 45 && cycle < 48) {
+            y = centerY + 7;
+          } else if (cycle > 52 && cycle < 62) {
+            y = centerY - Math.sin((cycle - 52) * Math.PI / 10) * 8;
           }
         }
 
@@ -73,11 +79,11 @@ export const HeartbeatMonitor = ({ state }: HeartbeatMonitorProps) => {
 
       ctx.stroke();
 
-      // Add scanline effect
+      // Scanline effect
       ctx.shadowBlur = 0;
-      ctx.fillStyle = state === "flatline" ? "rgba(239, 68, 68, 0.1)" : "rgba(212, 175, 55, 0.05)";
-      for (let i = 0; i < height; i += 4) {
-        ctx.fillRect(0, i, width, 2);
+      ctx.fillStyle = state === "flatline" ? "rgba(239, 68, 68, 0.08)" : "rgba(212, 175, 55, 0.04)";
+      for (let i = 0; i < height; i += 3) {
+        ctx.fillRect(0, i, width, 1);
       }
 
       animationRef.current = requestAnimationFrame(drawHeartbeat);
@@ -98,10 +104,30 @@ export const HeartbeatMonitor = ({ state }: HeartbeatMonitorProps) => {
         height={60}
         className="w-full h-auto"
       />
-      {/* Pulse indicator */}
-      <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
+      {/* Pulse indicator with mute toggle */}
+      <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2">
+        {/* Mute button for EKG sounds */}
+        {onToggleMute && (
+          <button
+            onClick={onToggleMute}
+            className={`w-6 h-6 rounded-full flex items-center justify-center transition-all 
+                       ${isMuted 
+                         ? "bg-red-600 hover:bg-red-500 border border-red-400" 
+                         : "bg-battlefield-gold/20 hover:bg-battlefield-gold/30 border border-battlefield-gold/50"
+                       }`}
+            title={isMuted ? "Unmute EKG" : "Mute EKG"}
+          >
+            {isMuted ? (
+              <VolumeX className="w-3 h-3 text-white" />
+            ) : (
+              <Volume2 className="w-3 h-3 text-battlefield-gold" />
+            )}
+          </button>
+        )}
+        
+        {/* Status indicator */}
         <div 
-          className={`w-3 h-3 rounded-full ${
+          className={`w-2.5 h-2.5 rounded-full ${
             state === "flatline" 
               ? "bg-red-500" 
               : state === "vitality"
@@ -110,7 +136,7 @@ export const HeartbeatMonitor = ({ state }: HeartbeatMonitorProps) => {
           }`}
         />
         <span className="font-terminal text-xs text-battlefield-gold">
-          {state === "flatline" ? "FLATLINE" : state === "vitality" ? "LIFE" : "PULSE"}
+          {state === "flatline" ? "FLAT" : state === "vitality" ? "LIFE" : "PULSE"}
         </span>
       </div>
     </div>
