@@ -1,10 +1,12 @@
-import { useRef, useCallback, useEffect } from "react";
+import { useRef, useCallback, useEffect, useState } from "react";
 
 interface UseHeartbeatAudioProps {
   state: "normal" | "vitality" | "flatline";
   isMuted: boolean;
   isExternalAudioPlaying: boolean;
 }
+
+const URGENT_PROMPT = "It's urgent. Make your choice. Do not delay.";
 
 export const useHeartbeatAudio = ({ 
   state, 
@@ -14,6 +16,9 @@ export const useHeartbeatAudio = ({
   const audioContextRef = useRef<AudioContext | null>(null);
   const intervalRef = useRef<number | null>(null);
   const flatlineOscillatorRef = useRef<OscillatorNode | null>(null);
+  const voiceIntervalRef = useRef<number | null>(null);
+  const voiceAudioRef = useRef<HTMLAudioElement | null>(null);
+  const [hasPlayedVoice, setHasPlayedVoice] = useState(false);
 
   const getAudioContext = useCallback(() => {
     if (!audioContextRef.current) {
@@ -109,11 +114,64 @@ export const useHeartbeatAudio = ({
     }
   }, []);
 
+  const stopVoiceLoop = useCallback(() => {
+    if (voiceIntervalRef.current) {
+      clearInterval(voiceIntervalRef.current);
+      voiceIntervalRef.current = null;
+    }
+    if (voiceAudioRef.current) {
+      voiceAudioRef.current.pause();
+      voiceAudioRef.current = null;
+    }
+  }, []);
+
+  const playUrgentVoice = useCallback(async () => {
+    // Only play if not muted and no external audio
+    if (isMuted || isExternalAudioPlaying) return;
+    
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/elevenlabs-tts`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          },
+          body: JSON.stringify({ 
+            text: URGENT_PROMPT,
+            voiceId: 'onwK4e9ZLuTAKqWW03F9' // Daniel - deep, authoritative
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        console.error('TTS request failed:', response.status);
+        return;
+      }
+
+      const audioBlob = await response.blob();
+      const audioUrl = URL.createObjectURL(audioBlob);
+      
+      if (voiceAudioRef.current) {
+        voiceAudioRef.current.pause();
+      }
+      
+      voiceAudioRef.current = new Audio(audioUrl);
+      voiceAudioRef.current.volume = 0.7;
+      await voiceAudioRef.current.play();
+    } catch (error) {
+      console.error('Failed to play urgent voice:', error);
+    }
+  }, [isMuted, isExternalAudioPlaying]);
+
   useEffect(() => {
     // Don't play if muted or external audio is playing
     if (isMuted || isExternalAudioPlaying) {
       stopHeartbeatLoop();
       stopFlatline();
+      stopVoiceLoop();
       return;
     }
 
@@ -131,21 +189,37 @@ export const useHeartbeatAudio = ({
       // Normal heartbeat - steady rhythm
       playHeartbeat();
       intervalRef.current = window.setInterval(playHeartbeat, 1000);
+      
+      // Play urgent voice after 8 seconds if still in normal state, then every 45 seconds
+      if (!hasPlayedVoice) {
+        const voiceTimeout = window.setTimeout(() => {
+          playUrgentVoice();
+          setHasPlayedVoice(true);
+          // Set up recurring prompt every 45 seconds
+          voiceIntervalRef.current = window.setInterval(playUrgentVoice, 45000);
+        }, 8000);
+        
+        return () => {
+          clearTimeout(voiceTimeout);
+          stopHeartbeatLoop();
+        };
+      }
     }
 
     return () => {
       stopHeartbeatLoop();
     };
-  }, [state, isMuted, isExternalAudioPlaying, playHeartbeat, playVitalityBeep, startFlatline, stopHeartbeatLoop, stopFlatline]);
+  }, [state, isMuted, isExternalAudioPlaying, hasPlayedVoice, playHeartbeat, playVitalityBeep, startFlatline, stopHeartbeatLoop, stopFlatline, stopVoiceLoop, playUrgentVoice]);
 
   // Cleanup on unmount
   useEffect(() => {
     return () => {
       stopHeartbeatLoop();
       stopFlatline();
+      stopVoiceLoop();
       if (audioContextRef.current) {
         audioContextRef.current.close();
       }
     };
-  }, [stopHeartbeatLoop, stopFlatline]);
+  }, [stopHeartbeatLoop, stopFlatline, stopVoiceLoop]);
 };

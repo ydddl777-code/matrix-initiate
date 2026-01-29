@@ -185,7 +185,7 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
         <div className="mb-6">
           <p className="font-ceremonial text-lg md:text-xl text-battlefield-gold/90 italic leading-relaxed">
             "The time has come to choose a side—
-            <span className="text-battlefield-text font-bold not-italic"> to obey or to die.</span>"
+            <span className="text-battlefield-text font-bold not-italic"> Obey His Word, or perish.</span>"
           </p>
         </div>
 
