@@ -120,20 +120,20 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
         </div>
 
         {/* Final Hour - Below Prophet */}
-        <div className="flex items-center justify-center gap-3 mb-4">
+        <div className="flex items-center justify-center gap-3 mb-3">
           <div className="h-px w-12 bg-gradient-to-r from-transparent to-battlefield-gold" />
           <span className="font-terminal text-xs text-battlefield-gold/60">FINAL HOUR</span>
           <div className="h-px w-12 bg-gradient-to-l from-transparent to-battlefield-gold" />
         </div>
 
-        {/* Heartbeat Monitor - Smaller */}
-        <div className="my-4">
-          <HeartbeatMonitor state={heartbeatState} />
-        </div>
-
-        {/* Music Player - Centered under heartbeat */}
+        {/* Music Player - Under Final Hour, above heartbeat */}
         <div className="mb-4">
           <MiniMusicPlayer />
+        </div>
+
+        {/* Heartbeat Monitor */}
+        <div className="my-4">
+          <HeartbeatMonitor state={heartbeatState} />
         </div>
 
         {/* The Ultimatum Text - Compact */}
