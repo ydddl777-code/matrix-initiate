@@ -13,11 +13,7 @@ export const MiniMusicPlayer = () => {
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  // Shuffle tracks on mount
-  useEffect(() => {
-    const randomIndex = Math.floor(Math.random() * audioTracks.length);
-    setCurrentTrackIndex(randomIndex);
-  }, []);
+  // Thunder Road Gospel is always first - no shuffle
 
   const togglePlay = () => {
     if (audioRef.current) {
