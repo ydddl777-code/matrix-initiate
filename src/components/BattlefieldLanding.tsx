@@ -2,7 +2,6 @@ import { useState } from "react";
 import { HeartbeatMonitor } from "./HeartbeatMonitor";
 import { MiniMusicPlayer } from "./MiniMusicPlayer";
 import pgaiMilitary from "@/assets/pgai-nobg.png";
-import pgaiJacket from "@/assets/pgai-jacket.png";
 
 type JudgmentState = "choosing" | "condemned" | "saved";
 
@@ -91,7 +90,7 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
           </h1>
         </div>
 
-        {/* Prophet Gad - Triple Hero (Warrior | Socialite | Warrior) */}
+        {/* Prophet Gad - Triple Hero (Warrior | Video Greeting | Warrior) */}
         <div className="relative mx-auto mb-4 flex items-end justify-center gap-1 md:gap-3">
           <img 
             src={pgaiMilitary} 
@@ -101,10 +100,11 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
               filter: 'brightness(1.15) contrast(1.1) drop-shadow(0 0 25px rgba(212,175,55,0.6)) drop-shadow(0 0 50px rgba(212,175,55,0.3))'
             }}
           />
-          <img 
-            src={pgaiJacket} 
-            alt="Prophet Gad - Socialite" 
-            className="w-32 md:w-48 lg:w-56 h-auto z-10"
+          <video 
+            src="/video/gad-greeting.mp4"
+            autoPlay
+            playsInline
+            className="w-32 md:w-48 lg:w-56 h-auto z-10 rounded-sm"
             style={{
               filter: 'brightness(1.2) contrast(1.15) drop-shadow(0 0 35px rgba(212,175,55,0.7)) drop-shadow(0 0 70px rgba(212,175,55,0.4))'
             }}
