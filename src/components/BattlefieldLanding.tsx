@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { RotateCcw } from "lucide-react";
 import { HeartbeatMonitor } from "./HeartbeatMonitor";
 import { MiniMusicPlayer } from "./MiniMusicPlayer";
 import pgaiMilitary from "@/assets/pgai-nobg.png";
@@ -14,6 +15,14 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
   const [heartbeatState, setHeartbeatState] = useState<"normal" | "vitality" | "flatline">("normal");
   const [showFlash, setShowFlash] = useState<"red" | "gold" | null>(null);
   const [showMessage, setShowMessage] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const replayVideo = () => {
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0;
+      videoRef.current.play();
+    }
+  };
 
   const handleSurrender = () => {
     setJudgmentState("condemned");
@@ -107,16 +116,37 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
               filter: 'brightness(1.15) contrast(1.1) drop-shadow(0 0 25px rgba(212,175,55,0.6)) drop-shadow(0 0 50px rgba(212,175,55,0.3))'
             }}
           />
-          <video 
-            src="/video/gad-greeting.mp4"
-            autoPlay
-            muted
-            playsInline
-            className="w-32 md:w-48 lg:w-56 h-auto z-10 rounded-sm"
-            style={{
-              filter: 'brightness(1.2) contrast(1.15) drop-shadow(0 0 35px rgba(212,175,55,0.7)) drop-shadow(0 0 70px rgba(212,175,55,0.4))'
-            }}
-          />
+          
+          {/* Video Container with Replay Button */}
+          <div className="relative">
+            <video 
+              ref={videoRef}
+              src="/video/gad-greeting.mp4"
+              autoPlay
+              muted
+              playsInline
+              className="w-32 md:w-48 lg:w-56 h-auto z-10 rounded-sm"
+              style={{
+                filter: 'brightness(1.2) contrast(1.15) drop-shadow(0 0 35px rgba(212,175,55,0.7)) drop-shadow(0 0 70px rgba(212,175,55,0.4))'
+              }}
+              // Slow down playback to 0.7x speed
+              onLoadedMetadata={(e) => {
+                (e.target as HTMLVideoElement).playbackRate = 0.7;
+              }}
+            />
+            {/* Replay Button */}
+            <button
+              onClick={replayVideo}
+              className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-8 h-8 rounded-full 
+                         bg-battlefield-gold/20 border border-battlefield-gold/50 
+                         flex items-center justify-center hover:bg-battlefield-gold/30 
+                         transition-all hover:scale-110 z-20"
+              title="Replay Greeting"
+            >
+              <RotateCcw className="w-3.5 h-3.5 text-battlefield-gold" />
+            </button>
+          </div>
+
           <img 
             src={pgaiMilitary} 
             alt="Prophet Gad - Warrior Right" 
