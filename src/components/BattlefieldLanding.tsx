@@ -15,6 +15,9 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
   const [heartbeatState, setHeartbeatState] = useState<"normal" | "vitality" | "flatline">("normal");
   const [showFlash, setShowFlash] = useState<"red" | "gold" | null>(null);
   const [showMessage, setShowMessage] = useState(false);
+  const [isEkgMuted, setIsEkgMuted] = useState(false);
+  const [isMusicPlaying, setIsMusicPlaying] = useState(false);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const replayVideo = () => {
@@ -23,6 +26,10 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
       videoRef.current.play();
     }
   };
+
+  const handleVideoPlay = () => setIsVideoPlaying(true);
+  const handleVideoEnded = () => setIsVideoPlaying(false);
+  const handleVideoPause = () => setIsVideoPlaying(false);
 
   const handleSurrender = () => {
     setJudgmentState("condemned");
@@ -129,10 +136,12 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
               style={{
                 filter: 'brightness(1.2) contrast(1.15) drop-shadow(0 0 35px rgba(212,175,55,0.7)) drop-shadow(0 0 70px rgba(212,175,55,0.4))'
               }}
-              // Slow down playback to 0.7x speed
               onLoadedMetadata={(e) => {
                 (e.target as HTMLVideoElement).playbackRate = 0.7;
               }}
+              onPlay={handleVideoPlay}
+              onEnded={handleVideoEnded}
+              onPause={handleVideoPause}
             />
             {/* Replay Button */}
             <button
@@ -159,12 +168,17 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
 
         {/* Music Player */}
         <div className="mb-3">
-          <MiniMusicPlayer />
+          <MiniMusicPlayer onPlayingChange={setIsMusicPlaying} />
         </div>
 
         {/* Heartbeat Monitor - Minimized */}
         <div className="my-2">
-          <HeartbeatMonitor state={heartbeatState} />
+          <HeartbeatMonitor 
+            state={heartbeatState} 
+            isMuted={isEkgMuted}
+            onToggleMute={() => setIsEkgMuted(!isEkgMuted)}
+            isExternalAudioPlaying={isMusicPlaying || isVideoPlaying}
+          />
         </div>
 
         {/* The Ultimatum Text - Compact */}
