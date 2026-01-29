@@ -84,14 +84,21 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
       {/* Main content */}
       <div className="relative z-10 w-full max-w-4xl mx-auto px-4 text-center">
         {/* Logo/Title */}
-        <div className="mb-4">
+        <div className="mb-2">
           <h1 className="font-display text-3xl md:text-5xl font-bold text-battlefield-gold tracking-wider battlefield-text-glow">
             THE JUDGMENT
           </h1>
         </div>
 
+        {/* Final Hour - Above Prophet */}
+        <div className="flex items-center justify-center gap-3 mb-2">
+          <div className="h-px w-16 bg-gradient-to-r from-transparent to-battlefield-gold" />
+          <span className="font-terminal text-sm text-battlefield-gold/80 tracking-widest">FINAL HOUR</span>
+          <div className="h-px w-16 bg-gradient-to-l from-transparent to-battlefield-gold" />
+        </div>
+
         {/* Prophet Gad - Triple Hero (Warrior | Video Greeting | Warrior) */}
-        <div className="relative mx-auto mb-4 flex items-end justify-center gap-1 md:gap-3">
+        <div className="relative mx-auto mb-3 flex items-end justify-center gap-1 md:gap-3">
           <img 
             src={pgaiMilitary} 
             alt="Prophet Gad - Warrior Left" 
@@ -120,20 +127,13 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
           />
         </div>
 
-        {/* Final Hour - Below Prophet */}
-        <div className="flex items-center justify-center gap-3 mb-3">
-          <div className="h-px w-12 bg-gradient-to-r from-transparent to-battlefield-gold" />
-          <span className="font-terminal text-xs text-battlefield-gold/60">FINAL HOUR</span>
-          <div className="h-px w-12 bg-gradient-to-l from-transparent to-battlefield-gold" />
-        </div>
-
-        {/* Music Player - Under Final Hour, above heartbeat */}
-        <div className="mb-4">
+        {/* Music Player */}
+        <div className="mb-3">
           <MiniMusicPlayer />
         </div>
 
-        {/* Heartbeat Monitor */}
-        <div className="my-4">
+        {/* Heartbeat Monitor - Minimized */}
+        <div className="my-2">
           <HeartbeatMonitor state={heartbeatState} />
         </div>
 
