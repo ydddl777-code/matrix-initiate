@@ -91,17 +91,22 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
           </h1>
         </div>
 
-        {/* Prophet Gad - Dual Hero Images */}
-        <div className="relative mx-auto mb-4 flex items-end justify-center gap-2 md:gap-4">
+        {/* Prophet Gad - Triple Hero (Warrior | Socialite | Warrior) */}
+        <div className="relative mx-auto mb-4 flex items-end justify-center gap-1 md:gap-3">
           <img 
             src={pgaiMilitary} 
-            alt="Prophet Gad - Military" 
-            className="w-32 md:w-44 lg:w-52 h-auto drop-shadow-[0_0_30px_rgba(212,175,55,0.3)]"
+            alt="Prophet Gad - Warrior Left" 
+            className="w-24 md:w-36 lg:w-44 h-auto drop-shadow-[0_0_30px_rgba(212,175,55,0.3)] opacity-80"
           />
           <img 
             src={pgaiJacket} 
-            alt="Prophet Gad - Formal" 
-            className="w-32 md:w-44 lg:w-52 h-auto drop-shadow-[0_0_30px_rgba(212,175,55,0.3)]"
+            alt="Prophet Gad - Socialite" 
+            className="w-32 md:w-48 lg:w-56 h-auto drop-shadow-[0_0_40px_rgba(212,175,55,0.5)] z-10"
+          />
+          <img 
+            src={pgaiMilitary} 
+            alt="Prophet Gad - Warrior Right" 
+            className="w-24 md:w-36 lg:w-44 h-auto drop-shadow-[0_0_30px_rgba(212,175,55,0.3)] opacity-80 -scale-x-100"
           />
         </div>
 
@@ -216,18 +221,6 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
         <div>ENCRYPTED</div>
       </div>
 
-      {/* Corner Video Loop */}
-      <div className="fixed bottom-20 right-4 z-20 w-32 md:w-48 rounded overflow-hidden border border-battlefield-gold/30 shadow-lg shadow-battlefield-gold/20">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="w-full h-auto"
-        >
-          <source src="/video/corner-loop.mp4" type="video/mp4" />
-        </video>
-      </div>
 
       <style>{`
         @keyframes storm-drift {
