@@ -127,8 +127,13 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
         </div>
 
         {/* Heartbeat Monitor - Smaller */}
-        <div className="my-6">
+        <div className="my-4">
           <HeartbeatMonitor state={heartbeatState} />
+        </div>
+
+        {/* Music Player - Centered under heartbeat */}
+        <div className="mb-4">
+          <MiniMusicPlayer />
         </div>
 
         {/* The Ultimatum Text - Compact */}
@@ -211,8 +216,6 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
         </div>
       </div>
 
-      {/* Mini Music Player */}
-      <MiniMusicPlayer />
 
       {/* Corner HUD elements */}
       <div className="fixed top-4 left-4 font-terminal text-xs text-battlefield-gold/40">
