@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Volume2, VolumeX, Play, Pause, SkipForward } from "lucide-react";
 
 const audioTracks = [
+  { src: "/audio/thunder-road-gospel.mp3", title: "Thunder Road Gospel" },
   { src: "/audio/as-enoch-walked.mp3", title: "As Enoch Walked" },
   { src: "/audio/the-unsealed-book.mp3", title: "The Unsealed Book" },
 ];
