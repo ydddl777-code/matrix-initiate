@@ -19,6 +19,34 @@ export const useHeartbeatAudio = ({
   const voiceIntervalRef = useRef<number | null>(null);
   const voiceAudioRef = useRef<HTMLAudioElement | null>(null);
   const [hasPlayedVoice, setHasPlayedVoice] = useState(false);
+  
+  // Track muted state in a ref so interval callbacks can access current value
+  const isMutedRef = useRef(isMuted);
+  const isExternalAudioRef = useRef(isExternalAudioPlaying);
+  
+  // Keep refs in sync with props and handle immediate mute
+  useEffect(() => {
+    isMutedRef.current = isMuted;
+    isExternalAudioRef.current = isExternalAudioPlaying;
+    
+    // Immediately stop all audio when muted
+    if (isMuted || isExternalAudioPlaying) {
+      // Stop voice audio
+      if (voiceAudioRef.current) {
+        voiceAudioRef.current.pause();
+        voiceAudioRef.current = null;
+      }
+      // Stop flatline oscillator
+      if (flatlineOscillatorRef.current) {
+        try {
+          flatlineOscillatorRef.current.stop();
+        } catch (e) {
+          // Already stopped
+        }
+        flatlineOscillatorRef.current = null;
+      }
+    }
+  }, [isMuted, isExternalAudioPlaying]);
 
   const getAudioContext = useCallback(() => {
     if (!audioContextRef.current) {
@@ -28,6 +56,9 @@ export const useHeartbeatAudio = ({
   }, []);
 
   const playBeep = useCallback((frequency: number, duration: number, volume: number = 0.15) => {
+    // Check mute state via ref (for interval callbacks)
+    if (isMutedRef.current || isExternalAudioRef.current) return;
+    
     const ctx = getAudioContext();
     if (ctx.state === "suspended") {
       ctx.resume();
@@ -64,6 +95,9 @@ export const useHeartbeatAudio = ({
   }, [playBeep]);
 
   const startFlatline = useCallback(() => {
+    // Check mute state
+    if (isMutedRef.current || isExternalAudioRef.current) return;
+    
     const ctx = getAudioContext();
     if (ctx.state === "suspended") {
       ctx.resume();
