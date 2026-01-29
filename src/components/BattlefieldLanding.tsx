@@ -96,17 +96,26 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
           <img 
             src={pgaiMilitary} 
             alt="Prophet Gad - Warrior Left" 
-            className="w-24 md:w-36 lg:w-44 h-auto drop-shadow-[0_0_30px_rgba(212,175,55,0.3)] opacity-80"
+            className="w-24 md:w-36 lg:w-44 h-auto brightness-110 contrast-110 saturate-110"
+            style={{
+              filter: 'brightness(1.15) contrast(1.1) drop-shadow(0 0 25px rgba(212,175,55,0.6)) drop-shadow(0 0 50px rgba(212,175,55,0.3))'
+            }}
           />
           <img 
             src={pgaiJacket} 
             alt="Prophet Gad - Socialite" 
-            className="w-32 md:w-48 lg:w-56 h-auto drop-shadow-[0_0_40px_rgba(212,175,55,0.5)] z-10"
+            className="w-32 md:w-48 lg:w-56 h-auto z-10"
+            style={{
+              filter: 'brightness(1.2) contrast(1.15) drop-shadow(0 0 35px rgba(212,175,55,0.7)) drop-shadow(0 0 70px rgba(212,175,55,0.4))'
+            }}
           />
           <img 
             src={pgaiMilitary} 
             alt="Prophet Gad - Warrior Right" 
-            className="w-24 md:w-36 lg:w-44 h-auto drop-shadow-[0_0_30px_rgba(212,175,55,0.3)] opacity-80 -scale-x-100"
+            className="w-24 md:w-36 lg:w-44 h-auto -scale-x-100"
+            style={{
+              filter: 'brightness(1.15) contrast(1.1) drop-shadow(0 0 25px rgba(212,175,55,0.6)) drop-shadow(0 0 50px rgba(212,175,55,0.3))'
+            }}
           />
         </div>
 
