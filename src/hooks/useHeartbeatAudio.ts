@@ -15,88 +15,113 @@ export const useHeartbeatAudio = ({
 }: UseHeartbeatAudioProps) => {
   const audioContextRef = useRef<AudioContext | null>(null);
   const intervalRef = useRef<number | null>(null);
+  const gainNodeRef = useRef<GainNode | null>(null);
   const flatlineOscillatorRef = useRef<OscillatorNode | null>(null);
+  const flatlineGainRef = useRef<GainNode | null>(null);
   const voiceIntervalRef = useRef<number | null>(null);
   const voiceAudioRef = useRef<HTMLAudioElement | null>(null);
   const [hasPlayedVoice, setHasPlayedVoice] = useState(false);
-  
-  // Track muted state in a ref so interval callbacks can access current value
-  const isMutedRef = useRef(isMuted);
-  const isExternalAudioRef = useRef(isExternalAudioPlaying);
-  
-  // Keep refs in sync with props and handle immediate mute
-  useEffect(() => {
-    isMutedRef.current = isMuted;
-    isExternalAudioRef.current = isExternalAudioPlaying;
-    
-    // Immediately stop all audio when muted
-    if (isMuted || isExternalAudioPlaying) {
-      // Stop voice audio
-      if (voiceAudioRef.current) {
-        voiceAudioRef.current.pause();
-        voiceAudioRef.current = null;
-      }
-      // Stop flatline oscillator
-      if (flatlineOscillatorRef.current) {
-        try {
-          flatlineOscillatorRef.current.stop();
-        } catch (e) {
-          // Already stopped
-        }
-        flatlineOscillatorRef.current = null;
-      }
-    }
-  }, [isMuted, isExternalAudioPlaying]);
+
+  // Determine if audio should be active
+  const shouldPlay = !isMuted && !isExternalAudioPlaying;
 
   const getAudioContext = useCallback(() => {
-    if (!audioContextRef.current) {
+    if (!audioContextRef.current || audioContextRef.current.state === 'closed') {
       audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+      // Create a master gain node for easy muting
+      gainNodeRef.current = audioContextRef.current.createGain();
+      gainNodeRef.current.connect(audioContextRef.current.destination);
     }
     return audioContextRef.current;
   }, []);
 
+  // Stop all sounds immediately
+  const stopAllSounds = useCallback(() => {
+    console.log('Stopping all sounds');
+    
+    // Clear heartbeat interval
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+    
+    // Stop flatline
+    if (flatlineOscillatorRef.current) {
+      try {
+        flatlineOscillatorRef.current.stop();
+      } catch (e) {}
+      flatlineOscillatorRef.current = null;
+    }
+    if (flatlineGainRef.current) {
+      flatlineGainRef.current.disconnect();
+      flatlineGainRef.current = null;
+    }
+    
+    // Stop voice
+    if (voiceIntervalRef.current) {
+      clearInterval(voiceIntervalRef.current);
+      voiceIntervalRef.current = null;
+    }
+    if (voiceAudioRef.current) {
+      voiceAudioRef.current.pause();
+      voiceAudioRef.current.src = '';
+      voiceAudioRef.current = null;
+    }
+    
+    // Mute master gain
+    if (gainNodeRef.current) {
+      gainNodeRef.current.gain.setValueAtTime(0, audioContextRef.current?.currentTime || 0);
+    }
+  }, []);
+
   const playBeep = useCallback((frequency: number, duration: number, volume: number = 0.15) => {
-    // Check mute state via ref (for interval callbacks)
-    if (isMutedRef.current || isExternalAudioRef.current) return;
+    if (!shouldPlay) return;
     
     const ctx = getAudioContext();
     if (ctx.state === "suspended") {
       ctx.resume();
     }
 
-    const oscillator = ctx.createOscillator();
-    const gainNode = ctx.createGain();
+    // Ensure master gain is up
+    if (gainNodeRef.current) {
+      gainNodeRef.current.gain.setValueAtTime(1, ctx.currentTime);
+    }
 
-    oscillator.connect(gainNode);
-    gainNode.connect(ctx.destination);
+    const oscillator = ctx.createOscillator();
+    const beepGain = ctx.createGain();
+
+    oscillator.connect(beepGain);
+    beepGain.connect(gainNodeRef.current || ctx.destination);
 
     oscillator.frequency.value = frequency;
     oscillator.type = "sine";
 
-    // Soft attack and decay for less jarring sound
-    gainNode.gain.setValueAtTime(0, ctx.currentTime);
-    gainNode.gain.linearRampToValueAtTime(volume, ctx.currentTime + 0.02);
-    gainNode.gain.linearRampToValueAtTime(0, ctx.currentTime + duration);
+    beepGain.gain.setValueAtTime(0, ctx.currentTime);
+    beepGain.gain.linearRampToValueAtTime(volume, ctx.currentTime + 0.02);
+    beepGain.gain.linearRampToValueAtTime(0, ctx.currentTime + duration);
 
     oscillator.start(ctx.currentTime);
     oscillator.stop(ctx.currentTime + duration);
-  }, [getAudioContext]);
+  }, [shouldPlay, getAudioContext]);
 
   const playHeartbeat = useCallback(() => {
-    // Double beep pattern like real heart monitor
-    playBeep(880, 0.08, 0.12); // First beep
-    setTimeout(() => playBeep(880, 0.06, 0.08), 100); // Second softer beep
-  }, [playBeep]);
+    if (!shouldPlay) return;
+    playBeep(880, 0.08, 0.12);
+    setTimeout(() => {
+      if (shouldPlay) playBeep(880, 0.06, 0.08);
+    }, 100);
+  }, [playBeep, shouldPlay]);
 
   const playVitalityBeep = useCallback(() => {
-    // Stronger, more energetic beep
+    if (!shouldPlay) return;
     playBeep(1000, 0.1, 0.18);
-    setTimeout(() => playBeep(1200, 0.08, 0.12), 80);
-  }, [playBeep]);
+    setTimeout(() => {
+      if (shouldPlay) playBeep(1200, 0.08, 0.12);
+    }, 80);
+  }, [playBeep, shouldPlay]);
 
   const startFlatline = useCallback(() => {
-    // Check mute state
-    if (isMutedRef.current || isExternalAudioRef.current) return;
+    if (!shouldPlay) return;
     
     const ctx = getAudioContext();
     if (ctx.state === "suspended") {
@@ -105,63 +130,43 @@ export const useHeartbeatAudio = ({
 
     // Stop any existing flatline
     if (flatlineOscillatorRef.current) {
-      flatlineOscillatorRef.current.stop();
+      try {
+        flatlineOscillatorRef.current.stop();
+      } catch (e) {}
       flatlineOscillatorRef.current = null;
     }
 
     const oscillator = ctx.createOscillator();
-    const gainNode = ctx.createGain();
+    const flatGain = ctx.createGain();
 
-    oscillator.connect(gainNode);
-    gainNode.connect(ctx.destination);
+    oscillator.connect(flatGain);
+    flatGain.connect(gainNodeRef.current || ctx.destination);
 
-    oscillator.frequency.value = 440; // Classic flatline tone
+    oscillator.frequency.value = 440;
     oscillator.type = "sine";
-    gainNode.gain.value = 0.15;
+    flatGain.gain.value = 0.15;
 
     oscillator.start();
     flatlineOscillatorRef.current = oscillator;
+    flatlineGainRef.current = flatGain;
 
     // Auto-stop after 3 seconds
     setTimeout(() => {
       if (flatlineOscillatorRef.current === oscillator) {
-        gainNode.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.5);
+        flatGain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.5);
         setTimeout(() => {
-          oscillator.stop();
+          try {
+            oscillator.stop();
+          } catch (e) {}
           flatlineOscillatorRef.current = null;
+          flatlineGainRef.current = null;
         }, 500);
       }
     }, 3000);
-  }, [getAudioContext]);
-
-  const stopFlatline = useCallback(() => {
-    if (flatlineOscillatorRef.current) {
-      flatlineOscillatorRef.current.stop();
-      flatlineOscillatorRef.current = null;
-    }
-  }, []);
-
-  const stopHeartbeatLoop = useCallback(() => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
-  }, []);
-
-  const stopVoiceLoop = useCallback(() => {
-    if (voiceIntervalRef.current) {
-      clearInterval(voiceIntervalRef.current);
-      voiceIntervalRef.current = null;
-    }
-    if (voiceAudioRef.current) {
-      voiceAudioRef.current.pause();
-      voiceAudioRef.current = null;
-    }
-  }, []);
+  }, [shouldPlay, getAudioContext]);
 
   const playUrgentVoice = useCallback(async () => {
-    // Only play if not muted and no external audio
-    if (isMuted || isExternalAudioPlaying) return;
+    if (!shouldPlay) return;
     
     try {
       const response = await fetch(
@@ -175,7 +180,7 @@ export const useHeartbeatAudio = ({
           },
           body: JSON.stringify({ 
             text: URGENT_PROMPT,
-            voiceId: 'onwK4e9ZLuTAKqWW03F9' // Daniel - deep, authoritative
+            voiceId: 'onwK4e9ZLuTAKqWW03F9'
           }),
         }
       );
@@ -198,62 +203,67 @@ export const useHeartbeatAudio = ({
     } catch (error) {
       console.error('Failed to play urgent voice:', error);
     }
-  }, [isMuted, isExternalAudioPlaying]);
+  }, [shouldPlay]);
 
+  // Main effect to control audio based on state and mute
   useEffect(() => {
-    // Don't play if muted or external audio is playing
-    if (isMuted || isExternalAudioPlaying) {
-      stopHeartbeatLoop();
-      stopFlatline();
-      stopVoiceLoop();
+    console.log('Audio effect - shouldPlay:', shouldPlay, 'state:', state, 'isMuted:', isMuted);
+    
+    if (!shouldPlay) {
+      stopAllSounds();
       return;
     }
 
-    // Clear previous interval
-    stopHeartbeatLoop();
-    stopFlatline();
+    // Clear previous intervals
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
 
     if (state === "flatline") {
       startFlatline();
     } else if (state === "vitality") {
-      // Faster, stronger heartbeat
       playVitalityBeep();
-      intervalRef.current = window.setInterval(playVitalityBeep, 600);
+      intervalRef.current = window.setInterval(() => {
+        if (shouldPlay) playVitalityBeep();
+      }, 600);
     } else {
-      // Normal heartbeat - steady rhythm
       playHeartbeat();
-      intervalRef.current = window.setInterval(playHeartbeat, 1000);
+      intervalRef.current = window.setInterval(() => {
+        if (shouldPlay) playHeartbeat();
+      }, 1000);
       
-      // Play urgent voice after 8 seconds if still in normal state, then every 45 seconds
+      // Voice prompt after 8 seconds
       if (!hasPlayedVoice) {
         const voiceTimeout = window.setTimeout(() => {
-          playUrgentVoice();
-          setHasPlayedVoice(true);
-          // Set up recurring prompt every 45 seconds
-          voiceIntervalRef.current = window.setInterval(playUrgentVoice, 45000);
+          if (shouldPlay) {
+            playUrgentVoice();
+            setHasPlayedVoice(true);
+            voiceIntervalRef.current = window.setInterval(() => {
+              if (shouldPlay) playUrgentVoice();
+            }, 45000);
+          }
         }, 8000);
         
         return () => {
           clearTimeout(voiceTimeout);
-          stopHeartbeatLoop();
+          if (intervalRef.current) clearInterval(intervalRef.current);
         };
       }
     }
 
     return () => {
-      stopHeartbeatLoop();
+      if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [state, isMuted, isExternalAudioPlaying, hasPlayedVoice, playHeartbeat, playVitalityBeep, startFlatline, stopHeartbeatLoop, stopFlatline, stopVoiceLoop, playUrgentVoice]);
+  }, [shouldPlay, state, hasPlayedVoice, playHeartbeat, playVitalityBeep, startFlatline, playUrgentVoice, stopAllSounds, isMuted]);
 
   // Cleanup on unmount
   useEffect(() => {
     return () => {
-      stopHeartbeatLoop();
-      stopFlatline();
-      stopVoiceLoop();
-      if (audioContextRef.current) {
+      stopAllSounds();
+      if (audioContextRef.current && audioContextRef.current.state !== 'closed') {
         audioContextRef.current.close();
       }
     };
-  }, [stopHeartbeatLoop, stopFlatline, stopVoiceLoop]);
+  }, [stopAllSounds]);
 };
