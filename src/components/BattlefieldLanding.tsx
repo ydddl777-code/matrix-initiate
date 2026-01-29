@@ -2,6 +2,7 @@ import { useState } from "react";
 import { HeartbeatMonitor } from "./HeartbeatMonitor";
 import { MiniMusicPlayer } from "./MiniMusicPlayer";
 import pgaiMilitary from "@/assets/pgai-nobg.png";
+import pgaiJacket from "@/assets/pgai-jacket.png";
 
 type JudgmentState = "choosing" | "condemned" | "saved";
 
@@ -90,12 +91,17 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
           </h1>
         </div>
 
-        {/* Prophet Gad - Centered Hero Image */}
-        <div className="relative mx-auto mb-4 w-48 md:w-64 lg:w-72">
+        {/* Prophet Gad - Dual Hero Images */}
+        <div className="relative mx-auto mb-4 flex items-end justify-center gap-2 md:gap-4">
           <img 
             src={pgaiMilitary} 
-            alt="Prophet Gad" 
-            className="w-full h-auto drop-shadow-[0_0_30px_rgba(212,175,55,0.3)]"
+            alt="Prophet Gad - Military" 
+            className="w-32 md:w-44 lg:w-52 h-auto drop-shadow-[0_0_30px_rgba(212,175,55,0.3)]"
+          />
+          <img 
+            src={pgaiJacket} 
+            alt="Prophet Gad - Formal" 
+            className="w-32 md:w-44 lg:w-52 h-auto drop-shadow-[0_0_30px_rgba(212,175,55,0.3)]"
           />
         </div>
 
