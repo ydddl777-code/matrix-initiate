@@ -55,13 +55,13 @@ export const MiniMusicPlayer = () => {
   };
 
   return (
-    <div className="flex flex-col items-center gap-2">
-      {/* Caption */}
-      <span className="font-terminal text-xs text-battlefield-gold/70 tracking-wider">
-        LISTEN TO PROPHET GAD SONGS
-      </span>
+    <div className="flex flex-col items-center gap-3">
+      {/* Caption - Larger and Bold */}
+      <h3 className="font-display text-lg md:text-xl text-battlefield-gold font-bold tracking-widest uppercase">
+        Listen to Prophet Gad Songs
+      </h3>
       
-      <div className="flex items-center justify-center gap-2">
+      <div className="flex items-center justify-center gap-3">
         <audio
           ref={audioRef}
           src={audioTracks[currentTrackIndex].src}
@@ -102,12 +102,7 @@ export const MiniMusicPlayer = () => {
           <SkipForward className="w-3 h-3 text-battlefield-gold" />
         </button>
 
-        {/* Track Info */}
-        <div className="font-terminal text-xs text-battlefield-gold/60 max-w-[120px] truncate">
-          {audioTracks[currentTrackIndex].title}
-        </div>
-
-        {/* Red Mute Button - Smaller to match play button */}
+        {/* Red Mute Button - To the left of track info */}
         <button
           onClick={toggleMute}
           className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 
@@ -121,6 +116,11 @@ export const MiniMusicPlayer = () => {
             <Volume2 className="w-4 h-4 text-white" />
           )}
         </button>
+
+        {/* Track Info - Full width visible */}
+        <div className="font-terminal text-sm text-battlefield-gold min-w-[180px]">
+          {audioTracks[currentTrackIndex].title}
+        </div>
       </div>
     </div>
   );
