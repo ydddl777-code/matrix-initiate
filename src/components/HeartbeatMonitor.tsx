@@ -91,11 +91,11 @@ export const HeartbeatMonitor = ({ state }: HeartbeatMonitorProps) => {
   }, [state]);
 
   return (
-    <div className="relative w-full max-w-2xl mx-auto">
+    <div className="relative w-full max-w-md mx-auto">
       <canvas
         ref={canvasRef}
-        width={600}
-        height={120}
+        width={400}
+        height={60}
         className="w-full h-auto"
       />
       {/* Pulse indicator */}

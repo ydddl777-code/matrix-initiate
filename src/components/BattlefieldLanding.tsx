@@ -218,7 +218,7 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
       </div>
 
 
-      {/* Corner HUD elements */}
+      {/* Corner HUD elements - Top */}
       <div className="fixed top-4 left-4 font-terminal text-xs text-battlefield-gold/40">
         <div>STATUS: JUDGMENT ACTIVE</div>
         <div>SECTOR: OUTER GATE</div>
@@ -227,11 +227,16 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
         <div>FREQ: 777 MHz</div>
         <div>█████████░</div>
       </div>
-      <div className="fixed bottom-4 left-4 font-terminal text-xs text-battlefield-gold/40">
-        <div>© THE HEADQUARTERS 2024</div>
-      </div>
-      <div className="fixed bottom-4 right-4 font-terminal text-xs text-battlefield-gold/40 text-right">
-        <div>ENCRYPTED</div>
+
+      {/* Footer Bar - Clean horizontal layout */}
+      <div className="fixed bottom-0 left-0 right-0 py-3 px-6 bg-battlefield-bg/80 backdrop-blur-sm border-t border-battlefield-gold/10">
+        <div className="flex items-center justify-between max-w-4xl mx-auto font-terminal text-xs text-battlefield-gold/50">
+          <span>© THE HEADQUARTERS 2024</span>
+          <span className="text-battlefield-gold/30">•</span>
+          <span>ENCRYPTED TRANSMISSION</span>
+          <span className="text-battlefield-gold/30">•</span>
+          <span>ALL RIGHTS RESERVED</span>
+        </div>
       </div>
 
 
