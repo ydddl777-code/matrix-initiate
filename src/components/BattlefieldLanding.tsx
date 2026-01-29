@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { HeartbeatMonitor } from "./HeartbeatMonitor";
 import { MiniMusicPlayer } from "./MiniMusicPlayer";
+import { Volume2 } from "lucide-react";
 import pgaiMilitary from "@/assets/pgai-nobg.png";
 
 type JudgmentState = "choosing" | "condemned" | "saved";
@@ -14,6 +15,17 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
   const [heartbeatState, setHeartbeatState] = useState<"normal" | "vitality" | "flatline">("normal");
   const [showFlash, setShowFlash] = useState<"red" | "gold" | null>(null);
   const [showMessage, setShowMessage] = useState(false);
+  const [greetingPlayed, setGreetingPlayed] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const handlePlayGreeting = () => {
+    if (videoRef.current && !greetingPlayed) {
+      videoRef.current.muted = false;
+      videoRef.current.currentTime = 0;
+      videoRef.current.play();
+      setGreetingPlayed(true);
+    }
+  };
 
   const handleSurrender = () => {
     setJudgmentState("condemned");
@@ -100,15 +112,27 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
               filter: 'brightness(1.15) contrast(1.1) drop-shadow(0 0 25px rgba(212,175,55,0.6)) drop-shadow(0 0 50px rgba(212,175,55,0.3))'
             }}
           />
-          <video 
-            src="/video/gad-greeting.mp4"
-            autoPlay
-            playsInline
-            className="w-32 md:w-48 lg:w-56 h-auto z-10 rounded-sm"
-            style={{
-              filter: 'brightness(1.2) contrast(1.15) drop-shadow(0 0 35px rgba(212,175,55,0.7)) drop-shadow(0 0 70px rgba(212,175,55,0.4))'
-            }}
-          />
+          <div className="relative z-10">
+            <video 
+              ref={videoRef}
+              src="/video/gad-greeting.mp4"
+              muted
+              playsInline
+              className="w-32 md:w-48 lg:w-56 h-auto rounded-sm"
+              style={{
+                filter: 'brightness(1.2) contrast(1.15) drop-shadow(0 0 35px rgba(212,175,55,0.7)) drop-shadow(0 0 70px rgba(212,175,55,0.4))'
+              }}
+            />
+            {!greetingPlayed && (
+              <button
+                onClick={handlePlayGreeting}
+                className="absolute inset-0 flex flex-col items-center justify-center bg-black/50 hover:bg-black/40 transition-all rounded-sm group"
+              >
+                <Volume2 className="w-8 h-8 text-battlefield-gold animate-pulse group-hover:scale-110 transition-transform" />
+                <span className="font-terminal text-xs text-battlefield-gold mt-2">HEAR THE PROPHET</span>
+              </button>
+            )}
+          </div>
           <img 
             src={pgaiMilitary} 
             alt="Prophet Gad - Warrior Right" 
