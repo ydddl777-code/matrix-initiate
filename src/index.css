@@ -13,12 +13,14 @@
     --battlefield-purple: 270 70% 30%;
     --battlefield-text: 0 0% 95%;
     
-    /* === SANCTUARY THEME (Bright Interior) === */
-    --sanctuary-bg: 240 20% 98%;
-    --sanctuary-primary: 270 70% 35%;
-    --sanctuary-gold: 45 70% 40%;
-    --sanctuary-text: 270 60% 15%;
-    --sanctuary-muted: 270 30% 50%;
+    /* === SANCTUARY THEME (Clinical Teal + Gold on White) === */
+    --sanctuary-bg: 180 20% 98%;
+    --sanctuary-primary: 175 65% 35%;
+    --sanctuary-secondary: 45 80% 45%;
+    --sanctuary-gold: 45 80% 45%;
+    --sanctuary-text: 180 40% 15%;
+    --sanctuary-muted: 180 20% 45%;
+    --sanctuary-accent: 175 50% 40%;
     
     /* Default theme tokens (used by shadcn components) */
     --background: 240 20% 98%;
@@ -30,10 +32,10 @@
     --popover: 0 0% 100%;
     --popover-foreground: 270 60% 15%;
 
-    /* Royal Purple - Primary */
-    --primary: 270 70% 35%;
+    /* Clinical Teal - Primary */
+    --primary: 175 65% 35%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 270 80% 50%;
+    --primary-glow: 175 70% 45%;
 
     /* Metallic Gold - Accent/Secondary */
     --secondary: 45 90% 45%;
@@ -44,16 +46,16 @@
     --muted: 240 10% 92%;
     --muted-foreground: 270 30% 40%;
 
-    /* Royal Purple Accent */
-    --accent: 270 70% 35%;
+    /* Teal Accent */
+    --accent: 175 65% 35%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 70% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 270 30% 80%;
-    --input: 240 10% 95%;
-    --ring: 270 70% 35%;
+    --border: 175 20% 80%;
+    --input: 180 10% 96%;
+    --ring: 175 65% 35%;
 
     --radius: 0.5rem;
 
