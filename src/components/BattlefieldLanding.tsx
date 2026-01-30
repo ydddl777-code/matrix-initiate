@@ -166,20 +166,20 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
           />
         </div>
 
-        {/* Music Player */}
-        <div className="mb-3">
+        {/* Music Player - DISABLED until ElevenLabs upgrade */}
+        {/* <div className="mb-3">
           <MiniMusicPlayer onPlayingChange={setIsMusicPlaying} />
-        </div>
+        </div> */}
 
-        {/* Heartbeat Monitor - Minimized */}
-        <div className="my-2">
+        {/* Heartbeat Monitor - DISABLED until ElevenLabs upgrade */}
+        {/* <div className="my-2">
           <HeartbeatMonitor 
             state={heartbeatState} 
             isMuted={isEkgMuted}
             onToggleMute={() => setIsEkgMuted(!isEkgMuted)}
             isExternalAudioPlaying={isMusicPlaying || isVideoPlaying}
           />
-        </div>
+        </div> */}
 
         {/* The Ultimatum Text - Compact */}
         <div className="mb-6">
