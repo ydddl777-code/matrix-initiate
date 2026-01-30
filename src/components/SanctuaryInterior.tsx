@@ -3,6 +3,7 @@ import { Logo } from "./Logo";
 import { HUDFrame } from "./HUDFrame";
 import { BootSequence } from "./BootSequence";
 import { TheVault } from "./armory/TheVault";
+import { SongCatalog } from "./armory/SongCatalog";
 import { TribesGallery } from "./tribes/TribesGallery";
 import { DoctrinalWarfare } from "./doctrine/DoctrinalWarfare";
 import { TacticalButton } from "./ui/tactical-button";
@@ -22,37 +23,37 @@ export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-sanctuary-bg">
-      {/* Clinical bright background */}
+      {/* Clinical bright background with teal tint */}
       <div 
         className="fixed inset-0 -z-30"
         style={{
           background: `
             radial-gradient(ellipse at 30% 20%, hsl(45 80% 95%) 0%, transparent 50%),
-            radial-gradient(ellipse at 70% 80%, hsl(270 30% 95%) 0%, transparent 50%),
-            linear-gradient(180deg, hsl(240 20% 98%) 0%, hsl(240 15% 96%) 50%, hsl(240 20% 98%) 100%)
+            radial-gradient(ellipse at 70% 80%, hsl(175 30% 95%) 0%, transparent 50%),
+            linear-gradient(180deg, hsl(180 15% 99%) 0%, hsl(180 10% 97%) 50%, hsl(180 15% 99%) 100%)
           `,
         }}
       />
       
-      {/* Subtle light overlay */}
+      {/* Subtle teal + gold light overlay */}
       <div 
         className="fixed inset-0 -z-20 opacity-60"
         style={{
           background: `
             radial-gradient(ellipse at 20% 20%, hsl(45 90% 85% / 0.3) 0%, transparent 50%),
-            radial-gradient(ellipse at 80% 80%, hsl(270 50% 90% / 0.2) 0%, transparent 50%),
-            radial-gradient(ellipse at 50% 50%, hsl(0 0% 100% / 0.4) 0%, transparent 70%)
+            radial-gradient(ellipse at 80% 80%, hsl(175 50% 90% / 0.2) 0%, transparent 50%),
+            radial-gradient(ellipse at 50% 50%, hsl(0 0% 100% / 0.5) 0%, transparent 70%)
           `,
         }}
       />
       
-      {/* Grid pattern - royal purple lines */}
+      {/* Grid pattern - teal lines */}
       <div 
         className="fixed inset-0 -z-10"
         style={{
           backgroundImage: `
-            linear-gradient(hsl(270 70% 35% / 0.08) 1px, transparent 1px),
-            linear-gradient(90deg, hsl(270 70% 35% / 0.08) 1px, transparent 1px)
+            linear-gradient(hsl(175 65% 35% / 0.06) 1px, transparent 1px),
+            linear-gradient(90deg, hsl(175 65% 35% / 0.06) 1px, transparent 1px)
           `,
           backgroundSize: '40px 40px',
         }}
@@ -77,18 +78,18 @@ export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
                 <div className="space-y-10 animate-fade-in">
                   {/* Status Header */}
                   <div className="space-y-2">
-                    <p className="font-display text-2xl text-sanctuary-primary font-bold">
-                      THE GENERAL IS PRESENT
+                    <p className="font-display text-2xl text-sanctuary-primary font-bold italic">
+                      PROPHET GAD SPEAKS
                     </p>
-                    <p className="font-terminal text-sm text-sanctuary-gold">
-                      Prophet Gad • Wharton '02 • The Remnant's Don
+                    <p className="font-terminal text-sm text-sanctuary-gold font-bold">
+                      Voice of the Remnant
                     </p>
                   </div>
                   
                   {/* Status Panel */}
                   <div className="p-4 border border-sanctuary-primary/30 bg-sanctuary-primary/5 rounded">
                     <p className="font-terminal text-xs text-sanctuary-text">
-                      LOCATION: <span className="text-sanctuary-primary font-bold">THE LOFT • EAST NEW YORK</span>
+                      LOCATION: <span className="text-sanctuary-primary font-bold">UNDISCLOSED HEADQUARTERS</span>
                     </p>
                     <p className="font-terminal text-xs text-sanctuary-text mt-1">
                       DOCTRINE: <span className="text-sanctuary-gold font-bold">KJV SWORD ARMED</span>
@@ -96,6 +97,11 @@ export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
                     <p className="font-terminal text-xs text-sanctuary-text mt-1">
                       CAMP OF ISRAEL: <span className="text-sanctuary-primary font-bold">PERIMETER SECURE</span>
                     </p>
+                  </div>
+
+                  {/* Song Catalog - 10 Songs */}
+                  <div className="pt-6 border-t border-sanctuary-primary/10">
+                    <SongCatalog />
                   </div>
 
                   {/* The Vault (Armory) */}

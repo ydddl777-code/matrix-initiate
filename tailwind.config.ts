@@ -34,13 +34,15 @@ export default {
           text: "hsl(var(--battlefield-text))",
         },
         
-        // Sanctuary (Bright Interior) Theme
+        // Sanctuary (Clinical Teal + Gold) Theme
         sanctuary: {
           bg: "hsl(var(--sanctuary-bg))",
           primary: "hsl(var(--sanctuary-primary))",
+          secondary: "hsl(var(--sanctuary-secondary))",
           gold: "hsl(var(--sanctuary-gold))",
           text: "hsl(var(--sanctuary-text))",
           muted: "hsl(var(--sanctuary-muted))",
+          accent: "hsl(var(--sanctuary-accent))",
         },
         
         primary: {

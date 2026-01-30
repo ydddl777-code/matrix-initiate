@@ -22,6 +22,7 @@ interface TribeData {
   blessing: string;
 }
 
+// Tribes mapped correctly to their banner images
 const tribes: TribeData[] = [
   { name: "Judah", hebrewName: "יְהוּדָה", banner: judahBanner, blessing: "The Lion's Portion" },
   { name: "Reuben", hebrewName: "רְאוּבֵן", banner: reubenBanner, blessing: "Firstborn Strength" },
