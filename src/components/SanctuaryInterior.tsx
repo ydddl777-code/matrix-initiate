@@ -4,6 +4,7 @@ import { HUDFrame } from "./HUDFrame";
 import { BootSequence } from "./BootSequence";
 import { TheVault } from "./armory/TheVault";
 import { TribesGallery } from "./tribes/TribesGallery";
+import { DoctrinalWarfare } from "./doctrine/DoctrinalWarfare";
 import { TacticalButton } from "./ui/tactical-button";
 
 type ScreenState = "booting" | "ready";
@@ -107,16 +108,13 @@ export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
                     <TribesGallery />
                   </div>
 
+                  {/* Doctrinal Warfare - AI Rebuttal System */}
+                  <div className="pt-6 border-t border-sanctuary-primary/10">
+                    <DoctrinalWarfare />
+                  </div>
+
                   {/* Action Buttons */}
                   <div className="space-y-4">
-                    <TacticalButton
-                      variant="primary"
-                      size="lg"
-                      onClick={() => {}}
-                    >
-                      BEGIN TARGET ANALYSIS
-                    </TacticalButton>
-                    
                     <button
                       onClick={onExit}
                       className="block mx-auto font-terminal text-xs text-sanctuary-muted hover:text-sanctuary-primary transition-colors"
