@@ -27,8 +27,8 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Default to a dramatic voice if not specified
-    const selectedVoiceId = voiceId || 'onwK4e9ZLuTAKqWW03F9'; // Daniel - deep, authoritative
+    // Prophet Gad cloned voice - commanding, acerbic tone
+    const selectedVoiceId = voiceId || 'SpjjBReaN4HH7Rt1Zc4C';
 
     console.log('Generating TTS for:', text.substring(0, 50) + '...');
 
@@ -44,11 +44,11 @@ Deno.serve(async (req) => {
           text,
           model_id: 'eleven_multilingual_v2',
           voice_settings: {
-            stability: 0.6,
-            similarity_boost: 0.8,
+            stability: 0.75,
+            similarity_boost: 0.95,
             style: 0.4,
             use_speaker_boost: true,
-            speed: 0.9, // Slightly slower for gravitas
+            speed: 0.9,
           },
         }),
       }
