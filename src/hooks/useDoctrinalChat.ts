@@ -111,7 +111,7 @@ export const useDoctrinalChat = (options: UseDoctrinalChatOptions = {}) => {
           },
           body: JSON.stringify({
             text,
-            voiceId: voiceId || 'onwK4e9ZLuTAKqWW03F9', // Daniel - deep, authoritative (default)
+            voiceId: voiceId || 'SpjjBReaN4HH7Rt1Zc4C', // Prophet Gad cloned voice
           }),
         }
       );
