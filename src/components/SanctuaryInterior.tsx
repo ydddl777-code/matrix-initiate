@@ -23,60 +23,60 @@ export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-sanctuary-bg">
-      {/* Clinical bright background with teal tint */}
+      {/* Light purple background with gold + purple radials */}
       <div 
         className="fixed inset-0 -z-30"
         style={{
           background: `
-            radial-gradient(ellipse at 30% 20%, hsl(45 80% 95%) 0%, transparent 50%),
-            radial-gradient(ellipse at 70% 80%, hsl(175 30% 95%) 0%, transparent 50%),
-            linear-gradient(180deg, hsl(180 15% 99%) 0%, hsl(180 10% 97%) 50%, hsl(180 15% 99%) 100%)
+            radial-gradient(ellipse at 30% 20%, hsl(45 80% 92%) 0%, transparent 50%),
+            radial-gradient(ellipse at 70% 80%, hsl(270 40% 92%) 0%, transparent 50%),
+            linear-gradient(180deg, hsl(270 30% 96%) 0%, hsl(270 25% 94%) 50%, hsl(270 30% 96%) 100%)
           `,
         }}
       />
       
-      {/* Subtle teal + gold light overlay */}
+      {/* Subtle purple + gold light overlay */}
       <div 
-        className="fixed inset-0 -z-20 opacity-60"
+        className="fixed inset-0 -z-20 opacity-70"
         style={{
           background: `
-            radial-gradient(ellipse at 20% 20%, hsl(45 90% 85% / 0.3) 0%, transparent 50%),
-            radial-gradient(ellipse at 80% 80%, hsl(175 50% 90% / 0.2) 0%, transparent 50%),
-            radial-gradient(ellipse at 50% 50%, hsl(0 0% 100% / 0.5) 0%, transparent 70%)
+            radial-gradient(ellipse at 20% 20%, hsl(45 90% 85% / 0.4) 0%, transparent 50%),
+            radial-gradient(ellipse at 80% 80%, hsl(270 50% 85% / 0.3) 0%, transparent 50%),
+            radial-gradient(ellipse at 50% 50%, hsl(270 30% 98% / 0.6) 0%, transparent 70%)
           `,
         }}
       />
       
-      {/* Grid pattern - teal lines */}
+      {/* Grid pattern - purple lines */}
       <div 
         className="fixed inset-0 -z-10"
         style={{
           backgroundImage: `
-            linear-gradient(hsl(175 65% 35% / 0.06) 1px, transparent 1px),
-            linear-gradient(90deg, hsl(175 65% 35% / 0.06) 1px, transparent 1px)
+            linear-gradient(hsl(270 50% 35% / 0.08) 1px, transparent 1px),
+            linear-gradient(90deg, hsl(270 50% 35% / 0.08) 1px, transparent 1px)
           `,
           backgroundSize: '40px 40px',
         }}
       />
       
-      {/* MILITARY DOUBLE-LINE FRAME - Full page border */}
+      {/* MILITARY DOUBLE-LINE FRAME - Full page border - THICKENED */}
       <div className="fixed inset-4 md:inset-8 pointer-events-none z-50">
-        {/* Outer border - Gold */}
-        <div className="absolute inset-0 border-2 border-sanctuary-gold/70" />
-        {/* Inner border - Teal */}
-        <div className="absolute inset-2 border border-sanctuary-primary/50" />
+        {/* Outer border - Gold - THICKER */}
+        <div className="absolute inset-0 border-4 border-sanctuary-gold/80" />
+        {/* Inner border - Purple - THICKER */}
+        <div className="absolute inset-3 border-2 border-sanctuary-primary/60" />
         
-        {/* Corner brackets - outer */}
-        <div className="absolute top-0 left-0 w-8 h-8 border-l-4 border-t-4 border-sanctuary-gold" />
-        <div className="absolute top-0 right-0 w-8 h-8 border-r-4 border-t-4 border-sanctuary-gold" />
-        <div className="absolute bottom-0 left-0 w-8 h-8 border-l-4 border-b-4 border-sanctuary-gold" />
-        <div className="absolute bottom-0 right-0 w-8 h-8 border-r-4 border-b-4 border-sanctuary-gold" />
+        {/* Corner brackets - outer - THICKER */}
+        <div className="absolute top-0 left-0 w-12 h-12 border-l-[6px] border-t-[6px] border-sanctuary-gold" />
+        <div className="absolute top-0 right-0 w-12 h-12 border-r-[6px] border-t-[6px] border-sanctuary-gold" />
+        <div className="absolute bottom-0 left-0 w-12 h-12 border-l-[6px] border-b-[6px] border-sanctuary-gold" />
+        <div className="absolute bottom-0 right-0 w-12 h-12 border-r-[6px] border-b-[6px] border-sanctuary-gold" />
         
-        {/* Corner brackets - inner accent */}
-        <div className="absolute top-2 left-2 w-4 h-4 border-l-2 border-t-2 border-sanctuary-primary" />
-        <div className="absolute top-2 right-2 w-4 h-4 border-r-2 border-t-2 border-sanctuary-primary" />
-        <div className="absolute bottom-2 left-2 w-4 h-4 border-l-2 border-b-2 border-sanctuary-primary" />
-        <div className="absolute bottom-2 right-2 w-4 h-4 border-r-2 border-b-2 border-sanctuary-primary" />
+        {/* Corner brackets - inner accent - THICKER */}
+        <div className="absolute top-3 left-3 w-6 h-6 border-l-[3px] border-t-[3px] border-sanctuary-primary" />
+        <div className="absolute top-3 right-3 w-6 h-6 border-r-[3px] border-t-[3px] border-sanctuary-primary" />
+        <div className="absolute bottom-3 left-3 w-6 h-6 border-l-[3px] border-b-[3px] border-sanctuary-primary" />
+        <div className="absolute bottom-3 right-3 w-6 h-6 border-r-[3px] border-b-[3px] border-sanctuary-primary" />
         
         {/* Top classified marker */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-px">
@@ -114,26 +114,26 @@ export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
 
               {screenState === "ready" && (
                 <div className="space-y-10 animate-fade-in">
-                  {/* Status Header */}
+                  {/* Status Header - BOLDER */}
                   <div className="space-y-2">
-                    <p className="font-display text-2xl text-sanctuary-primary font-bold italic">
+                    <p className="font-display text-3xl text-sanctuary-primary font-black italic tracking-wide">
                       PROPHET GAD SPEAKS
                     </p>
-                    <p className="font-terminal text-sm text-sanctuary-gold font-bold">
+                    <p className="font-terminal text-base text-sanctuary-gold font-bold tracking-widest uppercase">
                       Voice of the Remnant
                     </p>
                   </div>
                   
-                  {/* Status Panel */}
-                  <div className="p-4 border border-sanctuary-primary/30 bg-sanctuary-primary/5 rounded">
-                    <p className="font-terminal text-xs text-sanctuary-text">
-                      LOCATION: <span className="text-sanctuary-primary font-bold">UNDISCLOSED HEADQUARTERS</span>
+                  {/* Status Panel - BOLDER */}
+                  <div className="p-5 border-2 border-sanctuary-primary/40 bg-sanctuary-primary/10 rounded-lg shadow-lg">
+                    <p className="font-terminal text-sm text-sanctuary-text font-semibold">
+                      LOCATION: <span className="text-sanctuary-primary font-black">UNDISCLOSED HEADQUARTERS</span>
                     </p>
-                    <p className="font-terminal text-xs text-sanctuary-text mt-1">
-                      DOCTRINE: <span className="text-sanctuary-gold font-bold">KJV SWORD ARMED</span>
+                    <p className="font-terminal text-sm text-sanctuary-text mt-2 font-semibold">
+                      DOCTRINE: <span className="text-sanctuary-gold font-black">KJV SWORD ARMED</span>
                     </p>
-                    <p className="font-terminal text-xs text-sanctuary-text mt-1">
-                      CAMP OF ISRAEL: <span className="text-sanctuary-primary font-bold">PERIMETER SECURE</span>
+                    <p className="font-terminal text-sm text-sanctuary-text mt-2 font-semibold">
+                      CAMP OF ISRAEL: <span className="text-sanctuary-primary font-black">PERIMETER SECURE</span>
                     </p>
                   </div>
 
