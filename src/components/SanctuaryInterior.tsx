@@ -6,7 +6,7 @@ import { TheVault } from "./armory/TheVault";
 import { SongCatalog } from "./armory/SongCatalog";
 import { TribesGallery } from "./tribes/TribesGallery";
 import { DoctrinalWarfare } from "./doctrine/DoctrinalWarfare";
-import { TacticalButton } from "./ui/tactical-button";
+import { ProphetGallery } from "./ProphetGallery";
 
 type ScreenState = "booting" | "ready";
 
@@ -59,6 +59,44 @@ export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
         }}
       />
       
+      {/* MILITARY DOUBLE-LINE FRAME - Full page border */}
+      <div className="fixed inset-4 md:inset-8 pointer-events-none z-50">
+        {/* Outer border - Gold */}
+        <div className="absolute inset-0 border-2 border-sanctuary-gold/70" />
+        {/* Inner border - Teal */}
+        <div className="absolute inset-2 border border-sanctuary-primary/50" />
+        
+        {/* Corner brackets - outer */}
+        <div className="absolute top-0 left-0 w-8 h-8 border-l-4 border-t-4 border-sanctuary-gold" />
+        <div className="absolute top-0 right-0 w-8 h-8 border-r-4 border-t-4 border-sanctuary-gold" />
+        <div className="absolute bottom-0 left-0 w-8 h-8 border-l-4 border-b-4 border-sanctuary-gold" />
+        <div className="absolute bottom-0 right-0 w-8 h-8 border-r-4 border-b-4 border-sanctuary-gold" />
+        
+        {/* Corner brackets - inner accent */}
+        <div className="absolute top-2 left-2 w-4 h-4 border-l-2 border-t-2 border-sanctuary-primary" />
+        <div className="absolute top-2 right-2 w-4 h-4 border-r-2 border-t-2 border-sanctuary-primary" />
+        <div className="absolute bottom-2 left-2 w-4 h-4 border-l-2 border-b-2 border-sanctuary-primary" />
+        <div className="absolute bottom-2 right-2 w-4 h-4 border-r-2 border-b-2 border-sanctuary-primary" />
+        
+        {/* Top classified marker */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-px">
+          <div className="bg-sanctuary-bg px-4 py-1 border border-sanctuary-gold/50">
+            <span className="font-terminal text-[10px] text-sanctuary-gold tracking-[0.3em] font-bold">
+              CLASSIFIED
+            </span>
+          </div>
+        </div>
+        
+        {/* Bottom classified marker */}
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-px">
+          <div className="bg-sanctuary-bg px-4 py-1 border border-sanctuary-gold/50">
+            <span className="font-terminal text-[10px] text-sanctuary-gold tracking-[0.3em] font-bold">
+              SANCTUARY
+            </span>
+          </div>
+        </div>
+      </div>
+      
       {/* Main Content */}
       <div className="relative z-10 w-full max-w-4xl mx-auto px-4">
         <HUDFrame className="animate-fade-in">
@@ -97,6 +135,11 @@ export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
                     <p className="font-terminal text-xs text-sanctuary-text mt-1">
                       CAMP OF ISRAEL: <span className="text-sanctuary-primary font-bold">PERIMETER SECURE</span>
                     </p>
+                  </div>
+
+                  {/* Prophet's Military Gallery */}
+                  <div className="pt-6 border-t border-sanctuary-primary/10">
+                    <ProphetGallery />
                   </div>
 
                   {/* Song Catalog - 10 Songs */}
