@@ -13,14 +13,14 @@
     --battlefield-purple: 270 70% 30%;
     --battlefield-text: 0 0% 95%;
     
-    /* === SANCTUARY THEME (Clinical Teal + Gold on White) === */
-    --sanctuary-bg: 180 20% 98%;
-    --sanctuary-primary: 175 65% 35%;
+    /* === SANCTUARY THEME (Light Purple + Teal + Gold) === */
+    --sanctuary-bg: 270 30% 96%;
+    --sanctuary-primary: 270 50% 35%;
     --sanctuary-secondary: 45 80% 45%;
-    --sanctuary-gold: 45 80% 45%;
-    --sanctuary-text: 180 40% 15%;
-    --sanctuary-muted: 180 20% 45%;
-    --sanctuary-accent: 175 50% 40%;
+    --sanctuary-gold: 45 85% 50%;
+    --sanctuary-text: 270 40% 15%;
+    --sanctuary-muted: 270 20% 45%;
+    --sanctuary-accent: 270 40% 45%;
     
     /* Default theme tokens (used by shadcn components) */
     --background: 240 20% 98%;

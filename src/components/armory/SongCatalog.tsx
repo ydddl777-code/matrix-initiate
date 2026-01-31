@@ -8,7 +8,7 @@ interface Song {
   audioUrl?: string;
 }
 
-// 17 Songs - Thunder Road Gospel first, rest in rotating order
+// 20 Songs - Thunder Road Gospel first, then all uploaded tracks
 const songs: Song[] = [
   { id: "1", title: "Thunder Road Gospel", duration: "4:32", audioUrl: "/audio/thunder-road-gospel.mp3" },
   { id: "2", title: "The Unsealed Book", duration: "5:00", audioUrl: "/audio/the-unsealed-book.mp3" },
@@ -20,13 +20,16 @@ const songs: Song[] = [
   { id: "8", title: "Fire Call Again", duration: "4:20", audioUrl: "/audio/fire-call-again.mp3" },
   { id: "9", title: "Fire Call Dub", duration: "4:10", audioUrl: "/audio/fire-call-dub.mp3" },
   { id: "10", title: "Hymn of the Wall", duration: "5:00", audioUrl: "/audio/hymn-of-the-wall.mp3" },
-  { id: "11", title: "Valley of Dry Bones", duration: "5:30" },
-  { id: "12", title: "Fire from Heaven", duration: "4:45" },
-  { id: "13", title: "The Remnant's March", duration: "6:00" },
-  { id: "14", title: "Sword of the Spirit", duration: "3:55" },
-  { id: "15", title: "Babylon Is Fallen", duration: "5:20" },
-  { id: "16", title: "Twelve Tribes United", duration: "4:40" },
-  { id: "17", title: "The Final Hour", duration: "7:00" },
+  { id: "11", title: "No Shadow of Turning", duration: "4:45", audioUrl: "/audio/no-shadow-of-turning.mp3" },
+  { id: "12", title: "No Shadow Turning", duration: "4:30", audioUrl: "/audio/no-shadow-turning.mp3" },
+  { id: "13", title: "Prophet's Call", duration: "5:10", audioUrl: "/audio/prophets-call.mp3" },
+  { id: "14", title: "Prophet's Fire Call", duration: "4:55", audioUrl: "/audio/prophets-fire-call.mp3" },
+  { id: "15", title: "Prophet's Fire Call V3", duration: "5:00", audioUrl: "/audio/prophets-fire-call-v3.mp3" },
+  { id: "16", title: "Prophet's Fire Call V8", duration: "5:15", audioUrl: "/audio/prophets-fire-call-v8.mp3" },
+  { id: "17", title: "Prophet's Soil", duration: "4:40", audioUrl: "/audio/prophets-soil.mp3" },
+  { id: "18", title: "Prophet's Warning", duration: "5:20", audioUrl: "/audio/prophets-warning.mp3" },
+  { id: "19", title: "Roots of Faith", duration: "4:50", audioUrl: "/audio/roots-of-faith.mp3" },
+  { id: "20", title: "Seven Calls to Fire", duration: "6:00", audioUrl: "/audio/seven-calls-to-fire.mp3" },
 ];
 
 export const SongCatalog = () => {
@@ -58,11 +61,11 @@ export const SongCatalog = () => {
           <div className="h-px w-12 bg-gradient-to-l from-transparent to-sanctuary-text/30" />
         </div>
         
-        <h2 className="font-display text-2xl text-sanctuary-primary font-bold italic tracking-wider">
+        <h2 className="font-display text-2xl text-sanctuary-primary font-black italic tracking-wider">
           PROPHET GAD MUSIC CATALOG
         </h2>
         
-        <p className="font-terminal text-xs text-sanctuary-muted">
+        <p className="font-terminal text-sm text-sanctuary-muted font-bold tracking-widest">
           ORIGINAL COMPOSITIONS • ROOTS & REVELATION
         </p>
       </div>
@@ -111,10 +114,10 @@ export const SongCatalog = () => {
               
               {/* Song Info */}
               <div className="flex-1">
-                <p className="font-terminal text-sm text-sanctuary-text font-bold">
+                <p className="font-terminal text-sm text-sanctuary-text font-black">
                   {song.title}
                 </p>
-                <p className="font-terminal text-xs text-sanctuary-muted">
+                <p className="font-terminal text-xs text-sanctuary-muted font-semibold">
                   {isAvailable ? "Preview Available" : "Coming Soon"}
                 </p>
               </div>
