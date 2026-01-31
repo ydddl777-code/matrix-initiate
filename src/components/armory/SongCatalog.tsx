@@ -8,18 +8,25 @@ interface Song {
   audioUrl?: string;
 }
 
-// 10 Songs - Thunder Road Gospel first, rest in rotating order
+// 17 Songs - Thunder Road Gospel first, rest in rotating order
 const songs: Song[] = [
   { id: "1", title: "Thunder Road Gospel", duration: "4:32", audioUrl: "/audio/thunder-road-gospel.mp3" },
   { id: "2", title: "The Unsealed Book", duration: "5:00", audioUrl: "/audio/the-unsealed-book.mp3" },
   { id: "3", title: "As Enoch Walked", duration: "4:15", audioUrl: "/audio/as-enoch-walked.mp3" },
-  { id: "4", title: "Valley of Dry Bones", duration: "5:30" },
-  { id: "5", title: "Fire from Heaven", duration: "4:45" },
-  { id: "6", title: "The Remnant's March", duration: "6:00" },
-  { id: "7", title: "Sword of the Spirit", duration: "3:55" },
-  { id: "8", title: "Babylon Is Fallen", duration: "5:20" },
-  { id: "9", title: "Twelve Tribes United", duration: "4:40" },
-  { id: "10", title: "The Final Hour", duration: "7:00" },
+  { id: "4", title: "Dub of Clarity", duration: "4:00", audioUrl: "/audio/dub-of-clarity.mp3" },
+  { id: "5", title: "Dust and Holy Light", duration: "4:30", audioUrl: "/audio/dust-and-holy-light.mp3" },
+  { id: "6", title: "Eternal Father Call", duration: "5:15", audioUrl: "/audio/eternal-father-call.mp3" },
+  { id: "7", title: "Eternal Father Dub", duration: "4:45", audioUrl: "/audio/eternal-father-dub.mp3" },
+  { id: "8", title: "Fire Call Again", duration: "4:20", audioUrl: "/audio/fire-call-again.mp3" },
+  { id: "9", title: "Fire Call Dub", duration: "4:10", audioUrl: "/audio/fire-call-dub.mp3" },
+  { id: "10", title: "Hymn of the Wall", duration: "5:00", audioUrl: "/audio/hymn-of-the-wall.mp3" },
+  { id: "11", title: "Valley of Dry Bones", duration: "5:30" },
+  { id: "12", title: "Fire from Heaven", duration: "4:45" },
+  { id: "13", title: "The Remnant's March", duration: "6:00" },
+  { id: "14", title: "Sword of the Spirit", duration: "3:55" },
+  { id: "15", title: "Babylon Is Fallen", duration: "5:20" },
+  { id: "16", title: "Twelve Tribes United", duration: "4:40" },
+  { id: "17", title: "The Final Hour", duration: "7:00" },
 ];
 
 export const SongCatalog = () => {
