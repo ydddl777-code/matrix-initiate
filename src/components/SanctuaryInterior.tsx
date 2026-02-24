@@ -7,6 +7,7 @@ import { SongCatalog } from "./armory/SongCatalog";
 import { TribesGallery } from "./tribes/TribesGallery";
 import { DoctrinalWarfare } from "./doctrine/DoctrinalWarfare";
 import { ProphetGallery } from "./ProphetGallery";
+import { AncientDivider } from "./AncientDivider";
 
 type ScreenState = "booting" | "ready";
 
@@ -137,30 +138,25 @@ export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
                     </p>
                   </div>
 
-                  {/* Prophet's Military Gallery */}
-                  <div className="pt-6 border-t border-sanctuary-primary/10">
-                    <ProphetGallery />
-                  </div>
+                   {/* Prophet's Military Gallery */}
+                   <AncientDivider variant="shield" label="THE PROPHET" />
+                   <ProphetGallery />
 
-                  {/* Song Catalog - 10 Songs */}
-                  <div className="pt-6 border-t border-sanctuary-primary/10">
-                    <SongCatalog />
-                  </div>
+                   {/* Song Catalog */}
+                   <AncientDivider variant="flame" label="HOLY FIRE MUSIC" />
+                   <SongCatalog />
 
-                  {/* The Vault (Armory) */}
-                  <div className="pt-6 border-t border-sanctuary-primary/10">
-                    <TheVault onPurchase={(item) => console.log("Purchase:", item)} />
-                  </div>
+                   {/* The Vault (Armory) */}
+                   <AncientDivider variant="sword" label="THE ARMORY" />
+                   <TheVault onPurchase={(item) => console.log("Purchase:", item)} />
 
-                  {/* Tribes Gallery */}
-                  <div className="pt-6 border-t border-sanctuary-primary/10">
-                    <TribesGallery />
-                  </div>
+                   {/* Tribes Gallery */}
+                   <AncientDivider variant="crown" label="TWELVE TRIBES" />
+                   <TribesGallery />
 
-                  {/* Doctrinal Warfare - AI Rebuttal System */}
-                  <div className="pt-6 border-t border-sanctuary-primary/10">
-                    <DoctrinalWarfare />
-                  </div>
+                   {/* Doctrinal Warfare - AI Rebuttal System */}
+                   <AncientDivider variant="star" label="DOCTRINE" />
+                   <DoctrinalWarfare />
 
                   {/* Action Buttons */}
                   <div className="space-y-4">
