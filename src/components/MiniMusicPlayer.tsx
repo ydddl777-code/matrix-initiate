@@ -19,6 +19,19 @@ export const MiniMusicPlayer = ({ onPlayingChange }: MiniMusicPlayerProps) => {
 
   // Thunder Road Gospel is always first - no shuffle
 
+  // Listen for PGAI audio events — pause music when Prophet speaks
+  useEffect(() => {
+    const handlePgaiStart = () => {
+      if (audioRef.current && isPlaying) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+        onPlayingChange?.(false);
+      }
+    };
+    window.addEventListener('pgai-audio-start', handlePgaiStart);
+    return () => window.removeEventListener('pgai-audio-start', handlePgaiStart);
+  }, [isPlaying, onPlayingChange]);
+
   const togglePlay = () => {
     if (audioRef.current) {
       if (isPlaying) {
