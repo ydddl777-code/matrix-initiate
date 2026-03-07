@@ -17,7 +17,6 @@ export const VoiceInput = ({ onTranscript, disabled = false }: VoiceInputProps) 
   const finalTranscriptRef = useRef('');
 
   useEffect(() => {
-    // Check for browser support
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     
     if (SpeechRecognition) {
@@ -82,9 +81,7 @@ export const VoiceInput = ({ onTranscript, disabled = false }: VoiceInputProps) 
       setError('Voice input not supported in this browser');
       return;
     }
-
     try {
-      // Request microphone permission
       await navigator.mediaDevices.getUserMedia({ audio: true });
       recognitionRef.current.start();
     } catch (err) {
@@ -103,9 +100,9 @@ export const VoiceInput = ({ onTranscript, disabled = false }: VoiceInputProps) 
 
   if (!isSupported) {
     return (
-      <div className="text-center p-3 bg-sanctuary-muted/10 rounded-lg">
-        <MicOff className="w-5 h-5 mx-auto mb-1 text-sanctuary-muted" />
-        <p className="font-terminal text-xs text-sanctuary-muted">
+      <div className="text-center p-3 bg-sanctuary-gold/5 rounded-lg">
+        <MicOff className="w-5 h-5 mx-auto mb-1 text-sanctuary-gold/40" />
+        <p className="font-terminal text-xs text-sanctuary-gold/40">
           Voice input not supported in this browser
         </p>
       </div>
@@ -114,15 +111,14 @@ export const VoiceInput = ({ onTranscript, disabled = false }: VoiceInputProps) 
 
   return (
     <div className="space-y-2">
-      {/* Voice Button */}
       <button
         onClick={isListening ? stopListening : startListening}
         disabled={disabled || isProcessing}
         className={cn(
           'w-full py-3 px-4 rounded-lg font-terminal text-sm uppercase tracking-wider transition-all flex items-center justify-center gap-2',
           isListening
-            ? 'bg-red-600/20 border-2 border-red-600 text-red-500 animate-pulse'
-            : 'bg-sanctuary-primary/10 border border-sanctuary-primary/30 text-sanctuary-primary hover:bg-sanctuary-primary/20',
+            ? 'bg-red-900/30 border-2 border-red-600 text-red-400 animate-pulse'
+            : 'bg-sanctuary-gold/10 border border-sanctuary-gold/30 text-sanctuary-gold hover:bg-sanctuary-gold/20',
           (disabled || isProcessing) && 'opacity-50 cursor-not-allowed'
         )}
       >
@@ -144,29 +140,27 @@ export const VoiceInput = ({ onTranscript, disabled = false }: VoiceInputProps) 
         )}
       </button>
 
-      {/* Live Transcript */}
       {(isListening || transcript) && (
-        <div className="p-3 bg-sanctuary-text/5 border border-sanctuary-text/10 rounded-lg">
-          <p className="font-terminal text-xs text-sanctuary-muted mb-1">
+        <div className="p-3 bg-sanctuary-gold/5 border border-sanctuary-gold/10 rounded-lg">
+          <p className="font-terminal text-xs text-sanctuary-gold/50 mb-1">
             {isListening ? 'LISTENING...' : 'CAPTURED:'}
           </p>
-          <p className="font-body text-sm text-sanctuary-text">
+          <p className="font-ceremonial text-sm text-sanctuary-gold/80">
             {transcript || '(speak now)'}
           </p>
         </div>
       )}
 
-      {/* Error Display */}
       {error && (
-        <div className="p-2 bg-red-600/10 border border-red-600/30 rounded-lg">
-          <p className="font-terminal text-xs text-red-500">{error}</p>
+        <div className="p-2 bg-red-900/20 border border-red-600/30 rounded-lg">
+          <p className="font-terminal text-xs text-red-400">{error}</p>
         </div>
       )}
     </div>
   );
 };
 
-// Add TypeScript declarations for Web Speech API
+// Web Speech API declarations
 interface SpeechRecognitionEvent extends Event {
   resultIndex: number;
   results: SpeechRecognitionResultList;

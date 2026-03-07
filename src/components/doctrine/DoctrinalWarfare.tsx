@@ -1,11 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
-import { Send, Trash2, Volume2, VolumeX, Swords, AlertTriangle } from 'lucide-react';
+import { Send, Trash2, Volume2, VolumeX, Swords, AlertTriangle, Download, FileAudio, Save } from 'lucide-react';
 import { useDoctrinalChat } from '@/hooks/useDoctrinalChat';
 import { ChatMessage } from './ChatMessage';
 import { VoiceInput } from './VoiceInput';
+import { BreastplateSeal } from './BreastplateSeal';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { cn } from '@/lib/utils';
+import lionOfJudah from '@/assets/lion-of-judah.png';
 
 interface DoctrinalWarfareProps {
   defaultVoiceId?: string;
@@ -30,7 +32,6 @@ export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
     voiceId: defaultVoiceId,
   });
 
-  // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
@@ -56,49 +57,86 @@ export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
     }
   };
 
-  return (
-    <div className="flex flex-col h-full max-h-[600px] bg-white border-2 border-sanctuary-primary/20 rounded-lg overflow-hidden">
-      {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-sanctuary-primary/20 bg-sanctuary-primary/5">
-        <div className="flex items-center gap-3">
-          <div className="p-2 bg-sanctuary-gold/20 rounded-lg">
-            <Swords className="w-5 h-5 text-sanctuary-gold" />
-          </div>
-          <div>
-            <h3 className="font-display text-lg text-sanctuary-primary font-bold">
-              DOCTRINAL WARFARE
-            </h3>
-            <p className="font-terminal text-xs text-sanctuary-muted">
-              PROPHET GAD AI • TRUTH VS ERROR
-            </p>
-          </div>
-        </div>
+  const handleDownloadPDF = () => {
+    if (messages.length === 0) return;
+    const transcript = messages.map(m => 
+      `[${m.role === 'user' ? 'CHALLENGER' : 'PROPHET GAD AI'}] ${m.timestamp.toLocaleString()}\n${m.content}\n`
+    ).join('\n---\n\n');
+    
+    const header = `═══════════════════════════════════════\n   PROPHETIC DECREE — RECORD OF ENGAGEMENT\n   Law-Keeper Assembly Protocol\n═══════════════════════════════════════\n\n`;
+    const footer = `\n\n═══════════════════════════════════════\n   SEALED BY THE 12-GEMSTONE BREASTPLATE\n   Prophetic Synthesis for the Remnant Seed\n═══════════════════════════════════════`;
+    
+    const blob = new Blob([header + transcript + footer], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `prophetic-decree-${Date.now()}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
-        {/* Controls */}
+  const handleExportAudio = () => {
+    // Trigger voice generation for the last AI message
+    const lastAiMsg = [...messages].reverse().find(m => m.role === 'assistant');
+    if (lastAiMsg) {
+      generateVoice(lastAiMsg.content, lastAiMsg.id);
+    }
+  };
+
+  const handleSaveToVault = () => {
+    const sessionData = {
+      timestamp: new Date().toISOString(),
+      messages: messages.map(m => ({
+        role: m.role,
+        content: m.content,
+        timestamp: m.timestamp.toISOString(),
+      })),
+    };
+    const existing = JSON.parse(localStorage.getItem('pgai-vault') || '[]');
+    existing.push(sessionData);
+    localStorage.setItem('pgai-vault', JSON.stringify(existing));
+    alert('Session sealed to the Vault.');
+  };
+
+  return (
+    <div className="flex flex-col war-room-bg border-2 border-sanctuary-gold/40 rounded-lg overflow-hidden relative"
+      style={{ minHeight: '700px' }}
+    >
+      {/* Lion of Judah Header */}
+      <div className="flex flex-col items-center pt-6 pb-4 border-b-2 border-sanctuary-gold/30 bg-gradient-to-b from-black/90 to-black/70">
+        <img src={lionOfJudah} alt="Lion of Judah" className="w-24 h-24 md:w-32 md:h-32 drop-shadow-[0_0_20px_hsl(45,90%,50%,0.5)]" />
+        <h2 className="font-ceremonial text-xl md:text-2xl text-sanctuary-gold mt-3 tracking-widest text-center">
+          DOCTRINAL WARFARE
+        </h2>
+        <p className="font-ceremonial text-xs text-sanctuary-gold/70 mt-1 tracking-wider text-center max-w-md px-4">
+          Prophetic Synthesis for the Remnant Seed: A Law-Keeper Assembly Protocol
+        </p>
+      </div>
+
+      {/* Controls Bar */}
+      <div className="flex items-center justify-between px-4 py-2 border-b border-sanctuary-gold/20 bg-black/60">
+        <div className="flex items-center gap-3">
+          <Swords className="w-4 h-4 text-sanctuary-gold" />
+          <span className="font-terminal text-xs text-sanctuary-gold/80">THUNDER DOME ACTIVE</span>
+        </div>
         <div className="flex items-center gap-4">
-          {/* Voice Toggle */}
           <div className="flex items-center gap-2">
             {voiceEnabled ? (
               <Volume2 className="w-4 h-4 text-sanctuary-gold" />
             ) : (
-              <VolumeX className="w-4 h-4 text-sanctuary-muted" />
+              <VolumeX className="w-4 h-4 text-sanctuary-gold/40" />
             )}
             <Switch
               checked={voiceEnabled}
               onCheckedChange={setVoiceEnabled}
               className="data-[state=checked]:bg-sanctuary-gold"
             />
-            <span className="font-terminal text-xs text-sanctuary-muted">
-              VOICE
-            </span>
           </div>
-
-          {/* Clear Chat */}
           {messages.length > 0 && (
             <button
               onClick={clearMessages}
-              className="p-2 text-sanctuary-muted hover:text-red-500 transition-colors"
-              title="Clear conversation"
+              className="p-1.5 text-sanctuary-gold/50 hover:text-red-500 transition-colors"
+              title="Clear engagement"
             >
               <Trash2 className="w-4 h-4" />
             </button>
@@ -106,20 +144,20 @@ export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
         </div>
       </div>
 
-      {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-transparent to-sanctuary-primary/5">
+      {/* War Room Scroll — Messages Area */}
+      <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4" style={{ maxHeight: '400px' }}>
         {messages.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full text-center py-8">
-            <Swords className="w-12 h-12 text-sanctuary-primary/30 mb-4" />
-            <h4 className="font-display text-lg text-sanctuary-primary mb-2">
-              ENTER THE ARENA
+          <div className="flex flex-col items-center justify-center h-full text-center py-12">
+            <Swords className="w-14 h-14 text-sanctuary-gold/30 mb-4" />
+            <h4 className="font-ceremonial text-lg text-sanctuary-gold mb-2">
+              ENTER THE THUNDER DOME
             </h4>
-            <p className="font-terminal text-xs text-sanctuary-muted max-w-sm">
+            <p className="font-ceremonial text-xs text-sanctuary-gold/60 max-w-sm">
               Challenge doctrine. Question tradition. The Prophet responds with
               Scripture — no soft answers, no compromise.
             </p>
             <div className="mt-4 p-3 bg-sanctuary-gold/10 border border-sanctuary-gold/30 rounded-lg max-w-md">
-              <p className="font-terminal text-xs text-sanctuary-gold">
+              <p className="font-ceremonial text-xs text-sanctuary-gold">
                 TRY: "Why don't you believe the Trinity?"
               </p>
             </div>
@@ -137,7 +175,6 @@ export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
           ))
         )}
 
-        {/* Loading indicator */}
         {isLoading && (
           <div className="flex items-center gap-3 p-4 bg-sanctuary-gold/5 border border-sanctuary-gold/20 rounded-lg">
             <div className="flex gap-1">
@@ -155,11 +192,10 @@ export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
           </div>
         )}
 
-        {/* Error display */}
         {error && (
-          <div className="flex items-center gap-3 p-4 bg-red-600/10 border border-red-600/30 rounded-lg">
+          <div className="flex items-center gap-3 p-4 bg-red-900/20 border border-red-600/30 rounded-lg">
             <AlertTriangle className="w-5 h-5 text-red-500 flex-shrink-0" />
-            <p className="font-terminal text-xs text-red-500">{error}</p>
+            <p className="font-terminal text-xs text-red-400">{error}</p>
           </div>
         )}
 
@@ -167,11 +203,9 @@ export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
       </div>
 
       {/* Input Area */}
-      <div className="p-4 border-t border-sanctuary-primary/20 bg-white space-y-3">
-        {/* Voice Input */}
+      <div className="p-4 border-t-2 border-sanctuary-gold/20 bg-black/70 space-y-3">
         <VoiceInput onTranscript={handleVoiceTranscript} disabled={isLoading} />
 
-        {/* Text Input */}
         <form onSubmit={handleSubmit} className="flex gap-2">
           <Textarea
             value={inputText}
@@ -181,9 +215,8 @@ export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
             disabled={isLoading}
             className={cn(
               'flex-1 min-h-[60px] max-h-[120px] resize-none',
-              'font-body text-sm',
-              'border-sanctuary-primary/30 focus:border-sanctuary-primary',
-              'bg-white'
+              'font-ceremonial text-sm',
+              'border-sanctuary-gold/30 focus:border-sanctuary-gold bg-black/50 text-sanctuary-gold placeholder:text-sanctuary-gold/30'
             )}
           />
           <button
@@ -191,8 +224,8 @@ export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
             disabled={!inputText.trim() || isLoading}
             className={cn(
               'px-4 py-2 rounded-lg transition-all flex items-center justify-center',
-              'bg-sanctuary-primary text-white font-terminal text-sm uppercase',
-              'hover:bg-sanctuary-primary/90',
+              'bg-sanctuary-gold text-black font-terminal text-sm uppercase',
+              'hover:bg-sanctuary-gold/90',
               'disabled:opacity-50 disabled:cursor-not-allowed'
             )}
           >
@@ -200,11 +233,40 @@ export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
           </button>
         </form>
 
-        {/* Hint */}
-        <p className="font-terminal text-xs text-sanctuary-muted text-center">
+        <p className="font-terminal text-xs text-sanctuary-gold/40 text-center">
           PRESS ENTER TO SEND • SHIFT+ENTER FOR NEW LINE
         </p>
       </div>
+
+      {/* Export Suite */}
+      {messages.length > 0 && (
+        <div className="flex flex-wrap items-center justify-center gap-3 px-4 py-3 border-t-2 border-sanctuary-gold/20 bg-black/80">
+          <button
+            onClick={handleDownloadPDF}
+            className="flex items-center gap-2 px-4 py-2 rounded border border-sanctuary-gold/50 bg-sanctuary-gold/10 text-sanctuary-gold font-terminal text-xs uppercase hover:bg-sanctuary-gold/20 transition-all"
+          >
+            <Download className="w-4 h-4" />
+            Download Decree
+          </button>
+          <button
+            onClick={handleExportAudio}
+            className="flex items-center gap-2 px-4 py-2 rounded border border-sanctuary-gold/50 bg-sanctuary-gold/10 text-sanctuary-gold font-terminal text-xs uppercase hover:bg-sanctuary-gold/20 transition-all"
+          >
+            <FileAudio className="w-4 h-4" />
+            Export Audio
+          </button>
+          <button
+            onClick={handleSaveToVault}
+            className="flex items-center gap-2 px-4 py-2 rounded border border-sanctuary-gold/50 bg-sanctuary-gold/10 text-sanctuary-gold font-terminal text-xs uppercase hover:bg-sanctuary-gold/20 transition-all"
+          >
+            <Save className="w-4 h-4" />
+            Save to Vault
+          </button>
+        </div>
+      )}
+
+      {/* Breastplate Seal — permanent bottom-right */}
+      <BreastplateSeal />
     </div>
   );
 };
