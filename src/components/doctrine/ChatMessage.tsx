@@ -1,4 +1,5 @@
-import { Volume2, VolumeX, User, Shield } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { Volume2, Square, Play, User, Shield, Printer } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { ChatMessage as ChatMessageType } from '@/hooks/useDoctrinalChat';
 
@@ -18,6 +19,9 @@ export const ChatMessage = ({
   voiceEnabled = true,
 }: ChatMessageProps) => {
   const isUser = message.role === 'user';
+  const [showContextMenu, setShowContextMenu] = useState(false);
+  const [menuPos, setMenuPos] = useState({ x: 0, y: 0 });
+  const messageRef = useRef<HTMLDivElement>(null);
 
   const formatContent = (content: string) => {
     const versePattern = /(\d?\s?[A-Z][a-z]+(?:\s[A-Z][a-z]+)*\s\d+:\d+(?:-\d+)?)/g;
@@ -39,16 +43,85 @@ export const ChatMessage = ({
     });
   };
 
+  const handleContextMenu = (e: React.MouseEvent) => {
+    if (isUser) return;
+    e.preventDefault();
+    const rect = messageRef.current?.getBoundingClientRect();
+    if (rect) {
+      setMenuPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+    }
+    setShowContextMenu(true);
+  };
+
+  const handlePrintMessage = () => {
+    setShowContextMenu(false);
+    const header = `═══════════════════════════════════════\n   PROPHETIC DECREE\n   Law-Keeper Assembly Protocol\n═══════════════════════════════════════\n\n`;
+    const body = `[PROPHET GAD AI] ${message.timestamp.toLocaleString()}\n\n${message.content}`;
+    const footer = `\n\n═══════════════════════════════════════\n   SEALED BY THE 12-GEMSTONE BREASTPLATE\n═══════════════════════════════════════`;
+    
+    const printWindow = window.open('', '_blank');
+    if (printWindow) {
+      printWindow.document.write(`
+        <html>
+          <head><title>Prophetic Decree</title>
+            <style>
+              body { font-family: 'Georgia', serif; padding: 40px; background: #0a0a0a; color: #d4a843; }
+              pre { white-space: pre-wrap; word-wrap: break-word; font-family: 'Georgia', serif; font-size: 14px; line-height: 1.8; }
+              h1 { text-align: center; letter-spacing: 4px; border-bottom: 2px solid #d4a843; padding-bottom: 20px; }
+            </style>
+          </head>
+          <body>
+            <h1>⚔️ PROPHETIC DECREE ⚔️</h1>
+            <pre>${header}${body}${footer}</pre>
+          </body>
+        </html>
+      `);
+      printWindow.document.close();
+      printWindow.print();
+    }
+  };
+
   return (
     <div
+      ref={messageRef}
       className={cn(
-        'flex gap-3 p-4 rounded-lg transition-all',
+        'relative flex gap-3 p-4 rounded-lg transition-all',
         isUser
           ? 'bg-white/5 border border-white/10'
           : 'bg-sanctuary-gold/5 border border-sanctuary-gold/20',
         isPlaying && 'ring-2 ring-sanctuary-gold/50'
       )}
+      onContextMenu={handleContextMenu}
+      onClick={() => showContextMenu && setShowContextMenu(false)}
     >
+      {/* Context Menu */}
+      {showContextMenu && (
+        <>
+          <div className="fixed inset-0 z-40" onClick={() => setShowContextMenu(false)} />
+          <div
+            className="absolute z-50 bg-black/95 border border-sanctuary-gold/40 rounded-lg shadow-xl py-1 min-w-[180px]"
+            style={{ left: menuPos.x, top: menuPos.y }}
+          >
+            <button
+              onClick={handlePrintMessage}
+              className="flex items-center gap-3 w-full px-4 py-2.5 text-left font-terminal text-xs text-sanctuary-gold hover:bg-sanctuary-gold/10 transition-colors"
+            >
+              <Printer className="w-4 h-4" />
+              PRINT TO PDF
+            </button>
+            {voiceEnabled && (
+              <button
+                onClick={() => { setShowContextMenu(false); isPlaying ? onStopVoice?.() : onPlayVoice?.(); }}
+                className="flex items-center gap-3 w-full px-4 py-2.5 text-left font-terminal text-xs text-sanctuary-gold hover:bg-sanctuary-gold/10 transition-colors"
+              >
+                {isPlaying ? <Square className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+                {isPlaying ? 'STOP AUDIO' : 'PLAY AUDIO'}
+              </button>
+            )}
+          </div>
+        </>
+      )}
+
       {/* Avatar */}
       <div
         className={cn(
@@ -71,19 +144,29 @@ export const ChatMessage = ({
             {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </span>
           
+          {/* Audio Controls — prominent for AI messages */}
           {!isUser && voiceEnabled && (
-            <button
-              onClick={isPlaying ? onStopVoice : onPlayVoice}
-              className={cn(
-                'ml-auto p-1.5 rounded transition-all',
-                isPlaying
-                  ? 'bg-sanctuary-gold/20 text-sanctuary-gold'
-                  : 'bg-white/5 text-sanctuary-gold/40 hover:text-sanctuary-gold'
+            <div className="ml-auto flex items-center gap-1">
+              {isPlaying ? (
+                <button
+                  onClick={onStopVoice}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-red-600/80 hover:bg-red-500 text-white transition-all font-terminal text-[10px] uppercase tracking-wider"
+                  title="Stop audio"
+                >
+                  <Square className="w-3 h-3" />
+                  STOP
+                </button>
+              ) : (
+                <button
+                  onClick={onPlayVoice}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-sanctuary-gold/20 hover:bg-sanctuary-gold/30 text-sanctuary-gold border border-sanctuary-gold/30 transition-all font-terminal text-[10px] uppercase tracking-wider"
+                  title="Play response"
+                >
+                  <Play className="w-3 h-3" />
+                  HEAR PROPHECY
+                </button>
               )}
-              title={isPlaying ? 'Stop audio' : 'Play response'}
-            >
-              {isPlaying ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-            </button>
+            </div>
           )}
         </div>
 
@@ -115,6 +198,13 @@ export const ChatMessage = ({
               VOICE ACTIVE
             </span>
           </div>
+        )}
+
+        {/* Right-click hint for AI messages */}
+        {!isUser && (
+          <p className="mt-2 font-terminal text-[9px] text-sanctuary-gold/25 select-none">
+            RIGHT-CLICK FOR OPTIONS
+          </p>
         )}
       </div>
     </div>

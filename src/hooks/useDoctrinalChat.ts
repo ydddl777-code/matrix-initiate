@@ -123,11 +123,14 @@ export const useDoctrinalChat = (options: UseDoctrinalChatOptions = {}) => {
       const audioBlob = await response.blob();
       const audioUrl = URL.createObjectURL(audioBlob);
       
-      // Auto-play the response
+      // Stop any existing audio
       if (audioRef.current) {
         audioRef.current.pause();
         URL.revokeObjectURL(audioRef.current.src);
       }
+
+      // Dispatch global event to pause other audio (e.g. MiniMusicPlayer)
+      window.dispatchEvent(new CustomEvent('pgai-audio-start'));
       
       const audio = new Audio(audioUrl);
       audioRef.current = audio;
@@ -136,10 +139,12 @@ export const useDoctrinalChat = (options: UseDoctrinalChatOptions = {}) => {
       audio.onended = () => {
         setCurrentlyPlayingId(null);
         URL.revokeObjectURL(audioUrl);
+        window.dispatchEvent(new CustomEvent('pgai-audio-end'));
       };
       audio.onerror = () => {
         setCurrentlyPlayingId(null);
         URL.revokeObjectURL(audioUrl);
+        window.dispatchEvent(new CustomEvent('pgai-audio-end'));
       };
 
       await audio.play();
