@@ -19,9 +19,7 @@ export const ChatMessage = ({
 }: ChatMessageProps) => {
   const isUser = message.role === 'user';
 
-  // Parse KJV verse references and make them stand out
   const formatContent = (content: string) => {
-    // Highlight verse references like "John 14:28" or "1 Corinthians 8:6"
     const versePattern = /(\d?\s?[A-Z][a-z]+(?:\s[A-Z][a-z]+)*\s\d+:\d+(?:-\d+)?)/g;
     const parts = content.split(versePattern);
     
@@ -46,7 +44,7 @@ export const ChatMessage = ({
       className={cn(
         'flex gap-3 p-4 rounded-lg transition-all',
         isUser
-          ? 'bg-sanctuary-primary/5 border border-sanctuary-primary/20'
+          ? 'bg-white/5 border border-white/10'
           : 'bg-sanctuary-gold/5 border border-sanctuary-gold/20',
         isPlaying && 'ring-2 ring-sanctuary-gold/50'
       )}
@@ -56,28 +54,23 @@ export const ChatMessage = ({
         className={cn(
           'flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center',
           isUser
-            ? 'bg-sanctuary-primary/20 text-sanctuary-primary'
+            ? 'bg-white/10 text-white/70'
             : 'bg-sanctuary-gold/20 text-sanctuary-gold'
         )}
       >
-        {isUser ? (
-          <User className="w-5 h-5" />
-        ) : (
-          <Shield className="w-5 h-5" />
-        )}
+        {isUser ? <User className="w-5 h-5" /> : <Shield className="w-5 h-5" />}
       </div>
 
       {/* Content */}
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-1">
-          <span className="font-terminal text-xs text-sanctuary-muted uppercase tracking-wider">
+          <span className="font-terminal text-xs text-sanctuary-gold/60 uppercase tracking-wider">
             {isUser ? 'CHALLENGER' : 'PROPHET GAD AI'}
           </span>
-          <span className="font-terminal text-xs text-sanctuary-muted/50">
+          <span className="font-terminal text-xs text-sanctuary-gold/30">
             {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </span>
           
-          {/* Voice controls for AI responses */}
           {!isUser && voiceEnabled && (
             <button
               onClick={isPlaying ? onStopVoice : onPlayVoice}
@@ -85,29 +78,25 @@ export const ChatMessage = ({
                 'ml-auto p-1.5 rounded transition-all',
                 isPlaying
                   ? 'bg-sanctuary-gold/20 text-sanctuary-gold'
-                  : 'bg-sanctuary-primary/10 text-sanctuary-muted hover:text-sanctuary-primary'
+                  : 'bg-white/5 text-sanctuary-gold/40 hover:text-sanctuary-gold'
               )}
               title={isPlaying ? 'Stop audio' : 'Play response'}
             >
-              {isPlaying ? (
-                <VolumeX className="w-4 h-4" />
-              ) : (
-                <Volume2 className="w-4 h-4" />
-              )}
+              {isPlaying ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
             </button>
           )}
         </div>
 
         <div
           className={cn(
-            'font-body text-sm leading-relaxed whitespace-pre-wrap',
-            isUser ? 'text-sanctuary-text' : 'text-sanctuary-text'
+            'font-ceremonial text-sm leading-relaxed whitespace-pre-wrap',
+            isUser ? 'text-white/80' : 'text-sanctuary-gold/90',
+            isPlaying && 'war-room-text-glow'
           )}
         >
           {isUser ? message.content : formatContent(message.content)}
         </div>
 
-        {/* Playing indicator */}
         {isPlaying && (
           <div className="mt-2 flex items-center gap-2">
             <div className="flex gap-1">

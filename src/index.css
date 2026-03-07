@@ -172,6 +172,17 @@
   .text-glow-purple {
     text-shadow: 0 0 20px hsl(270 70% 35% / 0.4), 0 0 40px hsl(270 70% 35% / 0.2);
   }
+
+  /* War Room / Thunder Dome */
+  .war-room-bg {
+    background:
+      radial-gradient(ellipse at 50% 0%, hsl(45 80% 50% / 0.05) 0%, transparent 50%),
+      linear-gradient(180deg, hsl(0 0% 8%) 0%, hsl(0 0% 6%) 50%, hsl(0 0% 4%) 100%);
+  }
+
+  .war-room-text-glow {
+    text-shadow: 0 0 8px hsl(45 90% 50% / 0.6), 0 0 20px hsl(45 90% 50% / 0.3);
+  }
   
   /* Battlefield glow effects (Dark theme) */
   .battlefield-text-glow {
