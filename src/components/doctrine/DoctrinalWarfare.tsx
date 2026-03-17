@@ -100,8 +100,13 @@ export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
   };
 
   return (
-    <div className="flex flex-col war-room-bg border-2 border-sanctuary-gold/40 rounded-lg overflow-hidden relative"
-      style={{ minHeight: '700px' }}
+    <div className={cn(
+      "flex flex-col war-room-bg border-2 border-sanctuary-gold/40 overflow-hidden relative",
+      isFullScreen
+        ? "fixed inset-0 z-[100] rounded-none"
+        : "rounded-lg"
+    )}
+      style={{ minHeight: isFullScreen ? '100vh' : '700px' }}
     >
       {/* Lion of Judah Header */}
       <div className="flex flex-col items-center pt-6 pb-4 border-b-2 border-sanctuary-gold/30 bg-gradient-to-b from-black/90 to-black/70">
