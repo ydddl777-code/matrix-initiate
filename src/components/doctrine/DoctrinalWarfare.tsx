@@ -158,7 +158,10 @@ export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
       </div>
 
       {/* War Room Scroll — Messages Area */}
-      <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4" style={{ maxHeight: '400px' }}>
+      <div className={cn(
+        "flex-1 overflow-y-auto p-4 md:p-6 space-y-4",
+        isFullScreen ? "" : ""
+      )} style={{ maxHeight: isFullScreen ? 'none' : '400px' }}>
         {messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center py-12">
             <Swords className="w-14 h-14 text-sanctuary-gold/30 mb-4" />
