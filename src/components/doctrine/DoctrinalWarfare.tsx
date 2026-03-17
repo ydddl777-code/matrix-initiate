@@ -100,7 +100,7 @@ export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
     alert('Session sealed to the Vault.');
   };
 
-  return (
+  const content = (
     <div className={cn(
       "flex flex-col war-room-bg border-2 border-sanctuary-gold/40 overflow-hidden relative",
       isFullScreen
