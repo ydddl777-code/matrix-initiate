@@ -124,6 +124,13 @@ export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
         <div className="flex items-center gap-3">
           <Swords className="w-4 h-4 text-sanctuary-gold" />
           <span className="font-terminal text-xs text-sanctuary-gold/80">THUNDER DOME ACTIVE</span>
+          <button
+            onClick={() => setIsFullScreen(!isFullScreen)}
+            className="p-1.5 text-sanctuary-gold/70 hover:text-sanctuary-gold transition-colors"
+            title={isFullScreen ? "Exit full screen" : "Enter full screen"}
+          >
+            {isFullScreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+          </button>
         </div>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
