@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Send, Trash2, Volume2, VolumeX, Swords, AlertTriangle, Download, FileAudio, Save } from 'lucide-react';
+import { Send, Trash2, Volume2, VolumeX, Swords, AlertTriangle, Download, FileAudio, Save, Maximize2, Minimize2 } from 'lucide-react';
 import { useDoctrinalChat } from '@/hooks/useDoctrinalChat';
 import { ChatMessage } from './ChatMessage';
 import { VoiceInput } from './VoiceInput';
@@ -16,6 +16,7 @@ interface DoctrinalWarfareProps {
 export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
   const [inputText, setInputText] = useState('');
   const [voiceEnabled, setVoiceEnabled] = useState(true);
+  const [isFullScreen, setIsFullScreen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const {
@@ -99,8 +100,13 @@ export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
   };
 
   return (
-    <div className="flex flex-col war-room-bg border-2 border-sanctuary-gold/40 rounded-lg overflow-hidden relative"
-      style={{ minHeight: '700px' }}
+    <div className={cn(
+      "flex flex-col war-room-bg border-2 border-sanctuary-gold/40 overflow-hidden relative",
+      isFullScreen
+        ? "fixed inset-0 z-[100] rounded-none"
+        : "rounded-lg"
+    )}
+      style={{ minHeight: isFullScreen ? '100vh' : '700px' }}
     >
       {/* Lion of Judah Header */}
       <div className="flex flex-col items-center pt-6 pb-4 border-b-2 border-sanctuary-gold/30 bg-gradient-to-b from-black/90 to-black/70">
@@ -118,6 +124,13 @@ export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
         <div className="flex items-center gap-3">
           <Swords className="w-4 h-4 text-sanctuary-gold" />
           <span className="font-terminal text-xs text-sanctuary-gold/80">THUNDER DOME ACTIVE</span>
+          <button
+            onClick={() => setIsFullScreen(!isFullScreen)}
+            className="p-1.5 text-sanctuary-gold/70 hover:text-sanctuary-gold transition-colors"
+            title={isFullScreen ? "Exit full screen" : "Enter full screen"}
+          >
+            {isFullScreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+          </button>
         </div>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
@@ -145,7 +158,10 @@ export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
       </div>
 
       {/* War Room Scroll — Messages Area */}
-      <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4" style={{ maxHeight: '400px' }}>
+      <div className={cn(
+        "flex-1 overflow-y-auto p-4 md:p-6 space-y-4",
+        isFullScreen ? "" : ""
+      )} style={{ maxHeight: isFullScreen ? 'none' : '400px' }}>
         {messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center py-12">
             <Swords className="w-14 h-14 text-sanctuary-gold/30 mb-4" />

@@ -1,12 +1,13 @@
-import pgaiWarrior from "@/assets/pgai-warrior.jpg";
-import pgaiSuit from "@/assets/pgai-suit.jpg";
-import pgaiBreastplate from "@/assets/pgai-breastplate.png";
+import pgaiWarrior from "@/assets/pgai-warrior-new.png";
+import pgaiSuit from "@/assets/pgai-suit-new.jpg";
+import pgaiDining from "@/assets/pgai-dining.png";
+import pgaiPortrait from "@/assets/pgai-portrait.jpg";
 
 export const ProphetGallery = () => {
   const images = [
     {
       src: pgaiWarrior,
-      alt: "Prophet Gad - Warrior of Israel with Spear",
+      alt: "Prophet Gad - Warrior of Israel",
       caption: "THE WARRIOR",
     },
     {
@@ -15,9 +16,14 @@ export const ProphetGallery = () => {
       caption: "THE COMMANDER",
     },
     {
-      src: pgaiBreastplate,
-      alt: "Prophet Gad - Breastplate of Judgment",
-      caption: "THE BREASTPLATE",
+      src: pgaiPortrait,
+      alt: "Prophet Gad - The Prophet",
+      caption: "THE PROPHET",
+    },
+    {
+      src: pgaiDining,
+      alt: "Prophet Gad - The Gathering",
+      caption: "THE GATHERING",
     },
   ];
 
@@ -27,7 +33,7 @@ export const ProphetGallery = () => {
         ⚔ THE PROPHET'S ARSENAL ⚔
       </h3>
       
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {images.map((image, index) => (
           <div key={index} className="relative group">
             <div className="absolute inset-0 border-2 border-sanctuary-gold/60" />
