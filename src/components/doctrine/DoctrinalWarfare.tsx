@@ -16,6 +16,7 @@ interface DoctrinalWarfareProps {
 export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
   const [inputText, setInputText] = useState('');
   const [voiceEnabled, setVoiceEnabled] = useState(true);
+  const [isFullScreen, setIsFullScreen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const {
