@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Send, Trash2, Volume2, VolumeX, Swords, AlertTriangle, Download, FileAudio, Save, Maximize2, Minimize2 } from 'lucide-react';
 import { useDoctrinalChat } from '@/hooks/useDoctrinalChat';
 import { ChatMessage } from './ChatMessage';
@@ -99,7 +100,7 @@ export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
     alert('Session sealed to the Vault.');
   };
 
-  return (
+  const content = (
     <div className={cn(
       "flex flex-col war-room-bg border-2 border-sanctuary-gold/40 overflow-hidden relative",
       isFullScreen
@@ -340,4 +341,21 @@ export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
       <BreastplateSeal />
     </div>
   );
+
+  if (isFullScreen) {
+    return (
+      <>
+        <div className="rounded-lg border-2 border-sanctuary-gold/40 war-room-bg p-8 text-center" style={{ minHeight: '700px' }}>
+          <Swords className="w-10 h-10 text-sanctuary-gold/30 mx-auto mb-3" />
+          <p className="font-ceremonial text-sanctuary-gold/60 text-sm">THUNDER DOME IS IN FULL-SCREEN MODE</p>
+          <button onClick={() => setIsFullScreen(false)} className="mt-4 font-terminal text-xs text-sanctuary-gold/50 hover:text-sanctuary-gold transition-colors">
+            [ EXIT FULL SCREEN ]
+          </button>
+        </div>
+        {createPortal(content, document.body)}
+      </>
+    );
+  }
+
+  return content;
 };
