@@ -30,6 +30,7 @@ const songs: Song[] = [
   { id: "18", title: "Prophet's Warning", duration: "5:20", audioUrl: "/audio/prophets-warning.mp3" },
   { id: "19", title: "Roots of Faith", duration: "4:50", audioUrl: "/audio/roots-of-faith.mp3" },
   { id: "20", title: "Seven Calls to Fire", duration: "6:00", audioUrl: "/audio/seven-calls-to-fire.mp3" },
+  { id: "21", title: "Warning in the Dark", duration: "4:35", audioUrl: "/audio/warning-in-the-dark.mp3" },
 ];
 
 export const SongCatalog = () => {
