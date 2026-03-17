@@ -128,7 +128,7 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
           <div className="relative">
             <video 
               ref={videoRef}
-              src="/video/gad-greeting.mp4"
+              src="/video/gad-challenge.mp4"
               autoPlay
               muted
               playsInline

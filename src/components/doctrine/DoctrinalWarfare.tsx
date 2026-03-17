@@ -108,19 +108,74 @@ export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
     )}
       style={{ minHeight: isFullScreen ? '100vh' : '700px' }}
     >
+      {/* Octagon Arena Background — full-screen only */}
+      {isFullScreen && (
+        <>
+          {/* Spotlight cone from above */}
+          <div className="fixed inset-0 z-0 pointer-events-none" style={{
+            background: `
+              radial-gradient(ellipse 40% 35% at 50% 0%, hsl(45 90% 95% / 0.15) 0%, transparent 100%),
+              radial-gradient(circle at 50% 50%, hsl(45 80% 50% / 0.06) 0%, transparent 60%),
+              radial-gradient(circle at 50% 50%, hsl(0 0% 0% / 0.95) 0%, hsl(0 0% 0% / 1) 100%)
+            `
+          }} />
+          {/* Octagon ring outline */}
+          <div className="fixed inset-0 z-0 pointer-events-none flex items-center justify-center">
+            <div className="relative" style={{
+              width: 'min(85vw, 85vh)',
+              height: 'min(85vw, 85vh)',
+            }}>
+              <svg viewBox="0 0 100 100" className="w-full h-full absolute inset-0">
+                <polygon
+                  points="29.3,4 70.7,4 96,29.3 96,70.7 70.7,96 29.3,96 4,70.7 4,29.3"
+                  fill="none"
+                  stroke="hsl(45 80% 50%)"
+                  strokeWidth="0.4"
+                  opacity="0.35"
+                />
+                <polygon
+                  points="32,8 68,8 92,32 92,68 68,92 32,92 8,68 8,32"
+                  fill="none"
+                  stroke="hsl(45 80% 50%)"
+                  strokeWidth="0.2"
+                  opacity="0.15"
+                />
+                {/* Center spotlight circle */}
+                <circle cx="50" cy="50" r="18" fill="hsl(0 0% 100% / 0.03)" stroke="hsl(45 80% 50%)" strokeWidth="0.15" opacity="0.4" />
+              </svg>
+            </div>
+          </div>
+          {/* Corner post markers */}
+          {[
+            'top-8 left-8', 'top-8 right-8', 'bottom-8 left-8', 'bottom-8 right-8',
+          ].map((pos, i) => (
+            <div key={i} className={`fixed ${pos} z-0 w-3 h-3 rounded-full bg-sanctuary-gold/30 shadow-[0_0_12px_hsl(45_80%_50%/0.4)]`} />
+          ))}
+        </>
+      )}
+
       {/* Lion of Judah Header */}
-      <div className="flex flex-col items-center pt-6 pb-4 border-b-2 border-sanctuary-gold/30 bg-gradient-to-b from-black/90 to-black/70">
-        <img src={lionOfJudah} alt="Lion of Judah" className="w-24 h-24 md:w-32 md:h-32 drop-shadow-[0_0_20px_hsl(45,90%,50%,0.5)]" />
-        <h2 className="font-ceremonial text-xl md:text-2xl text-sanctuary-gold mt-3 tracking-widest text-center">
-          DOCTRINAL WARFARE
+      <div className={cn(
+        "flex flex-col items-center pt-6 pb-4 border-b-2 border-sanctuary-gold/30 bg-gradient-to-b from-black/90 to-black/70 relative z-10",
+        isFullScreen && "from-black/70 to-transparent"
+      )}>
+        <img src={lionOfJudah} alt="Lion of Judah" className={cn(
+          "drop-shadow-[0_0_20px_hsl(45,90%,50%,0.5)]",
+          isFullScreen ? "w-16 h-16" : "w-24 h-24 md:w-32 md:h-32"
+        )} />
+        <h2 className={cn(
+          "font-ceremonial text-sanctuary-gold mt-3 tracking-widest text-center",
+          isFullScreen ? "text-3xl md:text-4xl" : "text-xl md:text-2xl"
+        )}>
+          {isFullScreen ? "⚔ THUNDER DOME ⚔" : "DOCTRINAL WARFARE"}
         </h2>
         <p className="font-ceremonial text-xs text-sanctuary-gold/70 mt-1 tracking-wider text-center max-w-md px-4">
-          Prophetic Synthesis for the Remnant Seed: A Law-Keeper Assembly Protocol
+          {isFullScreen ? "ENTER THE OCTAGON — NO SOFT ANSWERS, NO COMPROMISE" : "Prophetic Synthesis for the Remnant Seed: A Law-Keeper Assembly Protocol"}
         </p>
       </div>
 
       {/* Controls Bar */}
-      <div className="flex items-center justify-between px-4 py-2 border-b border-sanctuary-gold/20 bg-black/60">
+      <div className="flex items-center justify-between px-4 py-2 border-b border-sanctuary-gold/20 bg-black/60 relative z-10">
         <div className="flex items-center gap-3">
           <Swords className="w-4 h-4 text-sanctuary-gold" />
           <span className="font-terminal text-xs text-sanctuary-gold/80">THUNDER DOME ACTIVE</span>
@@ -159,8 +214,8 @@ export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
 
       {/* War Room Scroll — Messages Area */}
       <div className={cn(
-        "flex-1 overflow-y-auto p-4 md:p-6 space-y-4",
-        isFullScreen ? "" : ""
+        "flex-1 overflow-y-auto p-4 md:p-6 space-y-4 relative z-10",
+        isFullScreen && "max-w-4xl mx-auto w-full"
       )} style={{ maxHeight: isFullScreen ? 'none' : '400px' }}>
         {messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center py-12">
