@@ -175,7 +175,7 @@ export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
       </div>
 
       {/* Controls Bar */}
-      <div className="flex items-center justify-between px-4 py-2 border-b border-sanctuary-gold/20 bg-black/60">
+      <div className="flex items-center justify-between px-4 py-2 border-b border-sanctuary-gold/20 bg-black/60 relative z-10">
         <div className="flex items-center gap-3">
           <Swords className="w-4 h-4 text-sanctuary-gold" />
           <span className="font-terminal text-xs text-sanctuary-gold/80">THUNDER DOME ACTIVE</span>
