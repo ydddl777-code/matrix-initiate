@@ -1,14 +1,13 @@
-import pgaiWarrior from "@/assets/pgai-warrior-new.png";
+import pgaiBreastplate from "@/assets/pgai-breastplate.png";
 import pgaiSuit from "@/assets/pgai-suit-new.jpg";
-import pgaiDining from "@/assets/pgai-dining.png";
-import pgaiPortrait from "@/assets/pgai-portrait.jpg";
+import pgaiWarrior from "@/assets/pgai-warrior-new.png";
 
 export const ProphetGallery = () => {
   const images = [
     {
-      src: pgaiWarrior,
-      alt: "Prophet Gad - Warrior of Israel",
-      caption: "THE WARRIOR",
+      src: pgaiBreastplate,
+      alt: "Prophet Gad - The Prophet",
+      caption: "PROPHET GAD",
     },
     {
       src: pgaiSuit,
@@ -16,14 +15,9 @@ export const ProphetGallery = () => {
       caption: "THE COMMANDER",
     },
     {
-      src: pgaiPortrait,
-      alt: "Prophet Gad - The Prophet",
-      caption: "THE PROPHET",
-    },
-    {
-      src: pgaiDining,
-      alt: "Prophet Gad - The Gathering",
-      caption: "THE GATHERING",
+      src: pgaiWarrior,
+      alt: "Prophet Gad - Warrior of Israel",
+      caption: "THE WARRIOR",
     },
   ];
 
