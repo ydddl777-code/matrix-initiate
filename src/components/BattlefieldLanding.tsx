@@ -330,7 +330,7 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
             <button
               onClick={onEnterSanctuary}
               className="relative px-14 md:px-20 py-5 md:py-7 font-display text-xl md:text-3xl lg:text-4xl uppercase tracking-[0.3em]
-                         border-2 transition-all duration-500 cursor-pointer group"
+                         border-2 transition-all duration-500 cursor-pointer group animate-[thunderdome-pulse_2.5s_ease-in-out_infinite]"
               style={{
                 background: 'linear-gradient(180deg, hsl(0 60% 20% / 0.6) 0%, hsl(0 50% 12% / 0.8) 100%)',
                 borderColor: 'hsl(0 70% 45%)',
@@ -424,6 +424,19 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
           50% { 
             opacity: 1;
             filter: brightness(1.2);
+          }
+        }
+
+        @keyframes thunderdome-pulse {
+          0%, 100% { 
+            box-shadow: 0 0 20px hsl(0 70% 45% / 0.3), inset 0 0 30px hsl(0 60% 20% / 0.3);
+            border-color: hsl(0 70% 45%);
+            transform: scale(1);
+          }
+          50% { 
+            box-shadow: 0 0 50px hsl(0 70% 45% / 0.6), 0 0 100px hsl(0 70% 40% / 0.3), inset 0 0 30px hsl(0 60% 20% / 0.3);
+            border-color: hsl(0 80% 55%);
+            transform: scale(1.03);
           }
         }
       `}</style>
