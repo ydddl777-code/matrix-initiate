@@ -327,21 +327,6 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
                 background: `radial-gradient(ellipse 40% 50% at 50% 50%, hsl(0 70% 30% / 0.15) 0%, transparent 100%)`,
               }}
             />
-            <h2
-              className="font-display text-3xl md:text-5xl lg:text-6xl uppercase tracking-[0.4em] mb-4 relative"
-              style={{
-                color: 'hsl(0 70% 50%)',
-                textShadow: `
-                  0 0 20px hsl(0 80% 40% / 0.8),
-                  0 0 60px hsl(0 70% 35% / 0.5),
-                  0 0 100px hsl(0 60% 30% / 0.3),
-                  0 2px 4px hsl(0 0% 0% / 0.8)
-                `,
-                animation: 'cta-pulse 3s ease-in-out infinite',
-              }}
-            >
-              Enter the Thunderdome
-            </h2>
             <button
               onClick={onEnterSanctuary}
               className="relative px-12 py-5 font-display text-lg md:text-xl uppercase tracking-[0.3em]
@@ -369,10 +354,12 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
               Step Into the Thunderdome
             </button>
             <p
-              className="font-terminal text-xs mt-6 tracking-[0.5em] uppercase"
+              className="font-display text-lg md:text-2xl lg:text-3xl mt-8 tracking-[0.3em] uppercase font-bold px-6 md:px-10 py-3 md:py-4 mx-auto inline-block rounded"
               style={{
-                color: 'hsl(0 50% 40% / 0.7)',
-                textShadow: '0 0 10px hsl(0 60% 35% / 0.3)',
+                color: 'hsl(0 0% 100%)',
+                background: 'hsl(220 70% 35% / 0.85)',
+                textShadow: '0 2px 4px hsl(0 0% 0% / 0.5)',
+                boxShadow: '0 0 30px hsl(220 70% 40% / 0.4)',
               }}
             >
               If you have the courage
