@@ -354,10 +354,12 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
               Step Into the Thunderdome
             </button>
             <p
-              className="font-terminal text-xs mt-6 tracking-[0.5em] uppercase"
+              className="font-display text-lg md:text-2xl lg:text-3xl mt-8 tracking-[0.3em] uppercase font-bold px-6 md:px-10 py-3 md:py-4 mx-auto inline-block rounded"
               style={{
-                color: 'hsl(0 50% 40% / 0.7)',
-                textShadow: '0 0 10px hsl(0 60% 35% / 0.3)',
+                color: 'hsl(0 0% 100%)',
+                background: 'hsl(220 70% 35% / 0.85)',
+                textShadow: '0 2px 4px hsl(0 0% 0% / 0.5)',
+                boxShadow: '0 0 30px hsl(220 70% 40% / 0.4)',
               }}
             >
               If you have the courage
