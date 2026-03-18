@@ -317,11 +317,10 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
         </svg>
       </div>
 
-      {/* === ENTER THE OCTAGON CTA (after 2 loops) === */}
+      {/* === ENTER THE THUNDERDOME CTA (after 2 loops) === */}
       {showCTA && (
         <div className="absolute inset-0 z-[40] flex items-center justify-center">
           <div className="text-center animate-fade-in">
-            {/* Arena spotlight glow behind CTA */}
             <div
               className="absolute inset-0 pointer-events-none"
               style={{
@@ -341,7 +340,7 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
                 animation: 'cta-pulse 3s ease-in-out infinite',
               }}
             >
-              Enter the Octagon
+              Enter the Thunderdome
             </h2>
             <button
               onClick={onEnterSanctuary}
@@ -349,25 +348,25 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
                          border-2 transition-all duration-500 cursor-pointer group"
               style={{
                 background: 'linear-gradient(180deg, hsl(0 60% 20% / 0.6) 0%, hsl(0 50% 12% / 0.8) 100%)',
-                borderColor: 'hsl(45 80% 45%)',
-                color: 'hsl(45 80% 55%)',
+                borderColor: 'hsl(0 70% 45%)',
+                color: 'hsl(0 70% 55%)',
                 boxShadow: `
-                  0 0 20px hsl(45 80% 45% / 0.2),
+                  0 0 20px hsl(0 70% 45% / 0.3),
                   inset 0 0 30px hsl(0 60% 20% / 0.3)
                 `,
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow = '0 0 40px hsl(45 80% 45% / 0.4), 0 0 80px hsl(0 70% 40% / 0.3), inset 0 0 30px hsl(0 60% 20% / 0.3)';
-                e.currentTarget.style.borderColor = 'hsl(45 90% 55%)';
-                e.currentTarget.style.color = 'hsl(45 90% 65%)';
+                e.currentTarget.style.boxShadow = '0 0 40px hsl(0 70% 45% / 0.5), 0 0 80px hsl(0 70% 40% / 0.3), inset 0 0 30px hsl(0 60% 20% / 0.3)';
+                e.currentTarget.style.borderColor = 'hsl(0 80% 55%)';
+                e.currentTarget.style.color = 'hsl(0 80% 65%)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.boxShadow = '0 0 20px hsl(45 80% 45% / 0.2), inset 0 0 30px hsl(0 60% 20% / 0.3)';
-                e.currentTarget.style.borderColor = 'hsl(45 80% 45%)';
-                e.currentTarget.style.color = 'hsl(45 80% 55%)';
+                e.currentTarget.style.boxShadow = '0 0 20px hsl(0 70% 45% / 0.3), inset 0 0 30px hsl(0 60% 20% / 0.3)';
+                e.currentTarget.style.borderColor = 'hsl(0 70% 45%)';
+                e.currentTarget.style.color = 'hsl(0 70% 55%)';
               }}
             >
-              Step Into the Ring
+              Step Into the Thunderdome
             </button>
             <p
               className="font-terminal text-xs mt-6 tracking-[0.5em] uppercase"
