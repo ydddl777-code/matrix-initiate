@@ -36,6 +36,9 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
   const [iterationCount, setIterationCount] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showCTA, setShowCTA] = useState(false);
+  const [showAnnouncement, setShowAnnouncement] = useState(false);
+  const [announcementPlaying, setAnnouncementPlaying] = useState(false);
+  const announcementRef = useRef<HTMLAudioElement | null>(null);
 
   const gadVideoRef = useRef<HTMLVideoElement>(null);
   const competitorVideoRef = useRef<HTMLVideoElement>(null);
