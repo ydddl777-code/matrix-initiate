@@ -20,6 +20,16 @@ const warriorImages = [
   { src: pgaiGeneralLight, alt: "Prophet Gad - Commander" },
 ];
 
+// Generate ember particles
+const embers = Array.from({ length: 30 }, (_, i) => ({
+  id: i,
+  left: Math.random() * 100,
+  delay: Math.random() * 6,
+  duration: 4 + Math.random() * 6,
+  size: 2 + Math.random() * 4,
+  drift: -30 + Math.random() * 60,
+}));
+
 export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps) => {
   const [isMuted, setIsMuted] = useState(false);
   const [videoPhase, setVideoPhase] = useState<VideoPhase>("gad");
@@ -31,7 +41,6 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
   const competitorVideoRef = useRef<HTMLVideoElement>(null);
   const musicRef = useRef<HTMLAudioElement>(null);
 
-  // Cycle warrior images
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % warriorImages.length);
@@ -65,7 +74,6 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
       gadVideoRef.current.muted = true;
       gadVideoRef.current.play().catch(() => {});
     }
-    // Show CTA after 2nd full loop
     if (iterationCount >= 1) {
       setShowCTA(true);
     }
@@ -87,8 +95,147 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
     <div className="fixed inset-0 bg-black overflow-hidden">
       <audio ref={musicRef} src="/audio/warning-in-the-dark.mp3" loop preload="auto" />
 
+      {/* === ARENA FLOOR TEXTURE === */}
+      <div
+        className="absolute inset-0 z-0"
+        style={{
+          background: `
+            radial-gradient(ellipse at 50% 60%, hsl(30 15% 8%) 0%, hsl(0 0% 3%) 60%, hsl(0 0% 1%) 100%)
+          `,
+        }}
+      />
+
+      {/* === CIRCULAR ARENA RING (overhead lights) === */}
+      <div
+        className="absolute inset-0 z-[5] pointer-events-none"
+        style={{
+          background: `
+            radial-gradient(circle at 50% 50%, transparent 25%, hsl(45 80% 40% / 0.06) 30%, hsl(45 80% 40% / 0.12) 32%, transparent 35%),
+            radial-gradient(circle at 50% 50%, transparent 35%, hsl(0 70% 30% / 0.05) 40%, transparent 45%)
+          `,
+        }}
+      />
+
+      {/* === TORCH RING (8 torches around perimeter) === */}
+      {[...Array(8)].map((_, i) => {
+        const angle = (i * 45) * (Math.PI / 180);
+        const x = 50 + 42 * Math.cos(angle);
+        const y = 50 + 42 * Math.sin(angle);
+        return (
+          <div
+            key={`torch-${i}`}
+            className="absolute z-[6] pointer-events-none"
+            style={{
+              left: `${x}%`,
+              top: `${y}%`,
+              width: '120px',
+              height: '120px',
+              transform: 'translate(-50%, -50%)',
+              background: `radial-gradient(circle, hsl(30 90% 50% / 0.4) 0%, hsl(15 80% 40% / 0.2) 30%, transparent 70%)`,
+              animation: `torch-flicker ${1.5 + i * 0.2}s ease-in-out infinite alternate`,
+              filter: 'blur(2px)',
+            }}
+          />
+        );
+      })}
+
+      {/* === CENTER SPOTLIGHT === */}
+      <div
+        className="absolute inset-0 z-[7] pointer-events-none"
+        style={{
+          background: `
+            radial-gradient(ellipse 30% 45% at 50% 40%, hsl(45 60% 70% / 0.08) 0%, transparent 100%),
+            radial-gradient(ellipse 15% 20% at 50% 55%, hsl(45 50% 50% / 0.12) 0%, transparent 100%)
+          `,
+        }}
+      />
+
+      {/* === CROWD SHADOWS (dark silhouettes around edges) === */}
+      <div
+        className="absolute inset-0 z-[8] pointer-events-none"
+        style={{
+          background: `
+            linear-gradient(180deg, hsl(0 0% 0% / 0.9) 0%, transparent 15%),
+            linear-gradient(0deg, hsl(0 0% 0% / 0.85) 0%, transparent 20%),
+            linear-gradient(90deg, hsl(0 0% 0% / 0.9) 0%, transparent 15%),
+            linear-gradient(270deg, hsl(0 0% 0% / 0.9) 0%, transparent 15%)
+          `,
+        }}
+      />
+
+      {/* Crowd silhouette shapes at bottom */}
+      <div className="absolute bottom-0 left-0 right-0 h-[18%] z-[9] pointer-events-none overflow-hidden">
+        <svg viewBox="0 0 1200 200" className="w-full h-full opacity-40" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="crowd-fade" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="transparent" />
+              <stop offset="40%" stopColor="hsl(0,0%,5%)" />
+              <stop offset="100%" stopColor="hsl(0,0%,3%)" />
+            </linearGradient>
+          </defs>
+          {/* Crowd heads and shoulders */}
+          {[...Array(40)].map((_, i) => {
+            const cx = 15 + i * 30 + (Math.random() - 0.5) * 15;
+            const headY = 80 + Math.random() * 30;
+            const headR = 8 + Math.random() * 5;
+            return (
+              <g key={`crowd-${i}`}>
+                <circle cx={cx} cy={headY} r={headR} fill="hsl(0,0%,4%)" />
+                <ellipse cx={cx} cy={headY + headR + 8} rx={headR + 4} ry={headR + 6} fill="hsl(0,0%,4%)" />
+              </g>
+            );
+          })}
+          <rect x="0" y="130" width="1200" height="70" fill="hsl(0,0%,3%)" />
+        </svg>
+      </div>
+
+      {/* === SMOKE / HAZE LAYER === */}
+      <div className="absolute inset-0 z-[11] pointer-events-none">
+        <div
+          className="absolute w-[120%] h-[40%] bottom-0 left-[-10%]"
+          style={{
+            background: `
+              radial-gradient(ellipse at 30% 80%, hsl(0 0% 20% / 0.15) 0%, transparent 60%),
+              radial-gradient(ellipse at 70% 90%, hsl(0 0% 15% / 0.12) 0%, transparent 50%)
+            `,
+            animation: 'smoke-drift 12s ease-in-out infinite',
+            filter: 'blur(30px)',
+          }}
+        />
+        <div
+          className="absolute w-[100%] h-[30%] bottom-[5%] left-0"
+          style={{
+            background: `
+              radial-gradient(ellipse at 50% 70%, hsl(15 30% 15% / 0.1) 0%, transparent 60%)
+            `,
+            animation: 'smoke-drift 18s ease-in-out infinite reverse',
+            filter: 'blur(40px)',
+          }}
+        />
+      </div>
+
+      {/* === EMBERS / SPARKS === */}
+      <div className="absolute inset-0 z-[12] pointer-events-none overflow-hidden">
+        {embers.map((ember) => (
+          <div
+            key={ember.id}
+            className="absolute rounded-full"
+            style={{
+              left: `${ember.left}%`,
+              bottom: '-5%',
+              width: `${ember.size}px`,
+              height: `${ember.size}px`,
+              background: `radial-gradient(circle, hsl(30 100% 60%) 0%, hsl(15 90% 45%) 60%, transparent 100%)`,
+              animation: `ember-rise ${ember.duration}s ${ember.delay}s ease-out infinite`,
+              boxShadow: `0 0 ${ember.size * 2}px hsl(25 100% 50% / 0.6)`,
+              '--ember-drift': `${ember.drift}px`,
+            } as React.CSSProperties}
+          />
+        ))}
+      </div>
+
       {/* === FULL-SCREEN VIDEO LAYER === */}
-      <div className="absolute inset-0 z-10">
+      <div className="absolute inset-0 z-[15]" style={{ mixBlendMode: 'screen', opacity: 0.7 }}>
         <video
           ref={gadVideoRef}
           src="/video/gad-challenge.mp4"
@@ -112,52 +259,124 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
         />
       </div>
 
+      {/* === VIGNETTE OVER VIDEO === */}
+      <div
+        className="absolute inset-0 z-[16] pointer-events-none"
+        style={{
+          background: `
+            radial-gradient(ellipse at 50% 50%, transparent 30%, hsl(0 0% 0% / 0.6) 70%, hsl(0 0% 0% / 0.9) 100%)
+          `,
+        }}
+      />
+
       {/* === WARRIOR IMAGE FLANKS (after first loop) === */}
       {iterationCount > 0 && (
         <>
-          <div className="absolute left-0 top-0 bottom-0 w-[15%] z-20 overflow-hidden pointer-events-none">
+          <div className="absolute left-0 top-0 bottom-0 w-[15%] z-[20] overflow-hidden pointer-events-none">
             <img
               src={warriorImages[currentImageIndex].src}
               alt={warriorImages[currentImageIndex].alt}
               className="h-full w-full object-cover object-center transition-opacity duration-1000"
               style={{
-                filter: "brightness(0.6) contrast(1.3) sepia(0.3)",
-                maskImage: "linear-gradient(to right, black 50%, transparent 100%)",
-                WebkitMaskImage: "linear-gradient(to right, black 50%, transparent 100%)",
+                filter: "brightness(0.4) contrast(1.4) sepia(0.5) hue-rotate(-10deg)",
+                maskImage: "linear-gradient(to right, black 40%, transparent 100%)",
+                WebkitMaskImage: "linear-gradient(to right, black 40%, transparent 100%)",
               }}
             />
           </div>
-          <div className="absolute right-0 top-0 bottom-0 w-[15%] z-20 overflow-hidden pointer-events-none">
+          <div className="absolute right-0 top-0 bottom-0 w-[15%] z-[20] overflow-hidden pointer-events-none">
             <img
               src={warriorImages[(currentImageIndex + 3) % warriorImages.length].src}
               alt={warriorImages[(currentImageIndex + 3) % warriorImages.length].alt}
               className="h-full w-full object-cover object-center transition-opacity duration-1000"
               style={{
-                filter: "brightness(0.6) contrast(1.3) sepia(0.3)",
-                maskImage: "linear-gradient(to left, black 50%, transparent 100%)",
-                WebkitMaskImage: "linear-gradient(to left, black 50%, transparent 100%)",
+                filter: "brightness(0.4) contrast(1.4) sepia(0.5) hue-rotate(-10deg)",
+                maskImage: "linear-gradient(to left, black 40%, transparent 100%)",
+                WebkitMaskImage: "linear-gradient(to left, black 40%, transparent 100%)",
               }}
             />
           </div>
         </>
       )}
 
+      {/* === OCTAGON RING LINES === */}
+      <div className="absolute inset-0 z-[18] pointer-events-none flex items-center justify-center">
+        <svg viewBox="0 0 800 800" className="w-[70vmin] h-[70vmin] opacity-[0.08]">
+          <polygon
+            points="331,50 469,50 700,200 750,400 700,600 469,750 331,750 100,600 50,400 100,200"
+            fill="none"
+            stroke="hsl(45, 80%, 50%)"
+            strokeWidth="2"
+          />
+          <polygon
+            points="355,120 445,120 620,240 660,400 620,560 445,680 355,680 180,560 140,400 180,240"
+            fill="none"
+            stroke="hsl(0, 70%, 40%)"
+            strokeWidth="1.5"
+          />
+        </svg>
+      </div>
+
       {/* === ENTER THE OCTAGON CTA (after 2 loops) === */}
       {showCTA && (
-        <div className="absolute inset-0 z-40 flex items-center justify-center">
+        <div className="absolute inset-0 z-[40] flex items-center justify-center">
           <div className="text-center animate-fade-in">
-            <button
-              onClick={onEnterSanctuary}
-              className="px-10 py-5 font-display text-xl md:text-3xl uppercase tracking-[0.3em]
-                         bg-red-900/40 text-red-500 border-2 border-red-600
-                         hover:bg-red-800/50 hover:text-red-400 hover:border-red-500
-                         hover:shadow-[0_0_40px_rgba(239,68,68,0.5)]
-                         transition-all duration-500 animate-pulse"
+            {/* Arena spotlight glow behind CTA */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background: `radial-gradient(ellipse 40% 50% at 50% 50%, hsl(0 70% 30% / 0.15) 0%, transparent 100%)`,
+              }}
+            />
+            <h2
+              className="font-display text-3xl md:text-5xl lg:text-6xl uppercase tracking-[0.4em] mb-4 relative"
+              style={{
+                color: 'hsl(0 70% 50%)',
+                textShadow: `
+                  0 0 20px hsl(0 80% 40% / 0.8),
+                  0 0 60px hsl(0 70% 35% / 0.5),
+                  0 0 100px hsl(0 60% 30% / 0.3),
+                  0 2px 4px hsl(0 0% 0% / 0.8)
+                `,
+                animation: 'cta-pulse 3s ease-in-out infinite',
+              }}
             >
               Enter the Octagon
+            </h2>
+            <button
+              onClick={onEnterSanctuary}
+              className="relative px-12 py-5 font-display text-lg md:text-xl uppercase tracking-[0.3em]
+                         border-2 transition-all duration-500 cursor-pointer group"
+              style={{
+                background: 'linear-gradient(180deg, hsl(0 60% 20% / 0.6) 0%, hsl(0 50% 12% / 0.8) 100%)',
+                borderColor: 'hsl(45 80% 45%)',
+                color: 'hsl(45 80% 55%)',
+                boxShadow: `
+                  0 0 20px hsl(45 80% 45% / 0.2),
+                  inset 0 0 30px hsl(0 60% 20% / 0.3)
+                `,
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow = '0 0 40px hsl(45 80% 45% / 0.4), 0 0 80px hsl(0 70% 40% / 0.3), inset 0 0 30px hsl(0 60% 20% / 0.3)';
+                e.currentTarget.style.borderColor = 'hsl(45 90% 55%)';
+                e.currentTarget.style.color = 'hsl(45 90% 65%)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = '0 0 20px hsl(45 80% 45% / 0.2), inset 0 0 30px hsl(0 60% 20% / 0.3)';
+                e.currentTarget.style.borderColor = 'hsl(45 80% 45%)';
+                e.currentTarget.style.color = 'hsl(45 80% 55%)';
+              }}
+            >
+              Step Into the Ring
             </button>
-            <p className="font-terminal text-xs text-red-500/50 mt-4 tracking-widest">
-              IF YOU HAVE THE COURAGE
+            <p
+              className="font-terminal text-xs mt-6 tracking-[0.5em] uppercase"
+              style={{
+                color: 'hsl(0 50% 40% / 0.7)',
+                textShadow: '0 0 10px hsl(0 60% 35% / 0.3)',
+              }}
+            >
+              If you have the courage
             </p>
           </div>
         </div>
@@ -167,23 +386,59 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
       <div className="fixed top-4 left-4 z-50">
         <button
           onClick={toggleMute}
-          className="w-12 h-12 rounded-full bg-black/60 backdrop-blur-sm border border-red-600/40
-                     flex items-center justify-center hover:bg-black/80 hover:border-red-500
-                     transition-all duration-300"
+          className="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300"
+          style={{
+            background: 'hsl(0 0% 5% / 0.7)',
+            backdropFilter: 'blur(8px)',
+            border: '1px solid hsl(45 60% 40% / 0.3)',
+          }}
           title={isMuted ? "Unmute" : "Mute"}
         >
           {isMuted ? (
-            <VolumeX className="w-5 h-5 text-red-400" />
+            <VolumeX className="w-5 h-5" style={{ color: 'hsl(0 60% 50%)' }} />
           ) : (
-            <Volume2 className="w-5 h-5 text-red-500" />
+            <Volume2 className="w-5 h-5" style={{ color: 'hsl(45 80% 55%)' }} />
           )}
         </button>
       </div>
 
       <style>{`
-        @keyframes eq-bar {
-          0% { height: 20%; }
-          100% { height: 100%; }
+        @keyframes torch-flicker {
+          0% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+          50% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
+          100% { opacity: 0.7; transform: translate(-50%, -50%) scale(0.95); }
+        }
+        
+        @keyframes smoke-drift {
+          0% { transform: translateX(0) translateY(0); opacity: 0.6; }
+          33% { transform: translateX(30px) translateY(-10px); opacity: 0.8; }
+          66% { transform: translateX(-20px) translateY(5px); opacity: 0.5; }
+          100% { transform: translateX(0) translateY(0); opacity: 0.6; }
+        }
+        
+        @keyframes ember-rise {
+          0% { 
+            transform: translateY(0) translateX(0) scale(1); 
+            opacity: 1; 
+          }
+          70% { 
+            opacity: 0.7; 
+          }
+          100% { 
+            transform: translateY(-110vh) translateX(var(--ember-drift, 20px)) scale(0.2); 
+            opacity: 0; 
+          }
+        }
+        
+        @keyframes cta-pulse {
+          0%, 100% { 
+            opacity: 0.9;
+            filter: brightness(1);
+          }
+          50% { 
+            opacity: 1;
+            filter: brightness(1.2);
+          }
         }
       `}</style>
     </div>
