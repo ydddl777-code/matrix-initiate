@@ -130,6 +130,7 @@ Enter — if you have the courage.`;
           URL.revokeObjectURL(audioUrl);
         };
         await audio.play();
+        setAnnouncementStartTime(Date.now());
       } else {
         // Fallback: just show CTA after a delay if TTS fails
         setTimeout(() => {
