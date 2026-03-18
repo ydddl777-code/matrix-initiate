@@ -327,21 +327,6 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
                 background: `radial-gradient(ellipse 40% 50% at 50% 50%, hsl(0 70% 30% / 0.15) 0%, transparent 100%)`,
               }}
             />
-            <h2
-              className="font-display text-3xl md:text-5xl lg:text-6xl uppercase tracking-[0.4em] mb-4 relative"
-              style={{
-                color: 'hsl(0 70% 50%)',
-                textShadow: `
-                  0 0 20px hsl(0 80% 40% / 0.8),
-                  0 0 60px hsl(0 70% 35% / 0.5),
-                  0 0 100px hsl(0 60% 30% / 0.3),
-                  0 2px 4px hsl(0 0% 0% / 0.8)
-                `,
-                animation: 'cta-pulse 3s ease-in-out infinite',
-              }}
-            >
-              Enter the Thunderdome
-            </h2>
             <button
               onClick={onEnterSanctuary}
               className="relative px-12 py-5 font-display text-lg md:text-xl uppercase tracking-[0.3em]
