@@ -69,16 +69,79 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
     }
   };
 
+  const playAnnouncement = useCallback(async () => {
+    setShowAnnouncement(true);
+    setAnnouncementPlaying(true);
+    // Lower music volume during announcement
+    if (musicRef.current) musicRef.current.volume = 0.15;
+
+    const announcementText = `Welcome to the Thunderdome. This is Prophet Gad's Bible Debate Arena. What you see here is not a physical battle. This is verbal dialogue and discourse, grounded in the Scriptures. No one gets hurt. When you enter the Dome, truth will be unveiled. Step forward, if you're ready.`;
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/elevenlabs-tts`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          },
+          body: JSON.stringify({
+            text: announcementText,
+            voiceId: "nPczCjzI2devNBz1zQrb", // Brian — neutral announcer voice
+          }),
+        }
+      );
+
+      if (response.ok) {
+        const audioBlob = await response.blob();
+        const audioUrl = URL.createObjectURL(audioBlob);
+        const audio = new Audio(audioUrl);
+        announcementRef.current = audio;
+        audio.muted = isMuted;
+        audio.onended = () => {
+          setAnnouncementPlaying(false);
+          setShowCTA(true);
+          if (musicRef.current) musicRef.current.volume = 0.3;
+          URL.revokeObjectURL(audioUrl);
+        };
+        await audio.play();
+      } else {
+        // Fallback: just show CTA after a delay if TTS fails
+        setTimeout(() => {
+          setAnnouncementPlaying(false);
+          setShowCTA(true);
+          if (musicRef.current) musicRef.current.volume = 0.3;
+        }, 5000);
+      }
+    } catch {
+      setTimeout(() => {
+        setAnnouncementPlaying(false);
+        setShowCTA(true);
+        if (musicRef.current) musicRef.current.volume = 0.3;
+      }, 5000);
+    }
+  }, [isMuted]);
+
   const handleCompetitorVideoEnd = () => {
     setIterationCount((prev) => prev + 1);
     setVideoPhase("gad");
-    if (gadVideoRef.current) {
-      gadVideoRef.current.currentTime = 0;
-      gadVideoRef.current.muted = true;
-      gadVideoRef.current.play().catch(() => {});
-    }
     if (iterationCount >= 1) {
-      setShowCTA(true);
+      // Stop videos after 2 loops, trigger announcement
+      if (gadVideoRef.current) {
+        gadVideoRef.current.pause();
+      }
+      if (competitorVideoRef.current) {
+        competitorVideoRef.current.pause();
+      }
+      playAnnouncement();
+    } else {
+      if (gadVideoRef.current) {
+        gadVideoRef.current.currentTime = 0;
+        gadVideoRef.current.muted = true;
+        gadVideoRef.current.play().catch(() => {});
+      }
     }
   };
 
