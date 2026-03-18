@@ -384,7 +384,49 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
         </svg>
       </div>
 
-      {/* === ENTER THE THUNDERDOME CTA (after 2 loops) === */}
+      {/* === ANNOUNCER OVERLAY (after videos stop) === */}
+      {showAnnouncement && !showCTA && (
+        <div className="absolute inset-0 z-[40] flex items-center justify-center p-6">
+          <div className="text-center animate-fade-in max-w-2xl">
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background: `radial-gradient(ellipse 50% 50% at 50% 50%, hsl(0 0% 0% / 0.7) 0%, hsl(0 0% 0% / 0.3) 70%, transparent 100%)`,
+              }}
+            />
+            <p className="font-display text-lg md:text-2xl lg:text-3xl uppercase tracking-[0.2em] font-bold relative"
+              style={{ color: 'hsl(45 80% 55%)', textShadow: '0 0 20px hsl(45 80% 50% / 0.4)' }}>
+              The Thunderdome
+            </p>
+            <p className="font-terminal text-xs md:text-sm mt-4 leading-relaxed tracking-wider relative"
+              style={{ color: 'hsl(0 0% 80%)' }}>
+              {announcementPlaying ? (
+                <>
+                  This is Prophet Gad's <span style={{ color: 'hsl(45 80% 55%)' }}>Bible Debate Arena</span>.<br />
+                  Not a physical battle — <span style={{ color: 'hsl(0 0% 100%)' }}>verbal dialogue and discourse</span>,<br />
+                  grounded in the Scriptures.<br /><br />
+                  <span style={{ color: 'hsl(0 0% 60%)' }}>No one gets hurt. When you enter the Dome, truth will be unveiled.</span>
+                </>
+              ) : (
+                <span style={{ color: 'hsl(0 0% 50%)' }}>Preparing the arena...</span>
+              )}
+            </p>
+            {announcementPlaying && (
+              <div className="mt-6 flex items-center justify-center gap-1">
+                {[0, 1, 2, 3, 4].map(i => (
+                  <div key={i} className="w-1 bg-white/40 rounded-full"
+                    style={{
+                      height: '12px',
+                      animation: `announcer-bar 1s ${i * 0.15}s ease-in-out infinite alternate`,
+                    }} />
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* === ENTER THE THUNDERDOME CTA (after announcement) === */}
       {showCTA && (
         <div className="absolute inset-0 z-[40] flex items-end justify-center pb-[12vh] md:pb-[15vh]">
           <div className="text-center animate-fade-in">
