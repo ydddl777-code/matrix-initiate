@@ -415,18 +415,20 @@ Enter — if you have the courage.`;
                 background: `radial-gradient(ellipse 50% 50% at 50% 50%, hsl(0 0% 0% / 0.7) 0%, hsl(0 0% 0% / 0.3) 70%, transparent 100%)`,
               }}
             />
-            <p className="font-display text-lg md:text-2xl lg:text-3xl uppercase tracking-[0.2em] font-bold relative"
+            <p className="font-display text-sm md:text-lg lg:text-xl uppercase tracking-[0.25em] font-bold relative"
               style={{ color: 'hsl(45 80% 55%)', textShadow: '0 0 20px hsl(45 80% 50% / 0.4)' }}>
-              The Thunderdome
+              Prophetess Huldah Speaks
             </p>
             <p className="font-terminal text-xs md:text-sm mt-4 leading-relaxed tracking-wider relative"
               style={{ color: 'hsl(0 0% 80%)' }}>
               {announcementPlaying ? (
                 <>
-                  This is Prophet Gad's <span style={{ color: 'hsl(45 80% 55%)' }}>Bible Debate Arena</span>.<br />
-                  Not a physical battle — <span style={{ color: 'hsl(0 0% 100%)' }}>verbal dialogue and discourse</span>,<br />
-                  grounded in the Scriptures.<br /><br />
-                  <span style={{ color: 'hsl(0 0% 60%)' }}>No one gets hurt. When you enter the Dome, truth will be unveiled.</span>
+                  <span style={{ color: 'hsl(0 0% 100%)' }}>What you have just seen and heard — is not entertainment.</span><br /><br />
+                  His name is <span style={{ color: 'hsl(45 80% 55%)' }}>Prophet Gad</span>.<br />
+                  A Hebrew Israelite prophet — raised up in this final hour.<br /><br />
+                  <span style={{ color: 'hsl(0 0% 60%)' }}>He is God's oracle. His seer. His spokesman.</span><br /><br />
+                  You are entering the <span style={{ color: 'hsl(0 60% 55%)' }}>Thunderdome</span>.<br />
+                  <span style={{ color: 'hsl(0 0% 70%)' }}>Enter — if you have the courage.</span>
                 </>
               ) : (
                 <span style={{ color: 'hsl(0 0% 50%)' }}>Preparing the arena...</span>
