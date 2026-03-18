@@ -1,15 +1,15 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Volume2, VolumeX, RotateCcw, SkipForward } from "lucide-react";
+import { Volume2, VolumeX } from "lucide-react";
 import pgaiWarrior from "@/assets/pgai-warrior-new.png";
 import pgaiMilitary from "@/assets/pgai-nobg.png";
 import pgaiGeneral from "@/assets/pgai-general.png";
-import pgaiSuit from "@/assets/pgai-suit-new.jpg";
+import pgaiSuitNew from "@/assets/pgai-suit-new.jpg";
 import pgaiJacket from "@/assets/pgai-jacket.png";
 import pgaiDining from "@/assets/pgai-dining.png";
 import pgaiBreastplate from "@/assets/pgai-breastplate.png";
 import pgaiGeneralLight from "@/assets/pgai-general-light.png";
 
-type Phase = "gad-intro" | "competitor" | "showcase" | "judgment";
+type VideoPhase = "gad" | "competitor";
 
 interface BattlefieldLandingProps {
   onEnterSanctuary: () => void;
@@ -19,7 +19,7 @@ const warriorImages = [
   { src: pgaiWarrior, alt: "Prophet Gad - Warrior" },
   { src: pgaiMilitary, alt: "Prophet Gad - Military" },
   { src: pgaiGeneral, alt: "Prophet Gad - General" },
-  { src: pgaiSuit, alt: "Prophet Gad - Suited" },
+  { src: pgaiSuitNew, alt: "Prophet Gad - Suited" },
   { src: pgaiJacket, alt: "Prophet Gad - Jacket" },
   { src: pgaiDining, alt: "Prophet Gad - Royal" },
   { src: pgaiBreastplate, alt: "Prophet Gad - Breastplate" },
@@ -27,84 +27,78 @@ const warriorImages = [
 ];
 
 export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps) => {
-  const [phase, setPhase] = useState<Phase>("gad-intro");
   const [isMuted, setIsMuted] = useState(false);
+  const [videoPhase, setVideoPhase] = useState<VideoPhase>("gad");
+  const [iterationCount, setIterationCount] = useState(0);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [showJudgment, setShowJudgment] = useState(false);
+  const [judgmentState, setJudgmentState] = useState<"choosing" | "condemned" | "saved">("choosing");
   const [showFlash, setShowFlash] = useState<"red" | "gold" | null>(null);
   const [showMessage, setShowMessage] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [judgmentState, setJudgmentState] = useState<"choosing" | "condemned" | "saved">("choosing");
   const [showTitle, setShowTitle] = useState(false);
 
   const gadVideoRef = useRef<HTMLVideoElement>(null);
   const competitorVideoRef = useRef<HTMLVideoElement>(null);
   const musicRef = useRef<HTMLAudioElement>(null);
 
-  // Cycle warrior images during showcase
+  // Show title after first Gad video ends
   useEffect(() => {
-    if (phase !== "showcase" && phase !== "judgment") return;
+    if (iterationCount > 0) setShowTitle(true);
+  }, [iterationCount]);
+
+  // Cycle warrior images
+  useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % warriorImages.length);
-    }, 3000);
+    }, 3500);
     return () => clearInterval(interval);
-  }, [phase]);
-
-  // Show title overlay after a moment
-  useEffect(() => {
-    const t = setTimeout(() => setShowTitle(true), 1500);
-    return () => clearTimeout(t);
   }, []);
 
-  // Start music after Gad intro ends
   const startMusic = useCallback(() => {
-    if (musicRef.current) {
+    if (musicRef.current && musicRef.current.paused) {
       musicRef.current.volume = 0.7;
       musicRef.current.play().catch(() => {});
     }
   }, []);
 
+  // When Gad video ends → play competitor
   const handleGadVideoEnd = () => {
-    setPhase("competitor");
+    setVideoPhase("competitor");
     if (competitorVideoRef.current) {
+      competitorVideoRef.current.currentTime = 0;
       competitorVideoRef.current.play().catch(() => {});
     }
-    // Start music during competitor video
-    startMusic();
-  };
-
-  const handleCompetitorVideoEnd = () => {
-    setPhase("showcase");
-    // Music keeps playing, images cycle
-    setTimeout(() => setPhase("judgment"), 8000);
-  };
-
-  const handleSkipToJudgment = () => {
-    if (gadVideoRef.current) gadVideoRef.current.pause();
-    if (competitorVideoRef.current) competitorVideoRef.current.pause();
-    startMusic();
-    setPhase("judgment");
-  };
-
-  const handleReplay = () => {
-    setPhase("gad-intro");
-    setJudgmentState("choosing");
-    setShowMessage(false);
-    setCurrentImageIndex(0);
-    if (musicRef.current) {
-      musicRef.current.pause();
-      musicRef.current.currentTime = 0;
+    // Start music after first Gad play
+    if (iterationCount === 0) {
+      startMusic();
     }
+  };
+
+  // When competitor video ends → loop back to Gad, mute video audio
+  const handleCompetitorVideoEnd = () => {
+    setIterationCount((prev) => prev + 1);
+    setVideoPhase("gad");
     if (gadVideoRef.current) {
       gadVideoRef.current.currentTime = 0;
+      // After first full loop, mute the video audio so music dominates
+      gadVideoRef.current.muted = true;
       gadVideoRef.current.play().catch(() => {});
+    }
+    // Show judgment after 2nd full loop
+    if (iterationCount >= 1) {
+      setShowJudgment(true);
     }
   };
 
   const toggleMute = () => {
     setIsMuted((prev) => {
       const next = !prev;
-      if (gadVideoRef.current) gadVideoRef.current.muted = next;
-      if (competitorVideoRef.current) competitorVideoRef.current.muted = next;
       if (musicRef.current) musicRef.current.muted = next;
+      // On first iteration, video has its own audio
+      if (iterationCount === 0) {
+        if (gadVideoRef.current) gadVideoRef.current.muted = next;
+        if (competitorVideoRef.current) competitorVideoRef.current.muted = next;
+      }
       return next;
     });
   };
@@ -142,60 +136,71 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
         />
       )}
 
-      {/* === GAD INTRO VIDEO === */}
-      <video
-        ref={gadVideoRef}
-        src="/video/gad-challenge.mp4"
-        autoPlay
-        playsInline
-        muted={isMuted}
-        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
-          phase === "gad-intro" ? "opacity-100 z-10" : "opacity-0 z-0"
-        }`}
-        onEnded={handleGadVideoEnd}
-      />
+      {/* === FULL-SCREEN VIDEO LAYER === */}
+      <div className="absolute inset-0 z-10">
+        {/* Gad Video */}
+        <video
+          ref={gadVideoRef}
+          src="/video/gad-challenge.mp4"
+          autoPlay
+          playsInline
+          muted={isMuted}
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
+            videoPhase === "gad" ? "opacity-100" : "opacity-0"
+          }`}
+          onEnded={handleGadVideoEnd}
+        />
 
-      {/* === COMPETITOR VIDEO === */}
-      <video
-        ref={competitorVideoRef}
-        src="/video/gad-competitor.mp4"
-        playsInline
-        muted={isMuted}
-        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
-          phase === "competitor" ? "opacity-100 z-10" : "opacity-0 z-0"
-        }`}
-        onEnded={handleCompetitorVideoEnd}
-      />
-
-      {/* === WARRIOR IMAGE SHOWCASE === */}
-      <div
-        className={`absolute inset-0 transition-opacity duration-1000 ${
-          phase === "showcase" || phase === "judgment" ? "opacity-100 z-10" : "opacity-0 z-0"
-        }`}
-      >
-        {/* Rotating warrior images */}
-        {warriorImages.map((img, i) => (
-          <img
-            key={i}
-            src={img.src}
-            alt={img.alt}
-            className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 ${
-              i === currentImageIndex ? "opacity-100" : "opacity-0"
-            }`}
-            style={{
-              filter: "brightness(0.8) contrast(1.2) drop-shadow(0 0 40px rgba(212,175,55,0.5))",
-            }}
-          />
-        ))}
-
-        {/* Dark overlay for readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/30" />
+        {/* Competitor Video */}
+        <video
+          ref={competitorVideoRef}
+          src="/video/gad-competitor.mp4"
+          playsInline
+          muted={iterationCount > 0 || isMuted}
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
+            videoPhase === "competitor" ? "opacity-100" : "opacity-0"
+          }`}
+          onEnded={handleCompetitorVideoEnd}
+        />
       </div>
 
-      {/* === GAD VS AMALEKITES ROTATING TITLE === */}
-      {(phase === "competitor" || phase === "showcase") && (
-        <div className="absolute top-8 left-0 right-0 z-30 text-center animate-fade-in">
-          <div className="inline-block px-6 py-3 bg-black/60 backdrop-blur-sm border border-battlefield-gold/40 rounded">
+      {/* === WARRIOR IMAGE FLANKS (appear after first loop) === */}
+      {iterationCount > 0 && (
+        <>
+          {/* Left warrior image */}
+          <div className="absolute left-0 top-0 bottom-0 w-[15%] z-20 overflow-hidden pointer-events-none">
+            <img
+              src={warriorImages[currentImageIndex].src}
+              alt={warriorImages[currentImageIndex].alt}
+              className="h-full w-full object-cover object-center transition-opacity duration-1000"
+              style={{
+                filter: "brightness(0.6) contrast(1.3) sepia(0.3)",
+                maskImage: "linear-gradient(to right, black 50%, transparent 100%)",
+                WebkitMaskImage: "linear-gradient(to right, black 50%, transparent 100%)",
+              }}
+            />
+          </div>
+
+          {/* Right warrior image */}
+          <div className="absolute right-0 top-0 bottom-0 w-[15%] z-20 overflow-hidden pointer-events-none">
+            <img
+              src={warriorImages[(currentImageIndex + 4) % warriorImages.length].src}
+              alt={warriorImages[(currentImageIndex + 4) % warriorImages.length].alt}
+              className="h-full w-full object-cover object-center transition-opacity duration-1000"
+              style={{
+                filter: "brightness(0.6) contrast(1.3) sepia(0.3)",
+                maskImage: "linear-gradient(to left, black 50%, transparent 100%)",
+                WebkitMaskImage: "linear-gradient(to left, black 50%, transparent 100%)",
+              }}
+            />
+          </div>
+        </>
+      )}
+
+      {/* === GAD VS AMALEKITES TITLE === */}
+      {showTitle && (
+        <div className="absolute top-6 left-0 right-0 z-30 text-center animate-fade-in">
+          <div className="inline-block px-6 py-3 bg-black/70 backdrop-blur-sm border border-battlefield-gold/40 rounded">
             <h2 className="font-display text-2xl md:text-4xl text-battlefield-gold tracking-[0.3em] battlefield-text-glow">
               GAD vs THE AMALEKITES
             </h2>
@@ -207,8 +212,8 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
       )}
 
       {/* === JUDGMENT OVERLAY === */}
-      {phase === "judgment" && (
-        <div className="absolute inset-0 z-20 flex flex-col items-center justify-center">
+      {showJudgment && (
+        <div className="absolute inset-0 z-40 flex flex-col items-center justify-center bg-black/60 backdrop-blur-sm">
           <div className="text-center space-y-6 px-4">
             <h1 className="font-display text-4xl md:text-6xl font-bold text-battlefield-gold tracking-wider battlefield-text-glow">
               THE JUDGMENT
@@ -288,9 +293,8 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
         </div>
       )}
 
-      {/* === HUD CONTROLS === */}
-      <div className="fixed top-4 left-4 z-50 flex flex-col gap-2">
-        {/* Mute Button */}
+      {/* === MUTE BUTTON === */}
+      <div className="fixed top-4 left-4 z-50">
         <button
           onClick={toggleMute}
           className="w-12 h-12 rounded-full bg-black/60 backdrop-blur-sm border border-battlefield-gold/40
@@ -306,54 +310,8 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
         </button>
       </div>
 
-      {/* Skip / Replay buttons */}
-      <div className="fixed top-4 right-4 z-50 flex gap-2">
-        {phase !== "judgment" && (
-          <button
-            onClick={handleSkipToJudgment}
-            className="h-10 px-4 rounded-full bg-black/60 backdrop-blur-sm border border-battlefield-gold/30
-                       flex items-center gap-2 hover:bg-black/80 hover:border-battlefield-gold
-                       transition-all duration-300"
-            title="Skip to Judgment"
-          >
-            <SkipForward className="w-4 h-4 text-battlefield-gold" />
-            <span className="font-terminal text-xs text-battlefield-gold/80">SKIP</span>
-          </button>
-        )}
-        <button
-          onClick={handleReplay}
-          className="h-10 px-4 rounded-full bg-black/60 backdrop-blur-sm border border-battlefield-gold/30
-                     flex items-center gap-2 hover:bg-black/80 hover:border-battlefield-gold
-                     transition-all duration-300"
-          title="Replay from Start"
-        >
-          <RotateCcw className="w-4 h-4 text-battlefield-gold" />
-          <span className="font-terminal text-xs text-battlefield-gold/80">REPLAY</span>
-        </button>
-      </div>
-
-      {/* Phase indicator */}
-      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50">
-        <div className="flex items-center gap-3 px-4 py-2 bg-black/60 backdrop-blur-sm rounded-full border border-battlefield-gold/20">
-          {(["gad-intro", "competitor", "showcase", "judgment"] as Phase[]).map((p) => (
-            <div
-              key={p}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                phase === p ? "bg-battlefield-gold scale-150 shadow-[0_0_10px_rgba(212,175,55,0.8)]" : "bg-battlefield-gold/30"
-              }`}
-            />
-          ))}
-          <span className="font-terminal text-[10px] text-battlefield-gold/60 ml-2 uppercase tracking-wider">
-            {phase === "gad-intro" && "GAD SPEAKS"}
-            {phase === "competitor" && "THE CHALLENGER"}
-            {phase === "showcase" && "WAR MODE"}
-            {phase === "judgment" && "JUDGMENT"}
-          </span>
-        </div>
-      </div>
-
       {/* Now Playing indicator */}
-      {(phase === "competitor" || phase === "showcase" || phase === "judgment") && (
+      {iterationCount > 0 && (
         <div className="fixed bottom-14 left-1/2 -translate-x-1/2 z-50 animate-fade-in">
           <div className="flex items-center gap-2 px-3 py-1.5 bg-black/60 backdrop-blur-sm rounded-full border border-battlefield-gold/20">
             <div className="flex items-end gap-0.5 h-3">
@@ -374,6 +332,25 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
           </div>
         </div>
       )}
+
+      {/* Phase indicator */}
+      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50">
+        <div className="flex items-center gap-3 px-4 py-2 bg-black/60 backdrop-blur-sm rounded-full border border-battlefield-gold/20">
+          <div
+            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              videoPhase === "gad" ? "bg-battlefield-gold scale-150 shadow-[0_0_10px_rgba(212,175,55,0.8)]" : "bg-battlefield-gold/30"
+            }`}
+          />
+          <div
+            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              videoPhase === "competitor" ? "bg-red-500 scale-150 shadow-[0_0_10px_rgba(239,68,68,0.8)]" : "bg-red-500/30"
+            }`}
+          />
+          <span className="font-terminal text-[10px] text-battlefield-gold/60 ml-2 uppercase tracking-wider">
+            {videoPhase === "gad" ? "GAD SPEAKS" : "THE CHALLENGER"}
+          </span>
+        </div>
+      </div>
 
       {/* Footer */}
       <div className="fixed bottom-0 left-0 right-0 py-2 px-6 bg-black/40 backdrop-blur-sm border-t border-battlefield-gold/10 z-40">
