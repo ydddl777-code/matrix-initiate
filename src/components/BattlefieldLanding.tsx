@@ -299,13 +299,13 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
         </>
       )}
 
-      {/* === OCTAGON RING LINES === */}
+      {/* === THUNDERDOME RING LINES === */}
       <div className="absolute inset-0 z-[18] pointer-events-none flex items-center justify-center">
         <svg viewBox="0 0 800 800" className="w-[70vmin] h-[70vmin] opacity-[0.08]">
           <polygon
             points="331,50 469,50 700,200 750,400 700,600 469,750 331,750 100,600 50,400 100,200"
             fill="none"
-            stroke="hsl(45, 80%, 50%)"
+            stroke="hsl(0, 70%, 45%)"
             strokeWidth="2"
           />
           <polygon
