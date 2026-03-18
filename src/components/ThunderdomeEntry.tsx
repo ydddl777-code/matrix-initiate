@@ -324,7 +324,7 @@ export const ThunderdomeEntry = ({ onEnter, onExit, gadImages, gadIndex }: Thund
           </p>
 
           {/* === MATCHUP DISPLAY === */}
-          <div className="mt-8 md:mt-12 flex items-center justify-center gap-3 md:gap-6">
+          <div className="mt-8 md:mt-12 grid grid-cols-[1fr_auto_1fr] items-center gap-3 md:gap-6 max-w-xl mx-auto">
             {/* Prophet Gad - Fixed */}
             <div className="text-right">
               <p className="font-display text-lg md:text-2xl lg:text-3xl uppercase tracking-wider font-bold"
@@ -337,7 +337,7 @@ export const ThunderdomeEntry = ({ onEnter, onExit, gadImages, gadIndex }: Thund
             </div>
 
             {/* VS */}
-            <div className="flex-shrink-0">
+            <div className="flex-shrink-0 text-center">
               <span className="font-display text-xl md:text-3xl lg:text-4xl font-bold"
                 style={{
                   color: 'hsl(45 80% 55%)',
@@ -348,7 +348,7 @@ export const ThunderdomeEntry = ({ onEnter, onExit, gadImages, gadIndex }: Thund
             </div>
 
             {/* Rotating Opponent */}
-            <div className="text-left min-w-[140px] md:min-w-[200px]">
+            <div className="text-left">
               <p
                 key={fadeKey}
                 className="font-display text-lg md:text-2xl lg:text-3xl uppercase tracking-wider font-bold animate-fade-in"
