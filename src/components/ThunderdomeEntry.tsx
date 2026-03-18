@@ -11,6 +11,36 @@ import pharaoh from "@/assets/villains/pharaoh.png";
 import darwin from "@/assets/villains/darwin.png";
 import falseProphet from "@/assets/villains/false-prophet.png";
 
+// Tribal banner imports (birth order)
+import bannerReuben from "@/assets/banners/reuben.png";
+import bannerSimeon from "@/assets/banners/simeon.png";
+import bannerLevi from "@/assets/banners/levi.png";
+import bannerJudah from "@/assets/banners/judah.png";
+import bannerDan from "@/assets/banners/dan.png";
+import bannerNaphtali from "@/assets/banners/naphtali.png";
+import bannerGad from "@/assets/banners/gad.png";
+import bannerAsher from "@/assets/banners/asher.png";
+import bannerIssachar from "@/assets/banners/issachar.png";
+import bannerZebulun from "@/assets/banners/zebulun.png";
+import bannerJoseph from "@/assets/banners/joseph.png";
+import bannerBenjamin from "@/assets/banners/benjamin.png";
+
+// Birth order — Gad (index 6) gets special treatment
+const tribalBanners = [
+  { name: "Reuben", img: bannerReuben },
+  { name: "Simeon", img: bannerSimeon },
+  { name: "Levi", img: bannerLevi },
+  { name: "Judah", img: bannerJudah },
+  { name: "Dan", img: bannerDan },
+  { name: "Naphtali", img: bannerNaphtali },
+  { name: "Gad", img: bannerGad },
+  { name: "Asher", img: bannerAsher },
+  { name: "Issachar", img: bannerIssachar },
+  { name: "Zebulun", img: bannerZebulun },
+  { name: "Joseph", img: bannerJoseph },
+  { name: "Benjamin", img: bannerBenjamin },
+];
+
 const opponents = [
   { name: "NIMROD", img: nimrod, title: "The Usurper King" },
   { name: "AHAB", img: ahab, title: "The Weak King" },
