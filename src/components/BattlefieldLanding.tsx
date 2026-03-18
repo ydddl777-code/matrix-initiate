@@ -149,6 +149,7 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
     setIsMuted((prev) => {
       const next = !prev;
       if (musicRef.current) musicRef.current.muted = next;
+      if (announcementRef.current) announcementRef.current.muted = next;
       if (iterationCount === 0) {
         if (gadVideoRef.current) gadVideoRef.current.muted = next;
         if (competitorVideoRef.current) competitorVideoRef.current.muted = next;
