@@ -1,7 +1,6 @@
-import pgaiWarrior from "@/assets/pgai-warrior-new.png";
+import pgaiBreastplate from "@/assets/pgai-breastplate.png";
 import pgaiSuit from "@/assets/pgai-suit-new.jpg";
-import pgaiDining from "@/assets/pgai-dining.png";
-import pgaiPortrait from "@/assets/pgai-portrait.jpg";
+import pgaiWarrior from "@/assets/pgai-warrior-new.png";
 
 export const ProphetGallery = () => {
   const images = [
