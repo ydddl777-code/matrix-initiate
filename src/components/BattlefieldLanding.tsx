@@ -36,6 +36,9 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
   const [iterationCount, setIterationCount] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showCTA, setShowCTA] = useState(false);
+  const [showAnnouncement, setShowAnnouncement] = useState(false);
+  const [announcementPlaying, setAnnouncementPlaying] = useState(false);
+  const announcementRef = useRef<HTMLAudioElement | null>(null);
 
   const gadVideoRef = useRef<HTMLVideoElement>(null);
   const competitorVideoRef = useRef<HTMLVideoElement>(null);
@@ -66,16 +69,79 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
     }
   };
 
+  const playAnnouncement = useCallback(async () => {
+    setShowAnnouncement(true);
+    setAnnouncementPlaying(true);
+    // Lower music volume during announcement
+    if (musicRef.current) musicRef.current.volume = 0.15;
+
+    const announcementText = `Welcome to the Thunderdome. This is Prophet Gad's Bible Debate Arena. What you see here is not a physical battle. This is verbal dialogue and discourse, grounded in the Scriptures. No one gets hurt. When you enter the Dome, truth will be unveiled. Step forward, if you're ready.`;
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/elevenlabs-tts`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          },
+          body: JSON.stringify({
+            text: announcementText,
+            voiceId: "nPczCjzI2devNBz1zQrb", // Brian — neutral announcer voice
+          }),
+        }
+      );
+
+      if (response.ok) {
+        const audioBlob = await response.blob();
+        const audioUrl = URL.createObjectURL(audioBlob);
+        const audio = new Audio(audioUrl);
+        announcementRef.current = audio;
+        audio.muted = isMuted;
+        audio.onended = () => {
+          setAnnouncementPlaying(false);
+          setShowCTA(true);
+          if (musicRef.current) musicRef.current.volume = 0.3;
+          URL.revokeObjectURL(audioUrl);
+        };
+        await audio.play();
+      } else {
+        // Fallback: just show CTA after a delay if TTS fails
+        setTimeout(() => {
+          setAnnouncementPlaying(false);
+          setShowCTA(true);
+          if (musicRef.current) musicRef.current.volume = 0.3;
+        }, 5000);
+      }
+    } catch {
+      setTimeout(() => {
+        setAnnouncementPlaying(false);
+        setShowCTA(true);
+        if (musicRef.current) musicRef.current.volume = 0.3;
+      }, 5000);
+    }
+  }, [isMuted]);
+
   const handleCompetitorVideoEnd = () => {
     setIterationCount((prev) => prev + 1);
     setVideoPhase("gad");
-    if (gadVideoRef.current) {
-      gadVideoRef.current.currentTime = 0;
-      gadVideoRef.current.muted = true;
-      gadVideoRef.current.play().catch(() => {});
-    }
     if (iterationCount >= 1) {
-      setShowCTA(true);
+      // Stop videos after 2 loops, trigger announcement
+      if (gadVideoRef.current) {
+        gadVideoRef.current.pause();
+      }
+      if (competitorVideoRef.current) {
+        competitorVideoRef.current.pause();
+      }
+      playAnnouncement();
+    } else {
+      if (gadVideoRef.current) {
+        gadVideoRef.current.currentTime = 0;
+        gadVideoRef.current.muted = true;
+        gadVideoRef.current.play().catch(() => {});
+      }
     }
   };
 
@@ -83,6 +149,7 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
     setIsMuted((prev) => {
       const next = !prev;
       if (musicRef.current) musicRef.current.muted = next;
+      if (announcementRef.current) announcementRef.current.muted = next;
       if (iterationCount === 0) {
         if (gadVideoRef.current) gadVideoRef.current.muted = next;
         if (competitorVideoRef.current) competitorVideoRef.current.muted = next;
@@ -317,7 +384,49 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
         </svg>
       </div>
 
-      {/* === ENTER THE THUNDERDOME CTA (after 2 loops) === */}
+      {/* === ANNOUNCER OVERLAY (after videos stop) === */}
+      {showAnnouncement && !showCTA && (
+        <div className="absolute inset-0 z-[40] flex items-center justify-center p-6">
+          <div className="text-center animate-fade-in max-w-2xl">
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background: `radial-gradient(ellipse 50% 50% at 50% 50%, hsl(0 0% 0% / 0.7) 0%, hsl(0 0% 0% / 0.3) 70%, transparent 100%)`,
+              }}
+            />
+            <p className="font-display text-lg md:text-2xl lg:text-3xl uppercase tracking-[0.2em] font-bold relative"
+              style={{ color: 'hsl(45 80% 55%)', textShadow: '0 0 20px hsl(45 80% 50% / 0.4)' }}>
+              The Thunderdome
+            </p>
+            <p className="font-terminal text-xs md:text-sm mt-4 leading-relaxed tracking-wider relative"
+              style={{ color: 'hsl(0 0% 80%)' }}>
+              {announcementPlaying ? (
+                <>
+                  This is Prophet Gad's <span style={{ color: 'hsl(45 80% 55%)' }}>Bible Debate Arena</span>.<br />
+                  Not a physical battle — <span style={{ color: 'hsl(0 0% 100%)' }}>verbal dialogue and discourse</span>,<br />
+                  grounded in the Scriptures.<br /><br />
+                  <span style={{ color: 'hsl(0 0% 60%)' }}>No one gets hurt. When you enter the Dome, truth will be unveiled.</span>
+                </>
+              ) : (
+                <span style={{ color: 'hsl(0 0% 50%)' }}>Preparing the arena...</span>
+              )}
+            </p>
+            {announcementPlaying && (
+              <div className="mt-6 flex items-center justify-center gap-1">
+                {[0, 1, 2, 3, 4].map(i => (
+                  <div key={i} className="w-1 bg-white/40 rounded-full"
+                    style={{
+                      height: '12px',
+                      animation: `announcer-bar 1s ${i * 0.15}s ease-in-out infinite alternate`,
+                    }} />
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* === ENTER THE THUNDERDOME CTA (after announcement) === */}
       {showCTA && (
         <div className="absolute inset-0 z-[40] flex items-end justify-center pb-[12vh] md:pb-[15vh]">
           <div className="text-center animate-fade-in">
@@ -446,6 +555,11 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
             border-color: hsl(0 80% 55%);
             transform: scale(1.03);
           }
+        }
+
+        @keyframes announcer-bar {
+          0% { height: 4px; }
+          100% { height: 16px; }
         }
       `}</style>
     </div>
