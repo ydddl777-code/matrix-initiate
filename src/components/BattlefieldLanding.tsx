@@ -556,6 +556,11 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
             transform: scale(1.03);
           }
         }
+
+        @keyframes announcer-bar {
+          0% { height: 4px; }
+          100% { height: 16px; }
+        }
       `}</style>
     </div>
   );
