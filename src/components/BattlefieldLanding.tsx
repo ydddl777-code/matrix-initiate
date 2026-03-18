@@ -361,7 +361,7 @@ Enter — if you have the courage.`;
         }}
       />
 
-      {/* === WARRIOR IMAGE FLANKS (after first loop) === */}
+      {/* === WARRIOR IMAGE — LEFT PANEL (Gad only) === */}
       {iterationCount > 0 && (
         <>
           <div className="absolute left-0 top-0 bottom-0 w-[15%] z-[20] overflow-hidden pointer-events-none">
@@ -376,13 +376,14 @@ Enter — if you have the courage.`;
               }}
             />
           </div>
+          {/* === PROPHETESS HULDAH — RIGHT PANEL === */}
           <div className="absolute right-0 top-0 bottom-0 w-[15%] z-[20] overflow-hidden pointer-events-none">
             <img
-              src={warriorImages[(currentImageIndex + 3) % warriorImages.length].src}
-              alt={warriorImages[(currentImageIndex + 3) % warriorImages.length].alt}
-              className="h-full w-full object-cover object-center transition-opacity duration-1000"
+              src={prophetessHuldah}
+              alt="Prophetess Huldah"
+              className="h-full w-full object-cover object-top transition-opacity duration-1000"
               style={{
-                filter: "brightness(0.4) contrast(1.4) sepia(0.5) hue-rotate(-10deg)",
+                filter: "brightness(0.4) contrast(1.3) sepia(0.4) hue-rotate(-5deg)",
                 maskImage: "linear-gradient(to left, black 40%, transparent 100%)",
                 WebkitMaskImage: "linear-gradient(to left, black 40%, transparent 100%)",
               }}
