@@ -11,6 +11,36 @@ import pharaoh from "@/assets/villains/pharaoh.png";
 import darwin from "@/assets/villains/darwin.png";
 import falseProphet from "@/assets/villains/false-prophet.png";
 
+// Tribal banner imports (birth order)
+import bannerReuben from "@/assets/banners/reuben.png";
+import bannerSimeon from "@/assets/banners/simeon.png";
+import bannerLevi from "@/assets/banners/levi.png";
+import bannerJudah from "@/assets/banners/judah.png";
+import bannerDan from "@/assets/banners/dan.png";
+import bannerNaphtali from "@/assets/banners/naphtali.png";
+import bannerGad from "@/assets/banners/gad.png";
+import bannerAsher from "@/assets/banners/asher.png";
+import bannerIssachar from "@/assets/banners/issachar.png";
+import bannerZebulun from "@/assets/banners/zebulun.png";
+import bannerJoseph from "@/assets/banners/joseph.png";
+import bannerBenjamin from "@/assets/banners/benjamin.png";
+
+// Birth order — Gad (index 6) gets special treatment
+const tribalBanners = [
+  { name: "Reuben", img: bannerReuben },
+  { name: "Simeon", img: bannerSimeon },
+  { name: "Levi", img: bannerLevi },
+  { name: "Judah", img: bannerJudah },
+  { name: "Dan", img: bannerDan },
+  { name: "Naphtali", img: bannerNaphtali },
+  { name: "Gad", img: bannerGad },
+  { name: "Asher", img: bannerAsher },
+  { name: "Issachar", img: bannerIssachar },
+  { name: "Zebulun", img: bannerZebulun },
+  { name: "Joseph", img: bannerJoseph },
+  { name: "Benjamin", img: bannerBenjamin },
+];
+
 const opponents = [
   { name: "NIMROD", img: nimrod, title: "The Usurper King" },
   { name: "AHAB", img: ahab, title: "The Weak King" },
@@ -122,13 +152,69 @@ export const ThunderdomeEntry = ({ onEnter, onExit, gadImages, gadIndex }: Thund
         }} />
       </div>
 
-      {/* === VILLAIN PORTRAITS — Rotating perimeter === */}
+      {/* === 12 TRIBES BANNERS — Perimeter === */}
       <div className="absolute inset-0 z-[6] pointer-events-none hidden md:block">
+        {tribalBanners.map((tribe, i) => {
+          const isGad = tribe.name === "Gad";
+          // Distribute 11 non-Gad banners around perimeter (Gad goes behind left panel)
+          if (isGad) return null;
+          // Position the 11 remaining banners in an arc around the arena
+          const nonGadIndex = i > 6 ? i - 1 : i; // adjust index since Gad is removed
+          const startAngle = -60; // degrees, starting from upper-right
+          const arcSpan = 300; // degrees of arc (leaving gap at left for Gad panel)
+          const angle = (startAngle + nonGadIndex * (arcSpan / 10)) * (Math.PI / 180);
+          const radiusX = 46;
+          const radiusY = 44;
+          const x = 50 + radiusX * Math.cos(angle);
+          const y = 50 + radiusY * Math.sin(angle);
+          return (
+            <div
+              key={tribe.name}
+              className="absolute"
+              style={{
+                left: `${x}%`,
+                top: `${y}%`,
+                transform: 'translate(-50%, -50%)',
+              }}
+            >
+              <div className="w-10 h-16 lg:w-12 lg:h-20 overflow-hidden"
+                style={{
+                  opacity: 0.3,
+                  filter: 'brightness(0.5) saturate(0.7)',
+                }}>
+                <img src={tribe.img} alt={`Banner of ${tribe.name}`}
+                  className="w-full h-full object-contain" />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* === GAD'S BANNER — Behind left panel, special treatment === */}
+      <div className="absolute left-[1%] top-[5%] z-[8] pointer-events-none hidden md:block"
+        style={{
+          width: '80px',
+          height: '140px',
+        }}>
+        <div className="w-full h-full overflow-hidden"
+          style={{
+            opacity: 0.55,
+            filter: 'brightness(0.7) saturate(0.9)',
+            maskImage: 'linear-gradient(to right, black 60%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to right, black 60%, transparent 100%)',
+          }}>
+          <img src={bannerGad} alt="Banner of Gad — His House, His Tribe"
+            className="w-full h-full object-contain drop-shadow-[0_0_15px_hsl(45,80%,50%,0.3)]" />
+        </div>
+      </div>
+
+      {/* === VILLAIN PORTRAITS — Rotating perimeter === */}
+      <div className="absolute inset-0 z-[7] pointer-events-none hidden md:block">
         {opponents.map((villain, i) => {
           const angle = (i * (360 / opponents.length) - 90) * (Math.PI / 180);
-          const radiusX = 42;
-          const radiusY = 40;
-          const x = 50 + radiusX * Math.cos(angle + (Date.now() / 20000) * Math.PI * 2 / opponents.length * 0);
+          const radiusX = 36;
+          const radiusY = 34;
+          const x = 50 + radiusX * Math.cos(angle);
           const y = 50 + radiusY * Math.sin(angle);
           const isActive = i === opponentIndex;
           return (
