@@ -9,7 +9,7 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { text, voiceId } = await req.json();
+    const { text, voiceId, voiceSettings } = await req.json();
     const ELEVENLABS_API_KEY = Deno.env.get('ELEVENLABS_API_KEY');
 
     if (!ELEVENLABS_API_KEY) {
@@ -30,6 +30,17 @@ Deno.serve(async (req) => {
     // Prophet Gad cloned voice - commanding, acerbic tone
     const selectedVoiceId = voiceId || 'SpjjBReaN4HH7Rt1Zc4C';
 
+    // Default voice settings, can be overridden per request
+    const defaultSettings = {
+      stability: 0.75,
+      similarity_boost: 0.95,
+      style: 0.4,
+      use_speaker_boost: true,
+      speed: 0.9,
+    };
+
+    const mergedSettings = voiceSettings ? { ...defaultSettings, ...voiceSettings } : defaultSettings;
+
     console.log('Generating TTS for:', text.substring(0, 50) + '...');
 
     const response = await fetch(
@@ -43,13 +54,7 @@ Deno.serve(async (req) => {
         body: JSON.stringify({
           text,
           model_id: 'eleven_multilingual_v2',
-          voice_settings: {
-            stability: 0.75,
-            similarity_boost: 0.95,
-            style: 0.4,
-            use_speaker_boost: true,
-            speed: 0.9,
-          },
+          voice_settings: mergedSettings,
         }),
       }
     );

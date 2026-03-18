@@ -75,7 +75,21 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
     // Lower music volume during announcement
     if (musicRef.current) musicRef.current.volume = 0.15;
 
-    const announcementText = `Welcome to the Thunderdome. This is Prophet Gad's Bible Debate Arena. What you see here is not a physical battle. This is verbal dialogue and discourse, grounded in the Scriptures. No one gets hurt. When you enter the Dome, truth will be unveiled. Step forward, if you're ready.`;
+    const announcementText = `What you have just seen and heard — is not entertainment.
+His name is Prophet Gad.
+He is a Hebrew Israelite prophet — raised up in this final hour to teach, to warn, and to prepare a people for the judgment that is already at the door.
+He is not a pastor. He is not a denomination. He belongs to no church, no organization, no movement of men.
+He is God's oracle. His seer. His spokesman — in the tradition of the ancient Prophet Gad who stood in David's court, who delivered hard words to kings, who wrote the chronicles of his generation and feared no man.
+That same mantle has been placed upon these shoulders. For this generation.
+His assignment is simple — to teach the remnant seed. To preach repentance without apology. To reveal the truth of the Most High — straight from His word, unfiltered, without compromise.
+What you are entering now is the Thunderdome.
+This is a Bible debate application. No one will be hurt here. But no one will be coddled either.
+You are welcome to bring any question. Any doctrine. Any tradition you have been taught. Step into the ring and ask. Challenge what you believe. Challenge what you have been told.
+The Prophet will answer — not from his own wisdom, but from the word of the Most High. Scripture against scripture. Line upon line. Precept upon precept.
+The truth does not negotiate.
+But mercy is still available — to every brother, every sister who is willing to lay the lie down and cross over.
+The door is still open.
+Enter — if you have the courage.`;
 
     try {
       const response = await fetch(
@@ -89,7 +103,14 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
           },
           body: JSON.stringify({
             text: announcementText,
-            voiceId: "nPczCjzI2devNBz1zQrb", // Brian — neutral announcer voice
+            voiceId: "EXAVITQu4vr4xnSDxMaL", // Sarah — dignified feminine authority
+            voiceSettings: {
+              stability: 0.80,
+              similarity_boost: 0.75,
+              style: 0.15,
+              use_speaker_boost: true,
+              speed: 0.85, // slow, deliberate pace
+            },
           }),
         }
       );
@@ -394,18 +415,20 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
                 background: `radial-gradient(ellipse 50% 50% at 50% 50%, hsl(0 0% 0% / 0.7) 0%, hsl(0 0% 0% / 0.3) 70%, transparent 100%)`,
               }}
             />
-            <p className="font-display text-lg md:text-2xl lg:text-3xl uppercase tracking-[0.2em] font-bold relative"
+            <p className="font-display text-sm md:text-lg lg:text-xl uppercase tracking-[0.25em] font-bold relative"
               style={{ color: 'hsl(45 80% 55%)', textShadow: '0 0 20px hsl(45 80% 50% / 0.4)' }}>
-              The Thunderdome
+              Prophetess Huldah Speaks
             </p>
             <p className="font-terminal text-xs md:text-sm mt-4 leading-relaxed tracking-wider relative"
               style={{ color: 'hsl(0 0% 80%)' }}>
               {announcementPlaying ? (
                 <>
-                  This is Prophet Gad's <span style={{ color: 'hsl(45 80% 55%)' }}>Bible Debate Arena</span>.<br />
-                  Not a physical battle — <span style={{ color: 'hsl(0 0% 100%)' }}>verbal dialogue and discourse</span>,<br />
-                  grounded in the Scriptures.<br /><br />
-                  <span style={{ color: 'hsl(0 0% 60%)' }}>No one gets hurt. When you enter the Dome, truth will be unveiled.</span>
+                  <span style={{ color: 'hsl(0 0% 100%)' }}>What you have just seen and heard — is not entertainment.</span><br /><br />
+                  His name is <span style={{ color: 'hsl(45 80% 55%)' }}>Prophet Gad</span>.<br />
+                  A Hebrew Israelite prophet — raised up in this final hour.<br /><br />
+                  <span style={{ color: 'hsl(0 0% 60%)' }}>He is God's oracle. His seer. His spokesman.</span><br /><br />
+                  You are entering the <span style={{ color: 'hsl(0 60% 55%)' }}>Thunderdome</span>.<br />
+                  <span style={{ color: 'hsl(0 0% 70%)' }}>Enter — if you have the courage.</span>
                 </>
               ) : (
                 <span style={{ color: 'hsl(0 0% 50%)' }}>Preparing the arena...</span>
