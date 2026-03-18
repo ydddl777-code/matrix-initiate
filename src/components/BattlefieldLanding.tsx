@@ -5,6 +5,7 @@ import pgaiMilitary from "@/assets/pgai-nobg.png";
 import pgaiGeneral from "@/assets/pgai-general.png";
 import pgaiBreastplate from "@/assets/pgai-breastplate.png";
 import pgaiGeneralLight from "@/assets/pgai-general-light.png";
+import { AnnouncerSubtitles } from "./AnnouncerSubtitles";
 
 type VideoPhase = "gad" | "competitor";
 
