@@ -319,7 +319,7 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
 
       {/* === ENTER THE THUNDERDOME CTA (after 2 loops) === */}
       {showCTA && (
-        <div className="absolute inset-0 z-[40] flex items-center justify-center">
+        <div className="absolute inset-0 z-[40] flex items-end justify-center pb-[12vh] md:pb-[15vh]">
           <div className="text-center animate-fade-in">
             <div
               className="absolute inset-0 pointer-events-none"
