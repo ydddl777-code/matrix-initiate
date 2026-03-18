@@ -330,7 +330,7 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
             <button
               onClick={onEnterSanctuary}
               className="relative px-14 md:px-20 py-5 md:py-7 font-display text-xl md:text-3xl lg:text-4xl uppercase tracking-[0.3em]
-                         border-2 transition-all duration-500 cursor-pointer group animate-[thunderdome-pulse_2.5s_ease-in-out_infinite]"
+                         border-2 transition-all duration-500 cursor-pointer group"
               style={{
                 background: 'linear-gradient(180deg, hsl(0 60% 20% / 0.6) 0%, hsl(0 50% 12% / 0.8) 100%)',
                 borderColor: 'hsl(0 70% 45%)',
@@ -354,7 +354,15 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
               Step Into the Thunderdome
             </button>
             <p
-              className="font-display text-sm md:text-lg lg:text-xl mt-6 tracking-[0.3em] uppercase font-bold px-5 md:px-8 py-2 md:py-3 mx-auto inline-block rounded"
+              className="font-terminal text-xs md:text-sm mt-4 tracking-[0.3em] uppercase"
+              style={{
+                color: 'hsl(0 0% 70%)',
+              }}
+            >
+              ▲ Press to enter the Dome ▲
+            </p>
+            <p
+              className="font-display text-sm md:text-lg lg:text-xl mt-4 tracking-[0.3em] uppercase font-bold px-5 md:px-8 py-2 md:py-3 mx-auto inline-block rounded"
               style={{
                 color: 'hsl(0 0% 100%)',
                 background: 'hsl(220 70% 35% / 0.85)',
