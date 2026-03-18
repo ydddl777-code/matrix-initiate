@@ -6,9 +6,9 @@ import pgaiPortrait from "@/assets/pgai-portrait.jpg";
 export const ProphetGallery = () => {
   const images = [
     {
-      src: pgaiWarrior,
-      alt: "Prophet Gad - Warrior of Israel",
-      caption: "THE WARRIOR",
+      src: pgaiBreastplate,
+      alt: "Prophet Gad - The Prophet",
+      caption: "PROPHET GAD",
     },
     {
       src: pgaiSuit,
@@ -16,14 +16,9 @@ export const ProphetGallery = () => {
       caption: "THE COMMANDER",
     },
     {
-      src: pgaiPortrait,
-      alt: "Prophet Gad - The Prophet",
-      caption: "THE PROPHET",
-    },
-    {
-      src: pgaiDining,
-      alt: "Prophet Gad - The Gathering",
-      caption: "THE GATHERING",
+      src: pgaiWarrior,
+      alt: "Prophet Gad - Warrior of Israel",
+      caption: "THE WARRIOR",
     },
   ];
 
