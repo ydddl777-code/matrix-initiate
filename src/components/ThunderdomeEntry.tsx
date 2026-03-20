@@ -279,9 +279,9 @@ export const ThunderdomeEntry = ({ onEnter, onExit, gadImages, gadIndex }: Thund
           }}
         />
         <div className="absolute bottom-8 right-3 z-10">
-          <p className="font-display text-xs md:text-sm tracking-[0.3em] uppercase font-bold text-right"
+          <p className="font-display text-[9px] md:text-xs tracking-[0.2em] uppercase font-bold text-right"
             style={{ color: 'hsl(0 70% 50%)', textShadow: '0 0 10px hsl(0 70% 50% / 0.5)' }}>
-            CHALLENGER
+            {current.name}
           </p>
         </div>
       </div>
