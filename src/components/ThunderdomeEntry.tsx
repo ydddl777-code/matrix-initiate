@@ -279,9 +279,9 @@ export const ThunderdomeEntry = ({ onEnter, onExit, gadImages, gadIndex }: Thund
           }}
         />
         <div className="absolute bottom-8 right-3 z-10">
-          <p className="font-display text-xs md:text-sm tracking-[0.3em] uppercase font-bold text-right"
+          <p className="font-display text-[9px] md:text-xs tracking-[0.2em] uppercase font-bold text-right"
             style={{ color: 'hsl(0 70% 50%)', textShadow: '0 0 10px hsl(0 70% 50% / 0.5)' }}>
-            CHALLENGER
+            {current.name}
           </p>
         </div>
       </div>
@@ -293,12 +293,12 @@ export const ThunderdomeEntry = ({ onEnter, onExit, gadImages, gadIndex }: Thund
           <img
             src={lionOfJudah}
             alt="Lion of Judah"
-            className="w-20 h-20 md:w-28 md:h-28 mx-auto mb-4 drop-shadow-[0_0_30px_hsl(0,70%,50%,0.5)]"
+            className="w-16 h-16 md:w-20 md:h-20 mx-auto mb-3 drop-shadow-[0_0_30px_hsl(0,70%,50%,0.5)]"
           />
 
-          {/* THUNDERDOME */}
+          {/* THUNDERDOME — centered, scaled to fit */}
           <h1
-            className="font-display text-4xl md:text-6xl lg:text-7xl uppercase tracking-[0.3em] font-bold"
+            className="font-display text-3xl md:text-5xl lg:text-6xl uppercase tracking-[0.2em] font-bold text-center mx-auto"
             style={{
               color: 'hsl(0 70% 50%)',
               textShadow: `
@@ -314,7 +314,7 @@ export const ThunderdomeEntry = ({ onEnter, onExit, gadImages, gadIndex }: Thund
 
           {/* THE TRUTH DOES NOT NEGOTIATE */}
           <p
-            className="font-ceremonial text-sm md:text-base mt-3 tracking-[0.4em] uppercase"
+            className="font-ceremonial text-xs md:text-sm mt-2 tracking-[0.4em] uppercase text-center"
             style={{
               color: 'hsl(45 80% 55%)',
               textShadow: '0 0 15px hsl(45 80% 50% / 0.3)',
@@ -323,49 +323,43 @@ export const ThunderdomeEntry = ({ onEnter, onExit, gadImages, gadIndex }: Thund
             The Truth Does Not Negotiate
           </p>
 
-          {/* === MATCHUP DISPLAY === */}
-          <div className="mt-8 md:mt-12 grid grid-cols-[1fr_auto_1fr] items-center gap-3 md:gap-6 max-w-xl mx-auto">
+          {/* === MATCHUP DISPLAY — single line === */}
+          <div className="mt-6 md:mt-10 flex items-center justify-center gap-2 md:gap-4 max-w-xl mx-auto">
             {/* Prophet Gad - Fixed */}
-            <div className="text-right">
-              <p className="font-display text-lg md:text-2xl lg:text-3xl uppercase tracking-wider font-bold"
-                style={{
-                  color: 'hsl(0 70% 55%)',
-                  textShadow: '0 0 15px hsl(0 70% 50% / 0.4)',
-                }}>
-                PROPHET GAD
-              </p>
-            </div>
+            <p className="font-display text-sm md:text-xl lg:text-2xl uppercase tracking-wider font-bold whitespace-nowrap"
+              style={{
+                color: 'hsl(0 70% 55%)',
+                textShadow: '0 0 15px hsl(0 70% 50% / 0.4)',
+              }}>
+              GAD
+            </p>
 
             {/* VS */}
-            <div className="flex-shrink-0 text-center">
-              <span className="font-display text-xl md:text-3xl lg:text-4xl font-bold"
-                style={{
-                  color: 'hsl(45 80% 55%)',
-                  textShadow: '0 0 20px hsl(45 80% 50% / 0.5)',
-                }}>
-                vs.
-              </span>
-            </div>
+            <span className="font-display text-lg md:text-2xl lg:text-3xl font-bold flex-shrink-0"
+              style={{
+                color: 'hsl(45 80% 55%)',
+                textShadow: '0 0 20px hsl(45 80% 50% / 0.5)',
+              }}>
+              vs.
+            </span>
 
             {/* Rotating Opponent */}
-            <div className="text-left">
-              <p
-                key={fadeKey}
-                className="font-display text-lg md:text-2xl lg:text-3xl uppercase tracking-wider font-bold animate-fade-in"
-                style={{
-                  color: 'hsl(0 50% 40%)',
-                  textShadow: '0 0 15px hsl(0 70% 50% / 0.3)',
-                }}
-              >
-                {current.name}
-              </p>
-            </div>
+            <p
+              key={fadeKey}
+              className="font-display text-sm md:text-xl lg:text-2xl uppercase tracking-wider font-bold animate-fade-in whitespace-nowrap"
+              style={{
+                color: 'hsl(0 50% 40%)',
+                textShadow: '0 0 15px hsl(0 70% 50% / 0.3)',
+              }}
+            >
+              {current.name}
+            </p>
           </div>
 
           {/* === ENTER BUTTON === */}
           <button
             onClick={onEnter}
-            className="mt-10 md:mt-14 px-10 md:px-16 py-4 md:py-5 font-display text-base md:text-xl uppercase tracking-[0.3em]
+            className="mt-8 md:mt-12 px-10 md:px-16 py-4 md:py-5 font-display text-base md:text-xl uppercase tracking-[0.3em]
                        border-2 transition-all duration-500 cursor-pointer group relative overflow-hidden"
             style={{
               background: 'linear-gradient(180deg, hsl(0 60% 25% / 0.7) 0%, hsl(0 50% 15% / 0.9) 100%)',
@@ -387,11 +381,11 @@ export const ThunderdomeEntry = ({ onEnter, onExit, gadImages, gadIndex }: Thund
               e.currentTarget.style.background = 'linear-gradient(180deg, hsl(0 60% 25% / 0.7) 0%, hsl(0 50% 15% / 0.9) 100%)';
             }}
           >
-            ENTER THE THUNDERDOME
+            ENTER
           </button>
 
           {/* Mobile villain carousel */}
-          <div className="mt-8 flex md:hidden items-center justify-center gap-2 overflow-x-auto pb-2">
+          <div className="mt-6 flex md:hidden items-center justify-center gap-2 overflow-x-auto pb-2">
             {opponents.map((v, i) => (
               <div
                 key={v.name}
