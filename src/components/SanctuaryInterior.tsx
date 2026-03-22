@@ -2,40 +2,22 @@ import { useState, useEffect, useRef } from "react";
 import { ArrowLeft } from "lucide-react";
 import { DoctrinalWarfare } from "./doctrine/DoctrinalWarfare";
 import { ThunderdomeEntry } from "./ThunderdomeEntry";
-import pgaiWarrior from "@/assets/pgai-warrior-new.png";
-import pgaiGeneral from "@/assets/pgai-general.png";
-import pgaiBreastplate from "@/assets/pgai-breastplate.png";
-import pgaiGeneralLight from "@/assets/pgai-general-light.png";
-import pgaiMilitary from "@/assets/pgai-nobg.png";
+import gadThreshingFloor from "@/assets/gad-threshing-floor.jpg";
 
 interface SanctuaryInteriorProps {
   onExit: () => void;
 }
 
-const gadImages = [
-  { src: pgaiWarrior, alt: "Prophet Gad - Warrior" },
-  { src: pgaiGeneral, alt: "Prophet Gad - General" },
-  { src: pgaiBreastplate, alt: "Prophet Gad - Breastplate" },
-  { src: pgaiGeneralLight, alt: "Prophet Gad - Commander" },
-  { src: pgaiMilitary, alt: "Prophet Gad - Military" },
-];
+// Single stationary image — Gad does NOT rotate
+const gadImage = { src: gadThreshingFloor, alt: "Prophet Gad - Threshing Floor" };
 
 export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
-  const [gadIndex, setGadIndex] = useState(0);
   const [hasEntered, setHasEntered] = useState(false);
   const musicRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setGadIndex((prev) => (prev + 1) % gadImages.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
     if (musicRef.current) {
       musicRef.current.volume = 0.15;
-      // Audio disabled — user must manually start playback
     }
     const handleAudioStart = () => {
       if (musicRef.current) musicRef.current.volume = 0.03;
@@ -56,8 +38,7 @@ export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
       <ThunderdomeEntry
         onEnter={() => setHasEntered(true)}
         onExit={onExit}
-        gadImages={gadImages}
-        gadIndex={gadIndex}
+        gadImage={gadImage}
       />
     );
   }
@@ -78,9 +59,9 @@ export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
 
       {/* GAD'S CORNER (Left) */}
       <div className="absolute left-0 top-0 bottom-0 w-[12%] md:w-[15%] z-[2] overflow-hidden pointer-events-none">
-        <img
-          src={gadImages[gadIndex].src}
-          alt={gadImages[gadIndex].alt}
+         <img
+           src={gadImage.src}
+           alt={gadImage.alt}
           className="h-full w-full object-cover object-center transition-opacity duration-1000"
           style={{
             filter: "brightness(0.5) contrast(1.3) sepia(0.2)",
