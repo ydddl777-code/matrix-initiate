@@ -43,11 +43,10 @@ const opponents = [
 interface ThunderdomeEntryProps {
   onEnter: () => void;
   onExit: () => void;
-  gadImages: { src: string; alt: string }[];
-  gadIndex: number;
+  gadImage: { src: string; alt: string };
 }
 
-export const ThunderdomeEntry = ({ onEnter, onExit, gadImages, gadIndex }: ThunderdomeEntryProps) => {
+export const ThunderdomeEntry = ({ onEnter, onExit, gadImage }: ThunderdomeEntryProps) => {
   const [opponentIndex, setOpponentIndex] = useState(0);
 
   useEffect(() => {

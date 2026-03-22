@@ -59,9 +59,9 @@ export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
 
       {/* GAD'S CORNER (Left) */}
       <div className="absolute left-0 top-0 bottom-0 w-[12%] md:w-[15%] z-[2] overflow-hidden pointer-events-none">
-        <img
-          src={gadImages[gadIndex].src}
-          alt={gadImages[gadIndex].alt}
+         <img
+           src={gadImage.src}
+           alt={gadImage.alt}
           className="h-full w-full object-cover object-center transition-opacity duration-1000"
           style={{
             filter: "brightness(0.5) contrast(1.3) sepia(0.2)",
