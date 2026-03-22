@@ -96,19 +96,32 @@ export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
 
       {/* CHALLENGER'S CORNER (Right) */}
       <div className="absolute right-0 top-0 bottom-0 w-[12%] md:w-[15%] z-[2] overflow-hidden pointer-events-none">
-        <img
-          src={gadImages[(gadIndex + 3) % gadImages.length].src}
-          alt="The Challenger"
-          className="h-full w-full object-cover object-center transition-opacity duration-1000"
+        <div
+          className="h-full w-full"
           style={{
-            filter: "brightness(0.4) contrast(1.4) sepia(0.3) hue-rotate(10deg)",
             maskImage: "linear-gradient(to left, black 40%, transparent 100%)",
             WebkitMaskImage: "linear-gradient(to left, black 40%, transparent 100%)",
+            background: `
+              radial-gradient(ellipse 34% 26% at 62% 20%, hsl(0 0% 18% / 0.9) 0%, transparent 100%),
+              radial-gradient(ellipse 28% 38% at 58% 50%, hsl(0 0% 15% / 0.96) 0%, transparent 100%),
+              radial-gradient(ellipse 30% 26% at 56% 79%, hsl(0 0% 12% / 0.96) 0%, transparent 100%),
+              linear-gradient(180deg, hsl(0 0% 10% / 0.96) 0%, hsl(0 0% 3% / 0.98) 100%)
+            `,
+            filter: "brightness(1.05) contrast(1.08)",
           }}
-        />
+        >
+          <div className="absolute inset-y-0 right-[12%] flex items-center justify-center">
+            <span
+              className="font-display text-5xl md:text-7xl"
+              style={{ color: "hsl(45 85% 58% / 0.86)", textShadow: "0 0 30px hsl(45 85% 58% / 0.24)" }}
+            >
+              ?
+            </span>
+          </div>
+        </div>
         <div className="absolute bottom-12 right-2 z-10">
           <p className="font-display text-[10px] md:text-xs tracking-widest text-right"
-            style={{ color: "hsl(0 70% 50%)", opacity: 0.6 }}>CHALLENGER</p>
+            style={{ color: "hsl(45 85% 58%)", opacity: 0.8 }}>CHALLENGER</p>
         </div>
       </div>
 
