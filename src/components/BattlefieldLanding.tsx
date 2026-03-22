@@ -78,21 +78,18 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
     // Lower music volume during announcement
     if (musicRef.current) musicRef.current.volume = 0.15;
 
-    const announcementText = `What you have just seen and heard — is not entertainment.
-His name is Prophet Gad.
-He is a Hebrew Israelite prophet — raised up in this final hour to teach, to warn, and to prepare a people for the judgment that is already at the door.
-He is not a pastor. He is not a denomination. He belongs to no church, no organization, no movement of men.
-He is God's oracle. His seer. His spokesman — in the tradition of the ancient Prophet Gad who stood in David's court, who delivered hard words to kings, who wrote the chronicles of his generation and feared no man.
-That same mantle has been placed upon these shoulders. For this generation.
-His assignment is simple — to teach the remnant seed. To preach repentance without apology. To reveal the truth of the Most High — straight from His word, unfiltered, without compromise.
-What you are entering now is the Thunderdome.
-This is a Bible debate application. No one will be hurt here. But no one will be coddled either.
-You are welcome to bring any question. Any doctrine. Any tradition you have been taught. Step into the ring and ask. Challenge what you believe. Challenge what you have been told.
-The Prophet will answer — not from his own wisdom, but from the word of the Most High. Scripture against scripture. Line upon line. Precept upon precept.
-The truth does not negotiate.
-But mercy is still available — to every brother, every sister who is willing to lay the lie down and cross over.
-The door is still open.
-Enter — if you have the courage.`;
+    const announcementText = `Welcome, friend. Welcome, stranger. Welcome, citizen of every nation.
+I am the Prophetess Huldah.
+This is a Bible doctrinal debate application.
+What you are seeing is symbolic.
+No one will be harmed here. No blood will be shed here.
+These images speak of spiritual warfare — the testing of doctrine, tradition, and every lie raised against the word of God.
+Prophet Gad answers with Scripture.
+With the King James Bible, sixteen eleven.
+Bring your question. Bring your doctrine. Bring what you have been taught.
+The Threshing Floor is a place of testing.
+Truth is welcome here.
+So enter in peace — and let every claim be weighed by the word of the Most High.`;
 
     try {
       const response = await fetch(
@@ -108,11 +105,11 @@ Enter — if you have the courage.`;
             text: announcementText,
             voiceId: "EXAVITQu4vr4xnSDxMaL", // Sarah — dignified feminine authority
             voiceSettings: {
-              stability: 0.80,
-              similarity_boost: 0.75,
-              style: 0.15,
+                stability: 0.82,
+                similarity_boost: 0.78,
+                style: 0.12,
               use_speaker_boost: true,
-              speed: 0.85, // slow, deliberate pace
+                speed: 0.82, // slow, deliberate pace
             },
           }),
         }
