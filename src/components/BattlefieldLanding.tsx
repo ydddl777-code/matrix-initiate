@@ -33,7 +33,7 @@ const embers = Array.from({ length: 30 }, (_, i) => ({
 }));
 
 export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps) => {
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
   const [videoPhase, setVideoPhase] = useState<VideoPhase>("gad");
   const [iterationCount, setIterationCount] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
