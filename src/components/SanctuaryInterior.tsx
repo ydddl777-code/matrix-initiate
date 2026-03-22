@@ -2,23 +2,14 @@ import { useState, useEffect, useRef } from "react";
 import { ArrowLeft } from "lucide-react";
 import { DoctrinalWarfare } from "./doctrine/DoctrinalWarfare";
 import { ThunderdomeEntry } from "./ThunderdomeEntry";
-import pgaiWarrior from "@/assets/pgai-warrior-new.png";
-import pgaiGeneral from "@/assets/pgai-general.png";
-import pgaiBreastplate from "@/assets/pgai-breastplate.png";
-import pgaiGeneralLight from "@/assets/pgai-general-light.png";
-import pgaiMilitary from "@/assets/pgai-nobg.png";
+import gadThreshingFloor from "@/assets/gad-threshing-floor.jpg";
 
 interface SanctuaryInteriorProps {
   onExit: () => void;
 }
 
-const gadImages = [
-  { src: pgaiWarrior, alt: "Prophet Gad - Warrior" },
-  { src: pgaiGeneral, alt: "Prophet Gad - General" },
-  { src: pgaiBreastplate, alt: "Prophet Gad - Breastplate" },
-  { src: pgaiGeneralLight, alt: "Prophet Gad - Commander" },
-  { src: pgaiMilitary, alt: "Prophet Gad - Military" },
-];
+// Single stationary image — Gad does NOT rotate
+const gadImage = { src: gadThreshingFloor, alt: "Prophet Gad - Threshing Floor" };
 
 export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
   const [gadIndex, setGadIndex] = useState(0);
