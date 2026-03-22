@@ -243,8 +243,8 @@ export const ThunderdomeEntry = ({ onEnter, onExit, gadImage }: ThunderdomeEntry
 
       <div className="absolute left-0 top-0 bottom-0 w-[14%] md:w-[16%] z-[10] overflow-hidden pointer-events-none">
         <img
-          src={gadImages[gadIndex].src}
-          alt={gadImages[gadIndex].alt}
+          src={gadImage.src}
+          alt={gadImage.alt}
           className="h-full w-full object-cover object-center transition-opacity duration-1000"
           style={{
             filter: "brightness(0.72) contrast(1.15) sepia(0.08)",
