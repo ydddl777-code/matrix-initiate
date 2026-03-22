@@ -35,7 +35,7 @@ export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
   useEffect(() => {
     if (musicRef.current) {
       musicRef.current.volume = 0.15;
-      musicRef.current.play().catch(() => {});
+      // Audio disabled — user must manually start playback
     }
     const handleAudioStart = () => {
       if (musicRef.current) musicRef.current.volume = 0.03;

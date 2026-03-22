@@ -33,7 +33,7 @@ const embers = Array.from({ length: 30 }, (_, i) => ({
 }));
 
 export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps) => {
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
   const [videoPhase, setVideoPhase] = useState<VideoPhase>("gad");
   const [iterationCount, setIterationCount] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -333,7 +333,7 @@ Enter — if you have the courage.`;
           src="/video/gad-challenge.mp4"
           autoPlay
           playsInline
-          muted={isMuted}
+          muted
           className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
             videoPhase === "gad" ? "opacity-100" : "opacity-0"
           }`}
@@ -343,7 +343,7 @@ Enter — if you have the courage.`;
           ref={competitorVideoRef}
           src="/video/gad-competitor.mp4"
           playsInline
-          muted={iterationCount > 0 || isMuted}
+          muted
           className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
             videoPhase === "competitor" ? "opacity-100" : "opacity-0"
           }`}
