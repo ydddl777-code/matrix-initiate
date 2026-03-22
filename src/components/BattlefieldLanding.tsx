@@ -332,9 +332,8 @@ Enter — if you have the courage.`;
           ref={gadVideoRef}
           src="/video/gad-challenge.mp4"
           autoPlay
-          muted
           playsInline
-          muted={isMuted}
+          muted
           className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
             videoPhase === "gad" ? "opacity-100" : "opacity-0"
           }`}
