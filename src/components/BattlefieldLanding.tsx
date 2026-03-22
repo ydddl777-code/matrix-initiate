@@ -343,7 +343,7 @@ Enter — if you have the courage.`;
           ref={competitorVideoRef}
           src="/video/gad-competitor.mp4"
           playsInline
-          muted={iterationCount > 0 || isMuted}
+          muted
           className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
             videoPhase === "competitor" ? "opacity-100" : "opacity-0"
           }`}
