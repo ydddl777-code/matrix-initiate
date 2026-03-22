@@ -12,21 +12,12 @@ interface SanctuaryInteriorProps {
 const gadImage = { src: gadThreshingFloor, alt: "Prophet Gad - Threshing Floor" };
 
 export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
-  const [gadIndex, setGadIndex] = useState(0);
   const [hasEntered, setHasEntered] = useState(false);
   const musicRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setGadIndex((prev) => (prev + 1) % gadImages.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
     if (musicRef.current) {
       musicRef.current.volume = 0.15;
-      // Audio disabled — user must manually start playback
     }
     const handleAudioStart = () => {
       if (musicRef.current) musicRef.current.volume = 0.03;
@@ -47,8 +38,7 @@ export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
       <ThunderdomeEntry
         onEnter={() => setHasEntered(true)}
         onExit={onExit}
-        gadImages={gadImages}
-        gadIndex={gadIndex}
+        gadImage={gadImage}
       />
     );
   }
