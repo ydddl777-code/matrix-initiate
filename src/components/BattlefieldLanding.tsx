@@ -577,6 +577,27 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
         </div>
       )}
 
+      {/* === SKIP / ADVANCE ARROW (visible after sequence starts) === */}
+      {isReady && (
+        <div className="fixed bottom-6 right-6 z-50">
+          <button
+            onClick={onEnterSanctuary}
+            className="flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-500 opacity-40 hover:opacity-100 group"
+            style={{
+              background: 'hsl(0 0% 5% / 0.7)',
+              backdropFilter: 'blur(8px)',
+              border: '1px solid hsl(45 60% 40% / 0.3)',
+            }}
+            title="Skip to Threshing Floor"
+          >
+            <span className="font-terminal text-[10px] tracking-[0.2em] uppercase" style={{ color: 'hsl(45 80% 55%)' }}>
+              SKIP
+            </span>
+            <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" style={{ color: 'hsl(45 80% 55%)' }} />
+          </button>
+        </div>
+      )}
+
       <style>{`
         @keyframes torch-flicker {
           0% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
