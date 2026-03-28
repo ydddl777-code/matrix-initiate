@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { ArrowLeft } from "lucide-react";
+import { NavArrows } from "./NavArrows";
 import { DoctrinalWarfare } from "./doctrine/DoctrinalWarfare";
 import { BrandHeader } from "./BrandHeader";
 import { ThunderdomeEntry } from "./ThunderdomeEntry";
