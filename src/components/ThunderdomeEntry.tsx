@@ -17,9 +17,7 @@ import villainFalseProphet from "@/assets/villains/false-prophet.png";
 // Tribal standards (flags)
 import tribeBenjamin from "@/assets/tribes/benjamin.jpeg";
 import tribeJudah from "@/assets/tribes/judah.jpeg";
-import tribeSimeon from "@/assets/tribes/simeon.jpeg";
 import tribeLevi from "@/assets/tribes/levi.jpeg";
-import tribeGad from "@/assets/tribes/gad.jpeg";
 
 const gadPoses = [gadMilitary1, gadMilitary2];
 
