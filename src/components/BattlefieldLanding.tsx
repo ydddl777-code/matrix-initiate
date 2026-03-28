@@ -605,10 +605,13 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
 
       {/* === MUTE BUTTON (only visible after sequence starts) === */}
       {isReady && (
-        <div className="fixed top-20 md:top-24 left-4 z-50">
+        <div
+          className="fixed top-20 md:top-24 left-4 z-50 group/mute"
+          style={{ width: '48px', height: '48px' }}
+        >
           <button
             onClick={toggleMute}
-            className="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300"
+            className="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-500 opacity-20 hover:opacity-100 group-hover/mute:opacity-100"
             style={{
               background: 'hsl(0 0% 5% / 0.7)',
               backdropFilter: 'blur(8px)',
