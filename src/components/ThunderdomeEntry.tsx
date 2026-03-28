@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { ArrowLeft } from "lucide-react";
-import { NavArrows } from "./NavArrows";
+import { BrandHeader } from "./BrandHeader";
 import { BrandHeader } from "./BrandHeader";
 
 import gadMilitary1 from "@/assets/gad-military-1.png";
@@ -23,14 +23,6 @@ import tribeLevi from "@/assets/tribes/levi.jpeg";
 import tribeGad from "@/assets/tribes/gad.jpeg";
 
 const gadPoses = [gadMilitary1, gadMilitary2];
-
-const tribalStandards = [
-  { name: "Benjamin", img: tribeBenjamin },
-  { name: "Judah", img: tribeJudah },
-  { name: "Gad", img: tribeGad },
-  { name: "Simeon", img: tribeSimeon },
-  { name: "Levi", img: tribeLevi },
-];
 
 const opponents = [
   { name: "NIMROD", title: "The Usurper King", img: villainNimrod },
