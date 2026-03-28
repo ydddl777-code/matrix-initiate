@@ -8,32 +8,17 @@ import gadMilitary2 from "@/assets/gad-military-2.png";
 
 const gadPoses = [gadMilitary1, gadMilitary2];
 
-import bannerReuben from "@/assets/banners/reuben.png";
-import bannerSimeon from "@/assets/banners/simeon.png";
-import bannerLevi from "@/assets/banners/levi.png";
-import bannerJudah from "@/assets/banners/judah.png";
-import bannerDan from "@/assets/banners/dan.png";
-import bannerNaphtali from "@/assets/banners/naphtali.png";
-import bannerGad from "@/assets/banners/gad.png";
-import bannerAsher from "@/assets/banners/asher.png";
-import bannerIssachar from "@/assets/banners/issachar.png";
-import bannerZebulun from "@/assets/banners/zebulun.png";
-import bannerJoseph from "@/assets/banners/joseph.png";
-import bannerBenjamin from "@/assets/banners/benjamin.png";
+import tribeBenjamin from "@/assets/tribes/benjamin.jpeg";
+import tribeJudah from "@/assets/tribes/judah.jpeg";
+import tribeSimeon from "@/assets/tribes/simeon.jpeg";
+import tribeLevi from "@/assets/tribes/levi.jpeg";
+import tribeGad from "@/assets/tribes/gad.jpeg";
 
 const tribalBanners = [
-  { name: "Reuben", img: bannerReuben },
-  { name: "Simeon", img: bannerSimeon },
-  { name: "Levi", img: bannerLevi },
-  { name: "Judah", img: bannerJudah },
-  { name: "Dan", img: bannerDan },
-  { name: "Naphtali", img: bannerNaphtali },
-  { name: "Gad", img: bannerGad },
-  { name: "Asher", img: bannerAsher },
-  { name: "Issachar", img: bannerIssachar },
-  { name: "Zebulun", img: bannerZebulun },
-  { name: "Joseph", img: bannerJoseph },
-  { name: "Benjamin", img: bannerBenjamin },
+  { name: "Benjamin", img: tribeBenjamin, position: { top: "8%", left: "22%" } },
+  { name: "Judah", img: tribeJudah, position: { top: "8%", right: "22%" } },
+  { name: "Simeon", img: tribeSimeon, position: { bottom: "12%", left: "22%" } },
+  { name: "Levi", img: tribeLevi, position: { bottom: "12%", right: "22%" } },
 ];
 
 const opponents = [
