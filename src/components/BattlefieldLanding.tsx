@@ -98,7 +98,7 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
     setShowAnnouncement(true);
     setAnnouncementPlaying(true);
     // Smoothly lower music volume during announcement
-    if (musicRef.current) fadeVolume(musicRef.current, 0.08, 2500);
+    if (musicRef.current) fadeVolume(musicRef.current, 0.35, 2500);
 
     const announcementText = `Welcome, friend. Welcome, stranger. Welcome, citizen of every nation.
 I am the Prophetess Huldah.
