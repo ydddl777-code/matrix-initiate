@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ArrowLeft } from "lucide-react";
 import lionOfJudah from "@/assets/lion-of-judah.png";
 import gadMilitary1 from "@/assets/gad-military-1.png";
@@ -60,6 +60,20 @@ interface ThunderdomeEntryProps {
 export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }: ThunderdomeEntryProps) => {
   const [opponentIndex, setOpponentIndex] = useState(0);
   const [gadPoseIndex, setGadPoseIndex] = useState(0);
+  const musicRef = useRef<HTMLAudioElement>(null);
+
+  // Auto-play music on mount (continues from landing page)
+  useEffect(() => {
+    if (musicRef.current) {
+      musicRef.current.volume = 0.65;
+      musicRef.current.play().catch(() => {});
+    }
+    return () => {
+      if (musicRef.current) {
+        musicRef.current.pause();
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -79,6 +93,7 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
 
   return (
     <div className="fixed inset-0 bg-black overflow-hidden">
+      <audio ref={musicRef} src="/audio/warning-in-the-dark.mp3" loop preload="auto" />
       {/* Arena background */}
       <div
         className="absolute inset-0 z-0"
@@ -254,19 +269,6 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
               borderRadius: "8px",
             }}
           />
-        </div>
-
-        {/* "DO YOU HAVE COURAGE?" — blue tinted box */}
-        <div className="mt-2 px-6 py-2 md:px-10 md:py-3 rounded"
-          style={{
-            background: "linear-gradient(180deg, hsl(210 50% 18% / 0.85) 0%, hsl(210 45% 12% / 0.9) 100%)",
-            border: "1px solid hsl(210 50% 40% / 0.4)",
-            boxShadow: "0 0 20px hsl(210 50% 30% / 0.2)",
-          }}>
-          <p className="font-display text-sm md:text-lg lg:text-xl uppercase tracking-[0.3em] text-center font-bold"
-            style={{ color: "hsl(210 60% 80%)", textShadow: "0 0 15px hsl(210 60% 70% / 0.3)" }}>
-            DO YOU HAVE COURAGE?
-          </p>
         </div>
 
         {/* GAD vs VILLAIN matchup */}

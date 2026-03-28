@@ -3,6 +3,7 @@ import { Volume2, VolumeX, Play } from "lucide-react";
 import gadThreshingFloor from "@/assets/gad-threshing-floor.jpg";
 import prophetessHuldah from "@/assets/prophetess-huldah.png";
 import threshingFloorBg from "@/assets/threshing-floor-bg.jpg";
+import threshingFloorOval from "@/assets/threshing-floor-oval.png";
 import lionLogo from "@/assets/lion-logo.png";
 import breastplateLogo from "@/assets/breastplate-logo.png";
 import { AnnouncerSubtitles } from "./AnnouncerSubtitles";
@@ -95,6 +96,7 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
   };
 
   const playAnnouncement = useCallback(async () => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     setShowAnnouncement(true);
     setAnnouncementPlaying(true);
     // Smoothly lower music volume during announcement
@@ -145,9 +147,12 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
         audio.muted = isMutedRef.current; // Use ref for current mute state
         audio.onended = () => {
           setAnnouncementPlaying(false);
-          setShowCTA(true);
-          if (musicRef.current) fadeVolume(musicRef.current, 0.65, 2000);
+          if (musicRef.current) {
+            musicRef.current.pause();
+          }
           URL.revokeObjectURL(audioUrl);
+          // Auto-transition to Threshing Floor after speech
+          onEnterSanctuary();
         };
         await audio.play();
         setAnnouncementStartTime(Date.now());
@@ -155,18 +160,18 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
         // Fallback: just show CTA after a delay if TTS fails
         setTimeout(() => {
           setAnnouncementPlaying(false);
-          setShowCTA(true);
-          if (musicRef.current) fadeVolume(musicRef.current, 0.65, 2000);
+          if (musicRef.current) musicRef.current.pause();
+          onEnterSanctuary();
         }, 5000);
       }
     } catch {
       setTimeout(() => {
         setAnnouncementPlaying(false);
-        setShowCTA(true);
-        if (musicRef.current) fadeVolume(musicRef.current, 0.65, 2000);
+        if (musicRef.current) musicRef.current.pause();
+        onEnterSanctuary();
       }, 5000);
     }
-  }, [fadeVolume]);
+  }, [fadeVolume, onEnterSanctuary]);
 
   const handleCompetitorVideoEnd = () => {
     setIterationCount((prev) => prev + 1);
@@ -477,64 +482,7 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
         </div>
       )}
 
-      {/* === ENTER THE THUNDERDOME CTA (after announcement) === */}
-      {showCTA && (
-        <div className="absolute inset-0 z-[40] flex items-end justify-center pb-[12vh] md:pb-[15vh]">
-          <div className="text-center animate-fade-in">
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background: `radial-gradient(ellipse 40% 50% at 50% 50%, hsl(0 70% 30% / 0.15) 0%, transparent 100%)`,
-              }}
-            />
-            <button
-              onClick={onEnterSanctuary}
-              className="relative px-14 md:px-20 py-5 md:py-7 font-display text-xl md:text-3xl lg:text-4xl uppercase tracking-[0.3em]
-                         border-2 transition-all duration-500 cursor-pointer group"
-              style={{
-                background: 'linear-gradient(180deg, hsl(0 60% 20% / 0.6) 0%, hsl(0 50% 12% / 0.8) 100%)',
-                borderColor: 'hsl(0 70% 45%)',
-                color: 'hsl(0 70% 55%)',
-                boxShadow: `
-                  0 0 20px hsl(0 70% 45% / 0.3),
-                  inset 0 0 30px hsl(0 60% 20% / 0.3)
-                `,
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow = '0 0 40px hsl(0 70% 45% / 0.5), 0 0 80px hsl(0 70% 40% / 0.3), inset 0 0 30px hsl(0 60% 20% / 0.3)';
-                e.currentTarget.style.borderColor = 'hsl(0 80% 55%)';
-                e.currentTarget.style.color = 'hsl(0 80% 65%)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.boxShadow = '0 0 20px hsl(0 70% 45% / 0.3), inset 0 0 30px hsl(0 60% 20% / 0.3)';
-                e.currentTarget.style.borderColor = 'hsl(0 70% 45%)';
-                e.currentTarget.style.color = 'hsl(0 70% 55%)';
-              }}
-            >
-              Enter the Threshing Floor
-            </button>
-            <p
-              className="font-terminal text-xs md:text-sm mt-4 tracking-[0.3em] uppercase"
-              style={{
-                color: 'hsl(0 0% 70%)',
-              }}
-            >
-              ▲ Press to enter ▲
-            </p>
-            <p
-              className="font-display text-sm md:text-lg lg:text-xl mt-4 tracking-[0.3em] uppercase font-bold px-5 md:px-8 py-2 md:py-3 mx-auto inline-block rounded"
-              style={{
-                color: 'hsl(0 0% 100%)',
-                background: 'hsl(220 70% 35% / 0.85)',
-                textShadow: '0 2px 4px hsl(0 0% 0% / 0.5)',
-                boxShadow: '0 0 30px hsl(220 70% 40% / 0.4)',
-              }}
-            >
-              If you have the courage
-            </p>
-          </div>
-        </div>
-      )}
+      {/* CTA removed — auto-transitions to Threshing Floor after Huldah's speech */}
 
       {/* === READY GATE — shown before sequence starts === */}
       {!isReady && (
@@ -545,6 +493,13 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
             alt=""
             className="absolute inset-0 w-full h-full object-cover"
             style={{ opacity: 0.18, filter: 'brightness(0.7) saturate(0.8)' }}
+          />
+          {/* Fiery threshing floor oval */}
+          <img
+            src={threshingFloorOval}
+            alt=""
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] max-w-[600px]"
+            style={{ opacity: 0.25, filter: 'brightness(0.9) saturate(1.2)', mixBlendMode: 'screen' }}
           />
           <div className="absolute inset-0"
             style={{ background: 'radial-gradient(ellipse at 50% 50%, hsl(0 0% 0% / 0.6) 0%, hsl(0 0% 0% / 0.85) 100%)' }} />
