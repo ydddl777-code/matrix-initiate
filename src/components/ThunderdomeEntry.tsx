@@ -8,32 +8,17 @@ import gadMilitary2 from "@/assets/gad-military-2.png";
 
 const gadPoses = [gadMilitary1, gadMilitary2];
 
-import bannerReuben from "@/assets/banners/reuben.png";
-import bannerSimeon from "@/assets/banners/simeon.png";
-import bannerLevi from "@/assets/banners/levi.png";
-import bannerJudah from "@/assets/banners/judah.png";
-import bannerDan from "@/assets/banners/dan.png";
-import bannerNaphtali from "@/assets/banners/naphtali.png";
-import bannerGad from "@/assets/banners/gad.png";
-import bannerAsher from "@/assets/banners/asher.png";
-import bannerIssachar from "@/assets/banners/issachar.png";
-import bannerZebulun from "@/assets/banners/zebulun.png";
-import bannerJoseph from "@/assets/banners/joseph.png";
-import bannerBenjamin from "@/assets/banners/benjamin.png";
+import tribeBenjamin from "@/assets/tribes/benjamin.jpeg";
+import tribeJudah from "@/assets/tribes/judah.jpeg";
+import tribeSimeon from "@/assets/tribes/simeon.jpeg";
+import tribeLevi from "@/assets/tribes/levi.jpeg";
+import tribeGad from "@/assets/tribes/gad.jpeg";
 
 const tribalBanners = [
-  { name: "Reuben", img: bannerReuben },
-  { name: "Simeon", img: bannerSimeon },
-  { name: "Levi", img: bannerLevi },
-  { name: "Judah", img: bannerJudah },
-  { name: "Dan", img: bannerDan },
-  { name: "Naphtali", img: bannerNaphtali },
-  { name: "Gad", img: bannerGad },
-  { name: "Asher", img: bannerAsher },
-  { name: "Issachar", img: bannerIssachar },
-  { name: "Zebulun", img: bannerZebulun },
-  { name: "Joseph", img: bannerJoseph },
-  { name: "Benjamin", img: bannerBenjamin },
+  { name: "Benjamin", img: tribeBenjamin, position: { top: "8%", left: "22%" } },
+  { name: "Judah", img: tribeJudah, position: { top: "8%", right: "22%" } },
+  { name: "Simeon", img: tribeSimeon, position: { bottom: "12%", left: "22%" } },
+  { name: "Levi", img: tribeLevi, position: { bottom: "12%", right: "22%" } },
 ];
 
 const opponents = [
@@ -164,34 +149,46 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
         />
       </div>
 
-      {/* Tribal banners */}
+      {/* Tribal insignias at 4 corners */}
       <div className="absolute inset-0 z-[6] pointer-events-none hidden md:block">
-        {tribalBanners.map((tribe, i) => {
-          const isGad = tribe.name === "Gad";
-          if (isGad) return null;
-          const nonGadIndex = i > 6 ? i - 1 : i;
-          const startAngle = -60;
-          const arcSpan = 300;
-          const angle = (startAngle + nonGadIndex * (arcSpan / 10)) * (Math.PI / 180);
-          const radiusX = 46;
-          const radiusY = 44;
-          const x = 50 + radiusX * Math.cos(angle);
-          const y = 50 + radiusY * Math.sin(angle);
-          return (
-            <div key={tribe.name} className="absolute" style={{ left: `${x}%`, top: `${y}%`, transform: "translate(-50%, -50%)" }}>
-              <div className="w-10 h-16 lg:w-12 lg:h-20 overflow-hidden" style={{ opacity: 0.52, filter: "brightness(0.9) saturate(1.05)" }}>
-                <img src={tribe.img} alt={`Banner of ${tribe.name}`} className="w-full h-full object-contain" />
-              </div>
+        {tribalBanners.map((tribe) => (
+          <div
+            key={tribe.name}
+            className="absolute"
+            style={{ ...tribe.position, transform: "translate(-50%, -50%)" }}
+          >
+            <div className="w-14 h-14 lg:w-20 lg:h-20 rounded-full overflow-hidden border-2"
+              style={{
+                borderColor: "hsl(12 76% 54% / 0.6)",
+                opacity: 0.7,
+                filter: "brightness(0.85) saturate(1.1)",
+                boxShadow: "0 0 20px hsl(12 76% 54% / 0.25), 0 0 40px hsl(0 0% 0% / 0.5)",
+              }}>
+              <img src={tribe.img} alt={`Insignia of ${tribe.name}`} className="w-full h-full object-cover" />
             </div>
-          );
-        })}
+            <p className="font-terminal text-[7px] lg:text-[9px] text-center mt-1 uppercase tracking-[0.2em]"
+              style={{ color: "hsl(45 82% 60% / 0.6)" }}>
+              {tribe.name}
+            </p>
+          </div>
+        ))}
       </div>
 
-      {/* Gad banner top-left */}
-      <div className="absolute left-[1%] top-[5%] z-[8] pointer-events-none hidden md:block" style={{ width: "80px", height: "140px" }}>
-        <div className="w-full h-full overflow-hidden" style={{ opacity: 0.8, filter: "brightness(1.02) saturate(1.08)", maskImage: "linear-gradient(to right, black 60%, transparent 100%)", WebkitMaskImage: "linear-gradient(to right, black 60%, transparent 100%)" }}>
-          <img src={bannerGad} alt="Banner of Gad" className="w-full h-full object-contain drop-shadow-[0_0_18px_hsl(45,82%,60%,0.35)]" />
+      {/* Gad insignia — larger, behind Gad's corner */}
+      <div className="absolute left-[1%] top-[5%] z-[8] pointer-events-none hidden md:block">
+        <div className="w-16 h-16 lg:w-24 lg:h-24 rounded-full overflow-hidden border-2"
+          style={{
+            borderColor: "hsl(45 82% 60% / 0.5)",
+            opacity: 0.85,
+            filter: "brightness(1.05) saturate(1.1)",
+            boxShadow: "0 0 25px hsl(45 82% 60% / 0.3), 0 0 50px hsl(0 0% 0% / 0.5)",
+          }}>
+          <img src={tribeGad} alt="Insignia of Gad" className="w-full h-full object-cover" />
         </div>
+        <p className="font-terminal text-[8px] lg:text-[10px] text-center mt-1 uppercase tracking-[0.2em]"
+          style={{ color: "hsl(45 82% 60% / 0.7)" }}>
+          GAD
+        </p>
       </div>
 
       {/* LEFT PANEL — VILLAINS (bad guys) rotating */}
