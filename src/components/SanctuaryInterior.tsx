@@ -124,7 +124,7 @@ export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
       </div>
 
       {/* BACK BUTTON */}
-      <div className="fixed top-4 left-4 z-50">
+      <div className="fixed top-20 md:top-24 left-4 z-50">
         <button
           onClick={() => setView("entry")}
           className="flex items-center gap-2 px-3 py-2 rounded-full bg-black/60 backdrop-blur-sm border transition-all duration-300"
