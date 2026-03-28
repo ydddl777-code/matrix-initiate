@@ -3,6 +3,7 @@ import { Volume2, VolumeX, Play } from "lucide-react";
 import gadThreshingFloor from "@/assets/gad-threshing-floor.jpg";
 import prophetessHuldah from "@/assets/prophetess-huldah.png";
 import threshingFloorBg from "@/assets/threshing-floor-bg.jpg";
+import threshingFloorOval from "@/assets/threshing-floor-oval.png";
 import lionLogo from "@/assets/lion-logo.png";
 import breastplateLogo from "@/assets/breastplate-logo.png";
 import { AnnouncerSubtitles } from "./AnnouncerSubtitles";
@@ -95,6 +96,7 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
   };
 
   const playAnnouncement = useCallback(async () => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     setShowAnnouncement(true);
     setAnnouncementPlaying(true);
     // Smoothly lower music volume during announcement
@@ -145,9 +147,12 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
         audio.muted = isMutedRef.current; // Use ref for current mute state
         audio.onended = () => {
           setAnnouncementPlaying(false);
-          setShowCTA(true);
-          if (musicRef.current) fadeVolume(musicRef.current, 0.65, 2000);
+          if (musicRef.current) {
+            musicRef.current.pause();
+          }
           URL.revokeObjectURL(audioUrl);
+          // Auto-transition to Threshing Floor after speech
+          onEnterSanctuary();
         };
         await audio.play();
         setAnnouncementStartTime(Date.now());
@@ -155,18 +160,18 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
         // Fallback: just show CTA after a delay if TTS fails
         setTimeout(() => {
           setAnnouncementPlaying(false);
-          setShowCTA(true);
-          if (musicRef.current) fadeVolume(musicRef.current, 0.65, 2000);
+          if (musicRef.current) musicRef.current.pause();
+          onEnterSanctuary();
         }, 5000);
       }
     } catch {
       setTimeout(() => {
         setAnnouncementPlaying(false);
-        setShowCTA(true);
-        if (musicRef.current) fadeVolume(musicRef.current, 0.65, 2000);
+        if (musicRef.current) musicRef.current.pause();
+        onEnterSanctuary();
       }, 5000);
     }
-  }, [fadeVolume]);
+  }, [fadeVolume, onEnterSanctuary]);
 
   const handleCompetitorVideoEnd = () => {
     setIterationCount((prev) => prev + 1);
@@ -545,6 +550,13 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
             alt=""
             className="absolute inset-0 w-full h-full object-cover"
             style={{ opacity: 0.18, filter: 'brightness(0.7) saturate(0.8)' }}
+          />
+          {/* Fiery threshing floor oval */}
+          <img
+            src={threshingFloorOval}
+            alt=""
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] max-w-[600px]"
+            style={{ opacity: 0.25, filter: 'brightness(0.9) saturate(1.2)', mixBlendMode: 'screen' }}
           />
           <div className="absolute inset-0"
             style={{ background: 'radial-gradient(ellipse at 50% 50%, hsl(0 0% 0% / 0.6) 0%, hsl(0 0% 0% / 0.85) 100%)' }} />
