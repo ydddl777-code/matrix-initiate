@@ -248,7 +248,7 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
         <div className="absolute bottom-6 right-0 left-0 z-10 text-center">
           <p className="font-display text-[9px] md:text-xs tracking-[0.2em] uppercase font-bold"
             style={{ color: "hsl(45 85% 58%)", textShadow: "0 0 10px hsl(45 85% 58% / 0.4)" }}>
-            WARRIORS
+            THE MIGHTY MEN
           </p>
         </div>
       </div>
