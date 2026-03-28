@@ -482,64 +482,7 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
         </div>
       )}
 
-      {/* === ENTER THE THUNDERDOME CTA (after announcement) === */}
-      {showCTA && (
-        <div className="absolute inset-0 z-[40] flex items-end justify-center pb-[12vh] md:pb-[15vh]">
-          <div className="text-center animate-fade-in">
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background: `radial-gradient(ellipse 40% 50% at 50% 50%, hsl(0 70% 30% / 0.15) 0%, transparent 100%)`,
-              }}
-            />
-            <button
-              onClick={onEnterSanctuary}
-              className="relative px-14 md:px-20 py-5 md:py-7 font-display text-xl md:text-3xl lg:text-4xl uppercase tracking-[0.3em]
-                         border-2 transition-all duration-500 cursor-pointer group"
-              style={{
-                background: 'linear-gradient(180deg, hsl(0 60% 20% / 0.6) 0%, hsl(0 50% 12% / 0.8) 100%)',
-                borderColor: 'hsl(0 70% 45%)',
-                color: 'hsl(0 70% 55%)',
-                boxShadow: `
-                  0 0 20px hsl(0 70% 45% / 0.3),
-                  inset 0 0 30px hsl(0 60% 20% / 0.3)
-                `,
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow = '0 0 40px hsl(0 70% 45% / 0.5), 0 0 80px hsl(0 70% 40% / 0.3), inset 0 0 30px hsl(0 60% 20% / 0.3)';
-                e.currentTarget.style.borderColor = 'hsl(0 80% 55%)';
-                e.currentTarget.style.color = 'hsl(0 80% 65%)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.boxShadow = '0 0 20px hsl(0 70% 45% / 0.3), inset 0 0 30px hsl(0 60% 20% / 0.3)';
-                e.currentTarget.style.borderColor = 'hsl(0 70% 45%)';
-                e.currentTarget.style.color = 'hsl(0 70% 55%)';
-              }}
-            >
-              Enter the Threshing Floor
-            </button>
-            <p
-              className="font-terminal text-xs md:text-sm mt-4 tracking-[0.3em] uppercase"
-              style={{
-                color: 'hsl(0 0% 70%)',
-              }}
-            >
-              ▲ Press to enter ▲
-            </p>
-            <p
-              className="font-display text-sm md:text-lg lg:text-xl mt-4 tracking-[0.3em] uppercase font-bold px-5 md:px-8 py-2 md:py-3 mx-auto inline-block rounded"
-              style={{
-                color: 'hsl(0 0% 100%)',
-                background: 'hsl(220 70% 35% / 0.85)',
-                textShadow: '0 2px 4px hsl(0 0% 0% / 0.5)',
-                boxShadow: '0 0 30px hsl(220 70% 40% / 0.4)',
-              }}
-            >
-              If you have the courage
-            </p>
-          </div>
-        </div>
-      )}
+      {/* CTA removed — auto-transitions to Threshing Floor after Huldah's speech */}
 
       {/* === READY GATE — shown before sequence starts === */}
       {!isReady && (
