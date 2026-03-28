@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=JetBrains+Mono:wght@300;400;500;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+/* Arial is the standard font throughout the app */
 
 @tailwind base;
 @tailwind components;
@@ -93,11 +93,11 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: Arial, Helvetica, sans-serif;
   }
 
   h1, h2, h3 {
-    font-family: 'Orbitron', sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
   }
 }
 
@@ -221,15 +221,15 @@
 
 @layer utilities {
   .font-display {
-    font-family: 'Orbitron', sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
   }
 
   .font-terminal {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: Arial, Helvetica, sans-serif;
   }
 
   .font-ceremonial {
-    font-family: 'Cinzel', serif;
+    font-family: Arial, Helvetica, sans-serif;
   }
 }
 
