@@ -279,15 +279,15 @@ export const ThunderdomeEntry = ({ onEnter, onExit, gadImage }: ThunderdomeEntry
         <div
           className="relative h-full w-full"
           style={{
-            maskImage: "linear-gradient(to left, black 50%, transparent 100%)",
-            WebkitMaskImage: "linear-gradient(to left, black 50%, transparent 100%)",
+            maskImage: "linear-gradient(to left, black 55%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(to left, black 55%, transparent 100%)",
             background: `
-              radial-gradient(ellipse 34% 26% at 62% 20%, hsl(0 0% 18% / 0.9) 0%, transparent 100%),
-              radial-gradient(ellipse 28% 38% at 58% 50%, hsl(0 0% 15% / 0.96) 0%, transparent 100%),
-              radial-gradient(ellipse 30% 26% at 56% 79%, hsl(0 0% 12% / 0.96) 0%, transparent 100%),
-              linear-gradient(180deg, hsl(0 0% 10% / 0.96) 0%, hsl(0 0% 3% / 0.98) 100%)
+              radial-gradient(ellipse 34% 26% at 62% 20%, hsl(0 0% 28% / 0.9) 0%, transparent 100%),
+              radial-gradient(ellipse 28% 38% at 58% 50%, hsl(0 0% 22% / 0.96) 0%, transparent 100%),
+              radial-gradient(ellipse 30% 26% at 56% 79%, hsl(0 0% 18% / 0.96) 0%, transparent 100%),
+              linear-gradient(180deg, hsl(0 0% 16% / 0.96) 0%, hsl(0 0% 6% / 0.98) 100%)
             `,
-            filter: "brightness(1.05) contrast(1.08)",
+            filter: "brightness(1.2) contrast(1.05)",
           }}
         >
           <div className="absolute inset-y-0 right-[12%] flex items-center justify-center">
