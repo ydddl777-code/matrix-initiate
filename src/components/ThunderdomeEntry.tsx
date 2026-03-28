@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { ArrowLeft } from "lucide-react";
 import { BrandHeader } from "./BrandHeader";
-import { BrandHeader } from "./BrandHeader";
 
 import gadMilitary1 from "@/assets/gad-military-1.png";
 import gadMilitary2 from "@/assets/gad-military-2.png";
