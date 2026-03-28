@@ -22,13 +22,13 @@ import tribeLevi from "@/assets/tribes/levi.jpeg";
 const gadPoses = [gadMilitary1, gadMilitary2];
 
 const opponents = [
-  { name: "NIMROD", title: "The Usurper King", img: villainNimrod },
-  { name: "AHAB", title: "The Weak King", img: villainAhab },
-  { name: "CONSTANTINE", title: "The Emperor", img: villainConstantine },
-  { name: "BALAAM", title: "Prophet for Hire", img: villainBalaam },
-  { name: "PHARAOH", title: "The False Deity", img: villainPharaoh },
-  { name: "DARWIN", title: "The Deceiver", img: villainDarwin },
-  { name: "FALSE PROPHET", title: "Balaam's Spirit", img: villainFalseProphet },
+  { name: "NIMROD", img: villainNimrod },
+  { name: "AHAB", img: villainAhab },
+  { name: "CONSTANTINE", img: villainConstantine },
+  { name: "BALAAM", img: villainBalaam },
+  { name: "PHARAOH", img: villainPharaoh },
+  { name: "DARWIN", img: villainDarwin },
+  { name: "FALSE PROPHET", img: villainFalseProphet },
 ];
 
 interface ThunderdomeEntryProps {
@@ -174,9 +174,9 @@ export const ThunderdomeEntry = ({ onEnter, onExit, gadImage }: ThunderdomeEntry
 
       {/* LEFT PANEL — VILLAINS (challengers) with actual images */}
       <div className="absolute left-0 top-0 bottom-0 w-[14%] md:w-[18%] z-[10] overflow-hidden">
-        {/* Subtle edge gradient — no longer hiding the villains */}
+        {/* Subtle edge gradient */}
         <div className="absolute inset-0" style={{
-          background: "linear-gradient(90deg, hsl(0 0% 6% / 0.6) 0%, transparent 100%)",
+          background: "linear-gradient(90deg, hsl(0 0% 6% / 0.3) 0%, transparent 100%)",
         }} />
         {/* Spotlight from above */}
         <div className="absolute inset-0 pointer-events-none" style={{
@@ -187,8 +187,9 @@ export const ThunderdomeEntry = ({ onEnter, onExit, gadImage }: ThunderdomeEntry
             key={villain.name}
             src={villain.img}
             alt={villain.name}
-            className="absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-700"
+            className="absolute left-0 right-0 bottom-0 w-full object-cover object-top transition-opacity duration-700"
             style={{
+              top: "22%",
               opacity: i === opponentIndex ? 1 : 0,
               filter: "brightness(0.95) contrast(1.15) saturate(0.9)",
               maskImage: "linear-gradient(to right, black 55%, transparent 100%)",
@@ -197,7 +198,7 @@ export const ThunderdomeEntry = ({ onEnter, onExit, gadImage }: ThunderdomeEntry
           />
         ))}
         <div className="absolute bottom-6 left-0 right-0 z-10 text-center">
-          <p className="font-display text-[10px] md:text-xs lg:text-sm uppercase tracking-[0.2em] font-bold"
+          <p className="font-display text-[9px] md:text-xs tracking-[0.2em] uppercase font-bold"
             style={{ color: "hsl(0 60% 55%)", textShadow: "0 0 15px hsl(0 60% 55% / 0.4)" }}>
             {opponents[opponentIndex].name}
           </p>
