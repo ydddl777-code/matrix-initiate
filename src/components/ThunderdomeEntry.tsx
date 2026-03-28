@@ -376,6 +376,7 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
       {/* Nav arrows */}
       <NavArrows onBack={onExit} backLabel="LANDING" onForward={onEnter} forwardLabel="WARFARE" />
 
+      <style>{`
         @keyframes smoke-drift {
           0% { transform: translateX(0) translateY(0); opacity: 0.5; }
           33% { transform: translateX(20px) translateY(-10px); opacity: 0.7; }

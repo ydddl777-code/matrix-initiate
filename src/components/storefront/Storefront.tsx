@@ -1,4 +1,5 @@
-import { ArrowLeft, Swords } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
+import { NavArrows } from "../NavArrows";
 import { EbookGrid } from "./EbookGrid";
 import { ExtendedPlayList } from "./ExtendedPlayList";
 import lionLogo from "@/assets/lion-logo.png";

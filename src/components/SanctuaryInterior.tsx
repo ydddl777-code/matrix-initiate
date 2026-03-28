@@ -135,6 +135,14 @@ export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
           <span className="font-terminal text-[10px] tracking-widest">EXIT RING</span>
         </button>
       </div>
+
+      {/* Nav arrows */}
+      <NavArrows
+        onBack={() => setView("entry")}
+        backLabel="ARENA"
+        onForward={() => setView("storefront")}
+        forwardLabel="MUSIC"
+      />
     </div>
   );
 };
