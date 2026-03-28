@@ -488,6 +488,7 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
       {/* === READY GATE — shown before sequence starts === */}
       {!isReady && (
         <div className="absolute inset-0 z-[45] flex items-center justify-center overflow-hidden">
+          <BrandHeader />
           {/* Translucent threshing floor background */}
           <img
             src={threshingFloorBg}
