@@ -100,12 +100,16 @@ export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
 
   const content = (
     <div className={cn(
-      "flex flex-col war-room-bg border-2 border-red-800/40 overflow-hidden relative",
+      "flex flex-col border-2 overflow-hidden relative",
       isFullScreen
         ? "fixed inset-0 z-[100] rounded-none"
         : "rounded-lg"
     )}
-      style={{ minHeight: isFullScreen ? '100vh' : '700px' }}
+      style={{ 
+        minHeight: isFullScreen ? '100vh' : '700px',
+        background: 'linear-gradient(180deg, hsl(20 12% 12%) 0%, hsl(15 10% 8%) 100%)',
+        borderColor: 'hsl(0 50% 35% / 0.5)',
+      }}
     >
       {/* Thunderdome Arena Background — full-screen only */}
       {isFullScreen && (
@@ -152,9 +156,12 @@ export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
 
       {/* Lion of Judah Header */}
       <div className={cn(
-        "flex flex-col items-center pt-6 pb-4 border-b-2 border-red-800/30 bg-gradient-to-b from-black/90 to-black/70 relative z-10",
+        "flex flex-col items-center pt-6 pb-4 border-b-2 relative z-10",
         isFullScreen && "from-black/70 to-transparent"
-      )}>
+      )} style={{
+        borderColor: 'hsl(0 50% 35% / 0.4)',
+        background: 'linear-gradient(180deg, hsl(15 15% 15%) 0%, hsl(15 10% 10%) 100%)',
+      }}>
         <img src={lionOfJudah} alt="Lion of Judah" className={cn(
           "drop-shadow-[0_0_20px_hsl(0,70%,50%,0.5)]",
           isFullScreen ? "w-16 h-16" : "w-20 h-20 md:w-24 md:h-24"
@@ -176,7 +183,7 @@ export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
       </div>
 
       {/* Controls Bar — simplified */}
-      <div className="flex items-center justify-between px-4 py-2 border-b border-red-800/20 bg-black/60 relative z-10">
+      <div className="flex items-center justify-between px-4 py-2 border-b relative z-10" style={{ borderColor: 'hsl(0 50% 35% / 0.3)', background: 'hsl(18 12% 13%)' }}>
         <div className="flex items-center gap-3">
           <button
             onClick={() => setIsFullScreen(!isFullScreen)}
@@ -219,18 +226,18 @@ export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
       )} style={{ maxHeight: isFullScreen ? 'none' : '400px' }}>
         {messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center py-12">
-            <Swords className="w-14 h-14 mb-4" style={{ color: 'hsl(0 70% 50% / 0.3)' }} />
-            <h4 className="font-ceremonial text-lg mb-2" style={{ color: 'hsl(0 70% 50%)' }}>
-              ENTER THE THUNDERDOME
+            <Swords className="w-14 h-14 mb-4" style={{ color: 'hsl(45 60% 50% / 0.5)' }} />
+            <h4 className="font-ceremonial text-lg mb-2" style={{ color: 'hsl(45 70% 55%)' }}>
+              THE THRESHING FLOOR AWAITS
             </h4>
-            <p className="font-ceremonial text-xs max-w-sm" style={{ color: 'hsl(0 50% 40% / 0.6)' }}>
+            <p className="font-ceremonial text-sm max-w-sm" style={{ color: 'hsl(30 20% 60%)' }}>
               Challenge doctrine. Question tradition. The Prophet responds with
               Scripture — no soft answers, no compromise.
             </p>
             <div className="mt-4 p-3 border rounded-lg max-w-md"
-              style={{ background: 'hsl(0 70% 50% / 0.1)', borderColor: 'hsl(0 70% 50% / 0.3)' }}>
-              <p className="font-ceremonial text-xs" style={{ color: 'hsl(0 70% 50%)' }}>
-                TRY: "Why don't you believe the Trinity?"
+              style={{ background: 'hsl(25 20% 18%)', borderColor: 'hsl(45 50% 45% / 0.4)' }}>
+              <p className="font-ceremonial text-sm" style={{ color: 'hsl(45 70% 60%)' }}>
+                ✦ TRY: "Why don't you believe the Trinity?"
               </p>
             </div>
           </div>
@@ -276,7 +283,7 @@ export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
       </div>
 
       {/* Input Area */}
-      <div className="p-4 border-t-2 border-red-800/20 bg-black/70 space-y-3">
+      <div className="p-4 border-t-2 space-y-3" style={{ borderColor: 'hsl(0 50% 35% / 0.3)', background: 'hsl(20 12% 14%)' }}>
         <VoiceInput onTranscript={handleVoiceTranscript} disabled={isLoading} />
 
         <form onSubmit={handleSubmit} className="flex gap-2">
@@ -288,12 +295,13 @@ export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
             disabled={isLoading}
             className={cn(
               'flex-1 min-h-[60px] max-h-[120px] resize-none',
-              'font-ceremonial text-sm',
-              'bg-black/50 placeholder:text-red-900/40'
+              'font-ceremonial text-sm'
             )}
             style={{
-              borderColor: 'hsl(0 70% 45% / 0.3)',
-              color: 'hsl(0 70% 55%)',
+              borderColor: 'hsl(0 50% 40% / 0.5)',
+              color: 'hsl(45 30% 85%)',
+              background: 'hsl(20 10% 18%)',
+              caretColor: 'hsl(45 80% 60%)',
             }}
           />
           <button
@@ -313,8 +321,8 @@ export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
           </button>
         </form>
 
-        <p className="font-terminal text-xs text-center" style={{ color: 'hsl(0 50% 40% / 0.4)' }}>
-          PRESS ENTER TO SEND • SHIFT+ENTER FOR NEW LINE
+        <p className="font-terminal text-xs text-center" style={{ color: 'hsl(45 30% 55%)' }}>
+          TYPE YOUR CHALLENGE BELOW • PRESS ENTER TO SEND • SHIFT+ENTER FOR NEW LINE
         </p>
       </div>
 
