@@ -47,10 +47,11 @@ const opponents = [
 interface ThunderdomeEntryProps {
   onEnter: () => void;
   onExit: () => void;
+  onOpenStorefront?: () => void;
   gadImage: { src: string; alt: string };
 }
 
-export const ThunderdomeEntry = ({ onEnter, onExit, gadImage }: ThunderdomeEntryProps) => {
+export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }: ThunderdomeEntryProps) => {
   const [opponentIndex, setOpponentIndex] = useState(0);
 
   const [gadPoseIndex, setGadPoseIndex] = useState(0);
@@ -355,6 +356,20 @@ export const ThunderdomeEntry = ({ onEnter, onExit, gadImage }: ThunderdomeEntry
           >
             ENTER
           </button>
+
+          {onOpenStorefront && (
+            <button
+              onClick={onOpenStorefront}
+              className="mt-4 px-8 py-3 font-terminal text-xs uppercase tracking-[0.25em] border rounded transition-all duration-500 hover:brightness-125"
+              style={{
+                background: "hsl(45 40% 20% / 0.3)",
+                borderColor: "hsl(45 60% 45% / 0.4)",
+                color: "hsl(45 80% 60%)",
+              }}
+            >
+              ✦ Music & E-Books ✦
+            </button>
+          )}
 
           <div className="mt-6 flex md:hidden items-center justify-center gap-2 overflow-x-auto pb-2">
             {opponents.map((v, i) => (
