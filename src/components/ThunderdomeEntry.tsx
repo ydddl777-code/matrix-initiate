@@ -28,7 +28,7 @@ const opponents = [
   { name: "BALAAM", title: "Prophet for Hire", img: villainBalaam },
   { name: "PHARAOH", title: "The False Deity", img: villainPharaoh },
   { name: "DARWIN", title: "The Deceiver", img: villainDarwin },
-  { name: "THE FALSE PROPHET", title: "Balaam's Spirit", img: villainFalseProphet },
+  { name: "FALSE PROPHET", title: "Balaam's Spirit", img: villainFalseProphet },
 ];
 
 interface ThunderdomeEntryProps {
@@ -58,7 +58,7 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
   useEffect(() => {
     const interval = setInterval(() => {
       setOpponentIndex((prev) => (prev + 1) % opponents.length);
-    }, 3000);
+    }, 5000);
     return () => clearInterval(interval);
   }, []);
 
@@ -194,18 +194,14 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
                 WebkitMaskImage: "linear-gradient(to bottom, black 60%, transparent 100%)",
               }}
             />
-            <p className="font-display text-[10px] md:text-xs lg:text-sm uppercase tracking-[0.2em] font-bold"
-              style={{ color: "hsl(0 60% 55%)", textShadow: "0 0 15px hsl(0 60% 55% / 0.4)" }}>
-              {villain.name}
-            </p>
-            <p className="font-terminal text-[8px] md:text-[10px] mt-1 uppercase tracking-wide"
-              style={{ color: "hsl(0 0% 55%)" }}>
-              {villain.title}
-            </p>
           </div>
         ))}
         <div className="absolute bottom-6 left-0 right-0 z-10 text-center">
-          <p className="font-terminal text-[8px] md:text-[10px] tracking-[0.3em] uppercase"
+          <p className="font-display text-[10px] md:text-xs lg:text-sm uppercase tracking-[0.2em] font-bold"
+            style={{ color: "hsl(0 60% 55%)", textShadow: "0 0 15px hsl(0 60% 55% / 0.4)" }}>
+            {opponents[opponentIndex].name}
+          </p>
+          <p className="font-terminal text-[8px] md:text-[10px] mt-1 uppercase tracking-[0.3em]"
             style={{ color: "hsl(0 60% 50% / 0.7)" }}>
             CHALLENGER
           </p>
