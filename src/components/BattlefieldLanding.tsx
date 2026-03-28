@@ -4,7 +4,7 @@ import gadThreshingFloor from "@/assets/gad-threshing-floor.jpg";
 import prophetessHuldah from "@/assets/prophetess-huldah.png";
 import threshingFloorBg from "@/assets/threshing-floor-bg.jpg";
 import threshingFloorOval from "@/assets/threshing-floor-oval.png";
-import lionLogo from "@/assets/lion-logo.png";
+
 import breastplateLogo from "@/assets/breastplate-logo.png";
 import { AnnouncerSubtitles } from "./AnnouncerSubtitles";
 
