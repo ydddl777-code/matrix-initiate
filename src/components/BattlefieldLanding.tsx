@@ -345,9 +345,8 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
         <video
           ref={gadVideoRef}
           src="/video/gad-challenge.mp4"
-          autoPlay
           playsInline
-          muted
+          muted={isMuted}
           className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
             videoPhase === "gad" ? "opacity-100" : "opacity-0"
           }`}
