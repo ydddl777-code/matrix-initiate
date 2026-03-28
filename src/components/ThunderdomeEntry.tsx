@@ -45,7 +45,7 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
 
   useEffect(() => {
     if (musicRef.current) {
-      musicRef.current.volume = 0.65;
+      musicRef.current.volume = 0.07;
       musicRef.current.play().catch(() => {});
     }
     return () => {
@@ -298,28 +298,7 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
           ENTER
         </button>
 
-        {/* THRESHING FLOOR */}
-        <p className="mt-3 font-display text-lg md:text-2xl lg:text-3xl uppercase tracking-[0.25em] font-bold text-center"
-          style={{
-            color: "hsl(12 76% 54%)",
-            textShadow: "0 0 20px hsl(12 76% 54% / 0.4), 0 2px 4px hsl(0 0% 0% / 0.8)",
-          }}>
-          THRESHING FLOOR
-        </p>
 
-        {onOpenStorefront && (
-          <button
-            onClick={onOpenStorefront}
-            className="mt-3 px-8 py-2 font-terminal text-xs uppercase tracking-[0.25em] border rounded transition-all duration-500 hover:brightness-125"
-            style={{
-              background: "hsl(45 40% 20% / 0.3)",
-              borderColor: "hsl(45 60% 45% / 0.4)",
-              color: "hsl(45 80% 60%)",
-            }}
-          >
-            ✦ Music & E-Books ✦
-          </button>
-        )}
 
         {/* Mobile villain pills */}
         <div className="mt-4 flex md:hidden items-center justify-center gap-2 overflow-x-auto pb-2">
