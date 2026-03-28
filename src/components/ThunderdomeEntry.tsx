@@ -2,39 +2,44 @@ import { useState, useEffect, useRef } from "react";
 import { ArrowLeft } from "lucide-react";
 import { NavArrows } from "./NavArrows";
 import { BrandHeader } from "./BrandHeader";
-import lionOfJudah from "@/assets/lion-of-judah.png";
+
 import gadMilitary1 from "@/assets/gad-military-1.png";
 import gadMilitary2 from "@/assets/gad-military-2.png";
 
-const gadPoses = [gadMilitary1, gadMilitary2];
+// Villain images
+import villainNimrod from "@/assets/villains/nimrod.png";
+import villainAhab from "@/assets/villains/ahab.png";
+import villainConstantine from "@/assets/villains/constantine.png";
+import villainBalaam from "@/assets/villains/balaam.png";
+import villainPharaoh from "@/assets/villains/pharaoh.png";
+import villainDarwin from "@/assets/villains/darwin.png";
+import villainFalseProphet from "@/assets/villains/false-prophet.png";
 
+// Tribal standards (flags)
 import tribeBenjamin from "@/assets/tribes/benjamin.jpeg";
 import tribeJudah from "@/assets/tribes/judah.jpeg";
 import tribeSimeon from "@/assets/tribes/simeon.jpeg";
 import tribeLevi from "@/assets/tribes/levi.jpeg";
 import tribeGad from "@/assets/tribes/gad.jpeg";
 
-const tribalBanners = [
-  { name: "Benjamin", img: tribeBenjamin, position: { top: "8%", left: "22%" } },
-  { name: "Judah", img: tribeJudah, position: { top: "8%", right: "22%" } },
-  { name: "Simeon", img: tribeSimeon, position: { bottom: "12%", left: "22%" } },
-  { name: "Levi", img: tribeLevi, position: { bottom: "12%", right: "22%" } },
+const gadPoses = [gadMilitary1, gadMilitary2];
+
+const tribalStandards = [
+  { name: "Benjamin", img: tribeBenjamin },
+  { name: "Judah", img: tribeJudah },
+  { name: "Gad", img: tribeGad },
+  { name: "Simeon", img: tribeSimeon },
+  { name: "Levi", img: tribeLevi },
 ];
 
 const opponents = [
-  { name: "NIMROD", title: "The Usurper King" },
-  { name: "AHAB", title: "The Weak King" },
-  { name: "CONSTANTINE", title: "The Emperor" },
-  { name: "BALAAM", title: "Prophet for Hire" },
-  { name: "PHARAOH", title: "The False Deity" },
-  { name: "DARWIN", title: "The Deceiver" },
-  { name: "THE FALSE PROPHET", title: "Balaam's Spirit" },
-];
-
-// Villain silhouette images — we'll use styled text medallions that rotate
-const villainImages = [
-  gadMilitary1, // placeholder — will use text overlay instead
-  gadMilitary2,
+  { name: "NIMROD", title: "The Usurper King", img: villainNimrod },
+  { name: "AHAB", title: "The Weak King", img: villainAhab },
+  { name: "CONSTANTINE", title: "The Emperor", img: villainConstantine },
+  { name: "BALAAM", title: "Prophet for Hire", img: villainBalaam },
+  { name: "PHARAOH", title: "The False Deity", img: villainPharaoh },
+  { name: "DARWIN", title: "The Deceiver", img: villainDarwin },
+  { name: "THE FALSE PROPHET", title: "Balaam's Spirit", img: villainFalseProphet },
 ];
 
 interface ThunderdomeEntryProps {
@@ -49,7 +54,6 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
   const [gadPoseIndex, setGadPoseIndex] = useState(0);
   const musicRef = useRef<HTMLAudioElement>(null);
 
-  // Auto-play music on mount (continues from landing page)
   useEffect(() => {
     if (musicRef.current) {
       musicRef.current.volume = 0.65;
@@ -82,6 +86,7 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
     <div className="fixed inset-0 bg-black overflow-hidden">
       <audio ref={musicRef} src="/audio/warning-in-the-dark.mp3" loop preload="auto" />
       <BrandHeader />
+
       {/* Arena background */}
       <div
         className="absolute inset-0 z-0"
@@ -149,78 +154,75 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
         />
       </div>
 
-      {/* Tribal insignias at 4 corners */}
-      <div className="absolute inset-0 z-[6] pointer-events-none hidden md:block">
-        {tribalBanners.map((tribe) => (
+      {/* TRIBAL STANDARDS — rectangular flags hanging from ceiling rafters */}
+      <div className="absolute inset-x-0 top-0 z-[6] pointer-events-none hidden md:flex justify-center items-start gap-6 lg:gap-10 pt-14 lg:pt-16">
+        {tribalStandards.map((tribe, i) => (
           <div
             key={tribe.name}
-            className="absolute"
-            style={{ ...tribe.position, transform: "translate(-50%, -50%)" }}
+            className="flex flex-col items-center"
+            style={{
+              opacity: 0.35 + (i === 2 ? 0.2 : 0),
+              filter: `brightness(${i === 2 ? 0.6 : 0.4}) saturate(0.7)`,
+            }}
           >
-            <div className="w-14 h-14 lg:w-20 lg:h-20 rounded-full overflow-hidden border-2"
+            {/* Rafter rod */}
+            <div className="w-10 lg:w-14 h-[2px] rounded-full mb-[2px]"
+              style={{ background: "hsl(30 20% 30% / 0.6)" }} />
+            {/* Hanging cord */}
+            <div className="w-[1px] h-2 lg:h-3" style={{ background: "hsl(30 20% 40% / 0.4)" }} />
+            {/* Rectangular flag */}
+            <div
+              className="w-8 lg:w-12 h-14 lg:h-20 overflow-hidden rounded-sm"
               style={{
-                borderColor: "hsl(12 76% 54% / 0.6)",
-                opacity: 0.7,
-                filter: "brightness(0.85) saturate(1.1)",
-                boxShadow: "0 0 20px hsl(12 76% 54% / 0.25), 0 0 40px hsl(0 0% 0% / 0.5)",
-              }}>
-              <img src={tribe.img} alt={`Insignia of ${tribe.name}`} className="w-full h-full object-cover" />
+                boxShadow: "0 4px 20px hsl(0 0% 0% / 0.6)",
+                border: "1px solid hsl(30 20% 25% / 0.3)",
+              }}
+            >
+              <img
+                src={tribe.img}
+                alt={`Standard of ${tribe.name}`}
+                className="w-full h-full object-cover"
+              />
             </div>
-            <p className="font-terminal text-[7px] lg:text-[9px] text-center mt-1 uppercase tracking-[0.2em]"
-              style={{ color: "hsl(45 82% 60% / 0.6)" }}>
+            <p className="font-terminal text-[6px] lg:text-[7px] text-center mt-1 uppercase tracking-[0.15em]"
+              style={{ color: "hsl(45 50% 50% / 0.35)" }}>
               {tribe.name}
             </p>
           </div>
         ))}
       </div>
 
-      {/* Gad insignia — larger, behind Gad's corner */}
-      <div className="absolute left-[1%] top-[5%] z-[8] pointer-events-none hidden md:block">
-        <div className="w-16 h-16 lg:w-24 lg:h-24 rounded-full overflow-hidden border-2"
-          style={{
-            borderColor: "hsl(45 82% 60% / 0.5)",
-            opacity: 0.85,
-            filter: "brightness(1.05) saturate(1.1)",
-            boxShadow: "0 0 25px hsl(45 82% 60% / 0.3), 0 0 50px hsl(0 0% 0% / 0.5)",
-          }}>
-          <img src={tribeGad} alt="Insignia of Gad" className="w-full h-full object-cover" />
-        </div>
-        <p className="font-terminal text-[8px] lg:text-[10px] text-center mt-1 uppercase tracking-[0.2em]"
-          style={{ color: "hsl(45 82% 60% / 0.7)" }}>
-          GAD
-        </p>
-      </div>
-
-      {/* LEFT PANEL — VILLAINS (bad guys) rotating */}
+      {/* LEFT PANEL — VILLAINS (challengers) with actual images */}
       <div className="absolute left-0 top-0 bottom-0 w-[14%] md:w-[18%] z-[10] overflow-hidden">
-        {/* Dark background for villain side */}
         <div className="absolute inset-0" style={{
           background: "linear-gradient(90deg, hsl(0 0% 3%) 0%, hsl(0 0% 5% / 0.95) 60%, transparent 100%)",
         }} />
-        {/* Rotating villain names as large imposing text */}
         {opponents.map((villain, i) => (
           <div
             key={villain.name}
             className="absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-700"
             style={{ opacity: i === opponentIndex ? 1 : 0 }}
           >
-            <div className="text-center px-2">
-              <p className="font-display text-lg md:text-2xl lg:text-3xl uppercase tracking-wider font-bold"
-                style={{ color: "hsl(0 72% 50%)", textShadow: "0 0 30px hsl(0 72% 50% / 0.5), 0 0 60px hsl(0 50% 30% / 0.3)" }}>
-                ?
-              </p>
-              <p className="font-display text-[10px] md:text-xs lg:text-sm uppercase tracking-[0.2em] font-bold mt-4"
-                style={{ color: "hsl(0 60% 55%)", textShadow: "0 0 15px hsl(0 60% 55% / 0.4)" }}>
-                {villain.name}
-              </p>
-              <p className="font-terminal text-[8px] md:text-[10px] mt-1 uppercase tracking-wide"
-                style={{ color: "hsl(0 0% 55%)" }}>
-                {villain.title}
-              </p>
-            </div>
+            <img
+              src={villain.img}
+              alt={villain.name}
+              className="w-[70%] max-w-[140px] h-auto object-contain mb-3"
+              style={{
+                filter: "brightness(0.5) contrast(1.3) saturate(0.6)",
+                maskImage: "linear-gradient(to bottom, black 60%, transparent 100%)",
+                WebkitMaskImage: "linear-gradient(to bottom, black 60%, transparent 100%)",
+              }}
+            />
+            <p className="font-display text-[10px] md:text-xs lg:text-sm uppercase tracking-[0.2em] font-bold"
+              style={{ color: "hsl(0 60% 55%)", textShadow: "0 0 15px hsl(0 60% 55% / 0.4)" }}>
+              {villain.name}
+            </p>
+            <p className="font-terminal text-[8px] md:text-[10px] mt-1 uppercase tracking-wide"
+              style={{ color: "hsl(0 0% 55%)" }}>
+              {villain.title}
+            </p>
           </div>
         ))}
-        {/* Label */}
         <div className="absolute bottom-6 left-0 right-0 z-10 text-center">
           <p className="font-terminal text-[8px] md:text-[10px] tracking-[0.3em] uppercase"
             style={{ color: "hsl(0 60% 50% / 0.7)" }}>
@@ -229,7 +231,7 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
         </div>
       </div>
 
-      {/* RIGHT PANEL — WARRIORS (good guys) rotating images */}
+      {/* RIGHT PANEL — GAD / WARRIORS (good guys) */}
       <div className="absolute right-0 top-0 bottom-0 w-[14%] md:w-[18%] z-[10] overflow-hidden">
         {gadPoses.map((pose, i) => (
           <img
@@ -253,7 +255,7 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
         </div>
       </div>
 
-      {/* CENTER CONTENT — Gad stationary + simplified text */}
+      {/* CENTER CONTENT */}
       <div className="absolute inset-0 z-[20] flex flex-col items-center justify-center p-4">
         {/* Gad stationary portrait */}
         <div className="relative mb-2">
@@ -271,23 +273,23 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
           />
         </div>
 
-        {/* GAD vs VILLAIN matchup */}
+        {/* Matchup — CHALLENGER vs GAD (correct sides) */}
         <div className="mt-3 flex items-center justify-center gap-2 md:gap-4">
           <p className="font-display text-sm md:text-lg uppercase tracking-wider font-bold"
-            style={{ color: "hsl(12 76% 54%)", textShadow: "0 0 15px hsl(12 76% 54% / 0.35)" }}>
-            GAD
+            style={{ color: "hsl(0 60% 50%)", textShadow: "0 0 15px hsl(0 60% 50% / 0.35)" }}>
+            {current.name}
           </p>
           <span className="font-display text-base md:text-xl font-bold"
             style={{ color: "hsl(45 82% 60%)", textShadow: "0 0 20px hsl(45 82% 60% / 0.38)" }}>
             vs.
           </span>
           <p className="font-display text-sm md:text-lg uppercase tracking-wider font-bold"
-            style={{ color: "hsl(0 0% 92%)", textShadow: "0 0 15px hsl(0 0% 100% / 0.18)" }}>
-            {current.name}
+            style={{ color: "hsl(12 76% 54%)", textShadow: "0 0 15px hsl(12 76% 54% / 0.35)" }}>
+            GAD
           </p>
         </div>
 
-        {/* ENTER button — gold inside red box */}
+        {/* ENTER button */}
         <button
           onClick={onEnter}
           className="mt-4 md:mt-6 px-12 md:px-20 py-3 md:py-4 font-display text-lg md:text-2xl uppercase tracking-[0.35em]
@@ -314,7 +316,7 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
           ENTER
         </button>
 
-        {/* THRESHING FLOOR — below the button */}
+        {/* THRESHING FLOOR */}
         <p className="mt-3 font-display text-lg md:text-2xl lg:text-3xl uppercase tracking-[0.25em] font-bold text-center"
           style={{
             color: "hsl(12 76% 54%)",
@@ -358,15 +360,14 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
         </div>
       </div>
 
-      {/* Exit button */}
-      <div className="fixed top-20 md:top-24 left-4 z-50">
+      {/* Exit — small arrow, bottom-left corner */}
+      <div className="fixed bottom-4 left-4 z-50">
         <button
           onClick={onExit}
-          className="flex items-center gap-2 px-3 py-2 rounded-full bg-black/60 backdrop-blur-sm border transition-all duration-300"
-          style={{ borderColor: "hsl(45 82% 60% / 0.3)", color: "hsl(45 82% 60% / 0.85)" }}
+          className="p-2 rounded-full bg-black/50 backdrop-blur-sm border transition-all duration-300 hover:bg-black/70"
+          style={{ borderColor: "hsl(45 82% 60% / 0.2)", color: "hsl(45 82% 60% / 0.6)" }}
         >
           <ArrowLeft className="w-4 h-4" />
-          <span className="font-terminal text-[10px] tracking-widest">EXIT</span>
         </button>
       </div>
 
