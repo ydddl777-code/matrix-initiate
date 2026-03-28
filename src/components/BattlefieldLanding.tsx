@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Volume2, VolumeX } from "lucide-react";
+import { Volume2, VolumeX, Play } from "lucide-react";
 import gadThreshingFloor from "@/assets/gad-threshing-floor.jpg";
 import prophetessHuldah from "@/assets/prophetess-huldah.png";
 import { AnnouncerSubtitles } from "./AnnouncerSubtitles";
@@ -25,6 +25,7 @@ const embers = Array.from({ length: 30 }, (_, i) => ({
 
 export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps) => {
   const [isMuted, setIsMuted] = useState(true);
+  const [isReady, setIsReady] = useState(false); // Gate: user must press "Begin"
   const [videoPhase, setVideoPhase] = useState<VideoPhase>("gad");
   const [iterationCount, setIterationCount] = useState(0);
   
@@ -33,6 +34,7 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
   const [announcementPlaying, setAnnouncementPlaying] = useState(false);
   const [announcementStartTime, setAnnouncementStartTime] = useState<number | null>(null);
   const announcementRef = useRef<HTMLAudioElement | null>(null);
+  const fadeIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const gadVideoRef = useRef<HTMLVideoElement>(null);
   const competitorVideoRef = useRef<HTMLVideoElement>(null);
