@@ -138,36 +138,7 @@ export const HuldahIntro = () => {
         zIndex: 10,
       }} />
 
-      {/* Subtitles */}
-      {currentSubtitle && (
-        <AbsoluteFill style={{
-          display: "flex",
-          alignItems: "flex-end",
-          justifyContent: "center",
-          paddingBottom: 200,
-          zIndex: 20,
-        }}>
-          <div style={{
-            opacity: subtitleOpacity,
-            background: "rgba(0,0,0,0.7)",
-            padding: "16px 40px",
-            borderRadius: 8,
-            borderLeft: "3px solid rgba(139, 0, 0, 0.8)",
-            maxWidth: 900,
-          }}>
-            <p style={{
-              fontFamily: cinzel,
-              fontSize: 38,
-              color: "#f0e6d0",
-              textAlign: "center",
-              lineHeight: 1.5,
-              textShadow: "0 2px 20px rgba(0,0,0,0.8)",
-            }}>
-              {currentSubtitle.text}
-            </p>
-          </div>
-        </AbsoluteFill>
-      )}
+      {/* Subtitles removed for clean render */}
 
       {/* Pulsing audio visualizer dots */}
       <AbsoluteFill style={{
