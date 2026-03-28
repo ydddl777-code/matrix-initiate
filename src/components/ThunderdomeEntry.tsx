@@ -175,8 +175,13 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
 
       {/* LEFT PANEL — VILLAINS (challengers) with actual images */}
       <div className="absolute left-0 top-0 bottom-0 w-[14%] md:w-[18%] z-[10] overflow-hidden">
+        {/* Subtle edge gradient — no longer hiding the villains */}
         <div className="absolute inset-0" style={{
-          background: "linear-gradient(90deg, hsl(0 0% 3%) 0%, hsl(0 0% 5% / 0.95) 60%, transparent 100%)",
+          background: "linear-gradient(90deg, hsl(0 0% 6% / 0.6) 0%, transparent 100%)",
+        }} />
+        {/* Spotlight from above */}
+        <div className="absolute inset-0 pointer-events-none" style={{
+          background: "radial-gradient(ellipse 80% 60% at 50% 30%, hsl(45 30% 85% / 0.25) 0%, transparent 70%)",
         }} />
         {opponents.map((villain, i) => (
           <div
@@ -189,9 +194,9 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
               alt={villain.name}
               className="w-[70%] max-w-[140px] h-auto object-contain mb-3"
               style={{
-                filter: "brightness(0.5) contrast(1.3) saturate(0.6)",
-                maskImage: "linear-gradient(to bottom, black 60%, transparent 100%)",
-                WebkitMaskImage: "linear-gradient(to bottom, black 60%, transparent 100%)",
+                filter: "brightness(0.95) contrast(1.15) saturate(0.9)",
+                maskImage: "linear-gradient(to bottom, black 75%, transparent 100%)",
+                WebkitMaskImage: "linear-gradient(to bottom, black 75%, transparent 100%)",
               }}
             />
           </div>
