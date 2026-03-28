@@ -58,22 +58,8 @@ export const Storefront = ({ onBack }: StorefrontProps) => {
         <ExtendedPlayList />
       </div>
 
-      {/* Back Button */}
-      <button
-        onClick={onBack}
-        className="fixed bottom-6 left-6 z-40 flex items-center gap-2 px-4 py-2.5 rounded-full border transition-all duration-300 hover:brightness-125"
-        style={{
-          background: "hsl(0 0% 5% / 0.8)",
-          backdropFilter: "blur(8px)",
-          borderColor: "hsl(0 70% 45% / 0.4)",
-          color: "hsl(0 70% 50% / 0.8)",
-        }}
-      >
-        <Swords className="w-4 h-4" />
-        <span className="font-terminal text-[10px] tracking-widest uppercase">
-          Back to Thunderdome
-        </span>
-      </button>
+      {/* Nav arrows — back to warfare */}
+      <NavArrows onBack={onBack} backLabel="WARFARE" />
     </div>
   );
 };
