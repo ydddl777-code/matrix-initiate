@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
 import lionOfJudah from "@/assets/lion-of-judah.png";
+import gadMilitary1 from "@/assets/gad-military-1.png";
+import gadMilitary2 from "@/assets/gad-military-2.png";
+
+const gadPoses = [gadMilitary1, gadMilitary2];
 
 import bannerReuben from "@/assets/banners/reuben.png";
 import bannerSimeon from "@/assets/banners/simeon.png";
