@@ -34,11 +34,10 @@ const opponents = [
 interface ThunderdomeEntryProps {
   onEnter: () => void;
   onExit: () => void;
-  onOpenStorefront?: () => void;
   gadImage: { src: string; alt: string };
 }
 
-export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }: ThunderdomeEntryProps) => {
+export const ThunderdomeEntry = ({ onEnter, onExit, gadImage }: ThunderdomeEntryProps) => {
   const [opponentIndex, setOpponentIndex] = useState(0);
   const [gadPoseIndex, setGadPoseIndex] = useState(0);
   const musicRef = useRef<HTMLAudioElement>(null);
