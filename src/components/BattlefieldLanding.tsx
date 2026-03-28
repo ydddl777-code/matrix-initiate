@@ -25,6 +25,7 @@ const embers = Array.from({ length: 30 }, (_, i) => ({
 
 export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps) => {
   const [isMuted, setIsMuted] = useState(true);
+  const isMutedRef = useRef(true);
   const [isReady, setIsReady] = useState(false); // Gate: user must press "Begin"
   const [videoPhase, setVideoPhase] = useState<VideoPhase>("gad");
   const [iterationCount, setIterationCount] = useState(0);
@@ -70,7 +71,8 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
   // Begin sequence when user clicks Ready
   const handleBegin = () => {
     setIsReady(true);
-    setIsMuted(false); // Unmute everything when they press Begin
+    setIsMuted(false);
+    isMutedRef.current = false;
     if (gadVideoRef.current) {
       gadVideoRef.current.muted = false;
       gadVideoRef.current.currentTime = 0;
@@ -137,7 +139,7 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
         const audioUrl = URL.createObjectURL(audioBlob);
         const audio = new Audio(audioUrl);
         announcementRef.current = audio;
-        audio.muted = isMuted;
+        audio.muted = isMutedRef.current; // Use ref for current mute state
         audio.onended = () => {
           setAnnouncementPlaying(false);
           setShowCTA(true);
@@ -161,7 +163,7 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
         if (musicRef.current) fadeVolume(musicRef.current, 0.3, 2000);
       }, 5000);
     }
-  }, [isMuted]);
+  }, [fadeVolume]);
 
   const handleCompetitorVideoEnd = () => {
     setIterationCount((prev) => prev + 1);
@@ -187,6 +189,7 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
   const toggleMute = () => {
     setIsMuted((prev) => {
       const next = !prev;
+      isMutedRef.current = next;
       if (musicRef.current) musicRef.current.muted = next;
       if (announcementRef.current) announcementRef.current.muted = next;
       if (iterationCount === 0) {
