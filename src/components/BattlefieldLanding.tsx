@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Volume2, VolumeX } from "lucide-react";
+import { Volume2, VolumeX, Play } from "lucide-react";
 import gadThreshingFloor from "@/assets/gad-threshing-floor.jpg";
 import prophetessHuldah from "@/assets/prophetess-huldah.png";
 import { AnnouncerSubtitles } from "./AnnouncerSubtitles";
@@ -25,6 +25,7 @@ const embers = Array.from({ length: 30 }, (_, i) => ({
 
 export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps) => {
   const [isMuted, setIsMuted] = useState(true);
+  const [isReady, setIsReady] = useState(false); // Gate: user must press "Begin"
   const [videoPhase, setVideoPhase] = useState<VideoPhase>("gad");
   const [iterationCount, setIterationCount] = useState(0);
   
@@ -33,18 +34,49 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
   const [announcementPlaying, setAnnouncementPlaying] = useState(false);
   const [announcementStartTime, setAnnouncementStartTime] = useState<number | null>(null);
   const announcementRef = useRef<HTMLAudioElement | null>(null);
+  const fadeIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const gadVideoRef = useRef<HTMLVideoElement>(null);
   const competitorVideoRef = useRef<HTMLVideoElement>(null);
   const musicRef = useRef<HTMLAudioElement>(null);
 
 
+  // Smooth volume fade helper
+  const fadeVolume = useCallback((audio: HTMLAudioElement, targetVol: number, durationMs = 2000) => {
+    if (fadeIntervalRef.current) clearInterval(fadeIntervalRef.current);
+    const startVol = audio.volume;
+    const steps = 40;
+    const stepTime = durationMs / steps;
+    const volStep = (targetVol - startVol) / steps;
+    let currentStep = 0;
+    fadeIntervalRef.current = setInterval(() => {
+      currentStep++;
+      audio.volume = Math.max(0, Math.min(1, startVol + volStep * currentStep));
+      if (currentStep >= steps) {
+        if (fadeIntervalRef.current) clearInterval(fadeIntervalRef.current);
+        audio.volume = targetVol;
+      }
+    }, stepTime);
+  }, []);
+
   const startMusic = useCallback(() => {
     if (musicRef.current && musicRef.current.paused) {
-      musicRef.current.volume = 0.7;
+      musicRef.current.volume = 0;
       musicRef.current.play().catch(() => {});
+      fadeVolume(musicRef.current, 0.7, 3000); // Fade in over 3 seconds
     }
-  }, []);
+  }, [fadeVolume]);
+
+  // Begin sequence when user clicks Ready
+  const handleBegin = () => {
+    setIsReady(true);
+    setIsMuted(false); // Unmute everything when they press Begin
+    if (gadVideoRef.current) {
+      gadVideoRef.current.muted = false;
+      gadVideoRef.current.currentTime = 0;
+      gadVideoRef.current.play().catch(() => {});
+    }
+  };
 
   const handleGadVideoEnd = () => {
     setVideoPhase("competitor");
@@ -60,8 +92,8 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
   const playAnnouncement = useCallback(async () => {
     setShowAnnouncement(true);
     setAnnouncementPlaying(true);
-    // Lower music volume during announcement
-    if (musicRef.current) musicRef.current.volume = 0.15;
+    // Smoothly lower music volume during announcement
+    if (musicRef.current) fadeVolume(musicRef.current, 0.08, 2500);
 
     const announcementText = `Welcome, friend. Welcome, stranger. Welcome, citizen of every nation.
 I am the Prophetess Huldah.
@@ -109,7 +141,7 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
         audio.onended = () => {
           setAnnouncementPlaying(false);
           setShowCTA(true);
-          if (musicRef.current) musicRef.current.volume = 0.3;
+          if (musicRef.current) fadeVolume(musicRef.current, 0.3, 2000);
           URL.revokeObjectURL(audioUrl);
         };
         await audio.play();
@@ -119,14 +151,14 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
         setTimeout(() => {
           setAnnouncementPlaying(false);
           setShowCTA(true);
-          if (musicRef.current) musicRef.current.volume = 0.3;
+          if (musicRef.current) fadeVolume(musicRef.current, 0.3, 2000);
         }, 5000);
       }
     } catch {
       setTimeout(() => {
         setAnnouncementPlaying(false);
         setShowCTA(true);
-        if (musicRef.current) musicRef.current.volume = 0.3;
+        if (musicRef.current) fadeVolume(musicRef.current, 0.3, 2000);
       }, 5000);
     }
   }, [isMuted]);
@@ -313,9 +345,8 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
         <video
           ref={gadVideoRef}
           src="/video/gad-challenge.mp4"
-          autoPlay
           playsInline
-          muted
+          muted={isMuted}
           className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
             videoPhase === "gad" ? "opacity-100" : "opacity-0"
           }`}
@@ -470,25 +501,70 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
         </div>
       )}
 
-      {/* === MUTE BUTTON === */}
-      <div className="fixed top-4 left-4 z-50">
-        <button
-          onClick={toggleMute}
-          className="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300"
-          style={{
-            background: 'hsl(0 0% 5% / 0.7)',
-            backdropFilter: 'blur(8px)',
-            border: '1px solid hsl(45 60% 40% / 0.3)',
-          }}
-          title={isMuted ? "Unmute" : "Mute"}
-        >
-          {isMuted ? (
-            <VolumeX className="w-5 h-5" style={{ color: 'hsl(0 60% 50%)' }} />
-          ) : (
-            <Volume2 className="w-5 h-5" style={{ color: 'hsl(45 80% 55%)' }} />
-          )}
-        </button>
-      </div>
+      {/* === READY GATE — shown before sequence starts === */}
+      {!isReady && (
+        <div className="absolute inset-0 z-[45] flex items-center justify-center"
+          style={{ background: 'radial-gradient(ellipse at 50% 50%, hsl(0 0% 0% / 0.85) 0%, hsl(0 0% 0% / 0.95) 100%)' }}>
+          <div className="text-center animate-fade-in">
+            <p className="font-display text-sm md:text-base uppercase tracking-[0.4em] mb-2"
+              style={{ color: 'hsl(45 80% 55%)', textShadow: '0 0 15px hsl(45 80% 50% / 0.3)' }}>
+              The Threshing Floor
+            </p>
+            <p className="font-ceremonial text-xs md:text-sm mb-8 max-w-md mx-auto px-6"
+              style={{ color: 'hsl(0 0% 60%)' }}>
+              A Bible doctrinal debate arena. This experience includes video, music, and narration.
+            </p>
+            <button
+              onClick={handleBegin}
+              className="px-12 md:px-16 py-4 md:py-5 font-display text-lg md:text-xl uppercase tracking-[0.3em]
+                         border-2 transition-all duration-500 cursor-pointer"
+              style={{
+                background: 'linear-gradient(180deg, hsl(25 40% 20% / 0.7) 0%, hsl(15 30% 12% / 0.9) 100%)',
+                borderColor: 'hsl(45 70% 50%)',
+                color: 'hsl(45 80% 60%)',
+                boxShadow: '0 0 25px hsl(45 70% 50% / 0.25)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow = '0 0 50px hsl(45 70% 50% / 0.4)';
+                e.currentTarget.style.borderColor = 'hsl(45 80% 60%)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = '0 0 25px hsl(45 70% 50% / 0.25)';
+                e.currentTarget.style.borderColor = 'hsl(45 70% 50%)';
+              }}
+            >
+              <Play className="w-5 h-5 inline-block mr-3 -mt-0.5" />
+              Begin
+            </button>
+            <p className="font-terminal text-[10px] md:text-xs mt-4 tracking-[0.25em] uppercase"
+              style={{ color: 'hsl(0 0% 45%)' }}>
+              Audio will play when you press Begin
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* === MUTE BUTTON (only visible after sequence starts) === */}
+      {isReady && (
+        <div className="fixed top-4 left-4 z-50">
+          <button
+            onClick={toggleMute}
+            className="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300"
+            style={{
+              background: 'hsl(0 0% 5% / 0.7)',
+              backdropFilter: 'blur(8px)',
+              border: '1px solid hsl(45 60% 40% / 0.3)',
+            }}
+            title={isMuted ? "Unmute" : "Mute"}
+          >
+            {isMuted ? (
+              <VolumeX className="w-5 h-5" style={{ color: 'hsl(0 60% 50%)' }} />
+            ) : (
+              <Volume2 className="w-5 h-5" style={{ color: 'hsl(45 80% 55%)' }} />
+            )}
+          </button>
+        </div>
+      )}
 
       <style>{`
         @keyframes torch-flicker {
