@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { ArrowLeft } from "lucide-react";
 import { DoctrinalWarfare } from "./doctrine/DoctrinalWarfare";
+import { BrandHeader } from "./BrandHeader";
 import { ThunderdomeEntry } from "./ThunderdomeEntry";
 import { Storefront } from "./storefront/Storefront";
 import gadThreshingFloor from "@/assets/gad-threshing-floor.jpg";
@@ -54,6 +55,7 @@ export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
   return (
     <div className="fixed inset-0 bg-black overflow-hidden">
       <audio ref={musicRef} src="/audio/warning-in-the-dark.mp3" loop preload="auto" />
+      <BrandHeader />
 
       {/* Thunderdome Ring + Spotlight */}
       <div className="absolute inset-0 z-[1] pointer-events-none">

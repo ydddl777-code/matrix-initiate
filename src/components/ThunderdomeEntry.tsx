@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { ArrowLeft } from "lucide-react";
+import { BrandHeader } from "./BrandHeader";
 import lionOfJudah from "@/assets/lion-of-judah.png";
 import gadMilitary1 from "@/assets/gad-military-1.png";
 import gadMilitary2 from "@/assets/gad-military-2.png";
@@ -94,6 +95,7 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
   return (
     <div className="fixed inset-0 bg-black overflow-hidden">
       <audio ref={musicRef} src="/audio/warning-in-the-dark.mp3" loop preload="auto" />
+      <BrandHeader />
       {/* Arena background */}
       <div
         className="absolute inset-0 z-0"
