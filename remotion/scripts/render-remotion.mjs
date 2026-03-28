@@ -5,8 +5,8 @@ import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const compositionId = process.argv[2] || "main";
-const outputFile = process.argv[3] || "/mnt/documents/threshing-floor-promo-tiktok.mp4";
+const compositionId = process.argv[2] || "promo";
+const outputFile = process.argv[3] || "/mnt/documents/threshing-floor-promo-2min.mp4";
 
 console.log(`Rendering composition: ${compositionId} → ${outputFile}`);
 const bundled = await bundle({
