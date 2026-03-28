@@ -180,7 +180,7 @@ export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
         </h2>
         <p className="font-ceremonial text-sm mt-1 tracking-wider text-center max-w-md px-4"
           style={{ color: 'hsl(45 80% 55%)' }}>
-          ENTER THE THUNDERDOME
+          ENTER THE THRESHING FLOOR
         </p>
         <p className="font-ceremonial text-xs mt-1 tracking-wider text-center max-w-md px-4"
           style={{ color: 'hsl(0 50% 40% / 0.7)' }}>
@@ -231,8 +231,8 @@ export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
         isFullScreen && "max-w-4xl mx-auto w-full"
       )} style={{ maxHeight: isFullScreen ? 'none' : '400px' }}>
         {messages.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full text-center py-12">
-            <img src={lionLogo} alt="Lion of Judah" className="w-20 h-20 md:w-24 md:h-24 mb-4 rounded-full" style={{ boxShadow: '0 0 30px hsl(45 80% 50% / 0.4)' }} />
+          <div className="flex flex-col items-center justify-center h-full text-center py-12 mx-auto">
+            <img src={lionLogo} alt="Lion of Judah" className="w-20 h-20 md:w-24 md:h-24 mb-4 rounded-full mx-auto block" style={{ boxShadow: '0 0 30px hsl(45 80% 50% / 0.4)' }} />
             <h4 className="font-ceremonial text-lg mb-2" style={{ color: 'hsl(45 70% 55%)' }}>
               THE THRESHING FLOOR AWAITS
             </h4>
