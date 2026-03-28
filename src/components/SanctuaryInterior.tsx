@@ -23,7 +23,7 @@ export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
       musicRef.current.volume = 0.15;
     }
     const handleAudioStart = () => {
-      if (musicRef.current) musicRef.current.volume = 0.03;
+      if (musicRef.current) musicRef.current.volume = 0.075;
     };
     const handleAudioEnd = () => {
       if (musicRef.current) musicRef.current.volume = 0.15;
