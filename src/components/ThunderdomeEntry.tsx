@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { ArrowLeft } from "lucide-react";
+import { NavArrows } from "./NavArrows";
 import { BrandHeader } from "./BrandHeader";
 import lionOfJudah from "@/assets/lion-of-judah.png";
 import gadMilitary1 from "@/assets/gad-military-1.png";
@@ -371,6 +372,9 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
           <span className="font-terminal text-[10px] tracking-widest">EXIT</span>
         </button>
       </div>
+
+      {/* Nav arrows */}
+      <NavArrows onBack={onExit} backLabel="LANDING" onForward={onEnter} forwardLabel="WARFARE" />
 
       <style>{`
         @keyframes smoke-drift {
