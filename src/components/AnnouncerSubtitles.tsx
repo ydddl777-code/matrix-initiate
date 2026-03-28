@@ -1,25 +1,26 @@
 import { useState, useEffect, useRef } from "react";
 
 // Each line with approximate start time (seconds) based on slow, deliberate delivery
+// Tighter timing — speech is at 0.82x speed, each line ~3-5s of deliberate delivery
 const SUBTITLE_LINES = [
   { time: 0, text: "Welcome, friend. Welcome, stranger.", highlight: true },
-  { time: 4, text: "Welcome, citizen of every nation.", highlight: true },
-  { time: 8, text: "I am the Prophetess Huldah.", gold: true },
-  { time: 12, text: "This is a Bible doctrinal debate application." },
-  { time: 17, text: "What you are seeing is symbolic." },
-  { time: 21, text: "No one will be harmed here." },
-  { time: 25, text: "No blood will be shed here." },
-  { time: 29, text: "These images speak of spiritual warfare —", red: true },
-  { time: 34, text: "the testing of doctrine, tradition, and every lie raised against the word of God." },
-  { time: 43, text: "Prophet Gad answers with Scripture.", gold: true },
-  { time: 47, text: "With the King James Bible, sixteen eleven." },
-  { time: 52, text: "Bring your question." },
-  { time: 55, text: "Bring your doctrine." },
-  { time: 58, text: "Bring what you have been taught." },
-  { time: 62, text: "The Threshing Floor is a place of testing.", red: true },
-  { time: 68, text: "Truth is welcome here." },
-  { time: 72, text: "So enter in peace —" },
-  { time: 76, text: "and let every claim be weighed by the word of the Most High.", highlight: true },
+  { time: 5, text: "Welcome, citizen of every nation.", highlight: true },
+  { time: 9, text: "I am the Prophetess Huldah.", gold: true },
+  { time: 14, text: "This is a Bible doctrinal debate application." },
+  { time: 20, text: "What you are seeing is symbolic." },
+  { time: 25, text: "No one will be harmed here." },
+  { time: 29, text: "No blood will be shed here." },
+  { time: 34, text: "These images speak of spiritual warfare —", red: true },
+  { time: 40, text: "the testing of doctrine, tradition, and every lie raised against the word of God." },
+  { time: 50, text: "Prophet Gad answers with Scripture.", gold: true },
+  { time: 55, text: "With the King James Bible, sixteen eleven." },
+  { time: 61, text: "Bring your question." },
+  { time: 65, text: "Bring your doctrine." },
+  { time: 69, text: "Bring what you have been taught." },
+  { time: 74, text: "The Threshing Floor is a place of testing.", red: true },
+  { time: 80, text: "Truth is welcome here." },
+  { time: 85, text: "So enter in peace —" },
+  { time: 90, text: "and let every claim be weighed by the word of the Most High.", highlight: true },
 ];
 
 interface AnnouncerSubtitlesProps {

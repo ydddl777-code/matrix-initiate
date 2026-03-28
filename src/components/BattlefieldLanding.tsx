@@ -511,7 +511,7 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
                 e.currentTarget.style.color = 'hsl(0 70% 55%)';
               }}
             >
-              Step Into the Thunderdome
+              Enter the Threshing Floor
             </button>
             <p
               className="font-terminal text-xs md:text-sm mt-4 tracking-[0.3em] uppercase"
@@ -519,7 +519,7 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
                 color: 'hsl(0 0% 70%)',
               }}
             >
-              ▲ Press to enter the Dome ▲
+              ▲ Press to enter ▲
             </p>
             <p
               className="font-display text-sm md:text-lg lg:text-xl mt-4 tracking-[0.3em] uppercase font-bold px-5 md:px-8 py-2 md:py-3 mx-auto inline-block rounded"
