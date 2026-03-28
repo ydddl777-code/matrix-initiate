@@ -183,31 +183,23 @@ export const ThunderdomeEntry = ({ onEnter, onExit, gadImage }: ThunderdomeEntry
           background: "radial-gradient(ellipse 80% 60% at 50% 30%, hsl(45 30% 85% / 0.25) 0%, transparent 70%)",
         }} />
         {opponents.map((villain, i) => (
-          <div
+          <img
             key={villain.name}
-            className="absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-700"
-            style={{ opacity: i === opponentIndex ? 1 : 0 }}
-          >
-            <img
-              src={villain.img}
-              alt={villain.name}
-              className="w-[70%] max-w-[140px] h-auto object-contain mb-3"
-              style={{
-                filter: "brightness(0.95) contrast(1.15) saturate(0.9)",
-                maskImage: "linear-gradient(to bottom, black 75%, transparent 100%)",
-                WebkitMaskImage: "linear-gradient(to bottom, black 75%, transparent 100%)",
-              }}
-            />
-          </div>
+            src={villain.img}
+            alt={villain.name}
+            className="absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-700"
+            style={{
+              opacity: i === opponentIndex ? 1 : 0,
+              filter: "brightness(0.95) contrast(1.15) saturate(0.9)",
+              maskImage: "linear-gradient(to right, black 55%, transparent 100%)",
+              WebkitMaskImage: "linear-gradient(to right, black 55%, transparent 100%)",
+            }}
+          />
         ))}
         <div className="absolute bottom-6 left-0 right-0 z-10 text-center">
           <p className="font-display text-[10px] md:text-xs lg:text-sm uppercase tracking-[0.2em] font-bold"
             style={{ color: "hsl(0 60% 55%)", textShadow: "0 0 15px hsl(0 60% 55% / 0.4)" }}>
             {opponents[opponentIndex].name}
-          </p>
-          <p className="font-terminal text-[8px] md:text-[10px] mt-1 uppercase tracking-[0.3em]"
-            style={{ color: "hsl(0 60% 50% / 0.7)" }}>
-            CHALLENGER
           </p>
         </div>
       </div>
@@ -320,14 +312,14 @@ export const ThunderdomeEntry = ({ onEnter, onExit, gadImage }: ThunderdomeEntry
         </div>
       </div>
 
-      {/* Nav arrows — minimal, no labels */}
-      <div className="fixed bottom-6 left-6 z-50">
+      {/* Nav arrows — same plane, centered at bottom */}
+      <div className="fixed bottom-6 left-[50%] -translate-x-[calc(50%+120px)] z-50">
         <button onClick={onExit} className="p-2 rounded-full bg-black/50 backdrop-blur-sm border transition-all duration-300 hover:bg-black/70 opacity-60 hover:opacity-100"
           style={{ borderColor: "hsl(45 60% 40% / 0.3)", color: "hsl(45 80% 55%)" }}>
           <ArrowLeft className="w-4 h-4" />
         </button>
       </div>
-      <div className="fixed bottom-6 right-6 z-50">
+      <div className="fixed bottom-6 left-[50%] translate-x-[calc(50%+80px)] z-50">
         <button onClick={onEnter} className="p-2 rounded-full bg-black/50 backdrop-blur-sm border transition-all duration-300 hover:bg-black/70 opacity-60 hover:opacity-100"
           style={{ borderColor: "hsl(45 60% 40% / 0.3)", color: "hsl(45 80% 55%)" }}>
           <ArrowLeft className="w-4 h-4 rotate-180" />
