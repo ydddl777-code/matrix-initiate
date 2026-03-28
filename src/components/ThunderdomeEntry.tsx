@@ -187,9 +187,8 @@ export const ThunderdomeEntry = ({ onEnter, onExit, gadImage }: ThunderdomeEntry
             key={villain.name}
             src={villain.img}
             alt={villain.name}
-            className="absolute left-0 right-0 bottom-0 w-full object-cover object-top transition-opacity duration-700"
+            className="absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-700"
             style={{
-              top: "22%",
               opacity: i === opponentIndex ? 1 : 0,
               filter: "brightness(0.95) contrast(1.15) saturate(0.9)",
               maskImage: "linear-gradient(to right, black 55%, transparent 100%)",
