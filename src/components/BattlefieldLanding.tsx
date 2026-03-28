@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { Volume2, VolumeX, Play } from "lucide-react";
 import gadThreshingFloor from "@/assets/gad-threshing-floor.jpg";
 import prophetessHuldah from "@/assets/prophetess-huldah.png";
+import threshingFloorBg from "@/assets/threshing-floor-bg.jpg";
 import { AnnouncerSubtitles } from "./AnnouncerSubtitles";
 
 type VideoPhase = "gad" | "competitor";
@@ -506,8 +507,16 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
 
       {/* === READY GATE — shown before sequence starts === */}
       {!isReady && (
-        <div className="absolute inset-0 z-[45] flex items-center justify-center"
-          style={{ background: 'radial-gradient(ellipse at 50% 50%, hsl(0 0% 0% / 0.85) 0%, hsl(0 0% 0% / 0.95) 100%)' }}>
+        <div className="absolute inset-0 z-[45] flex items-center justify-center overflow-hidden">
+          {/* Translucent threshing floor background */}
+          <img
+            src={threshingFloorBg}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ opacity: 0.18, filter: 'brightness(0.7) saturate(0.8)' }}
+          />
+          <div className="absolute inset-0"
+            style={{ background: 'radial-gradient(ellipse at 50% 50%, hsl(0 0% 0% / 0.6) 0%, hsl(0 0% 0% / 0.85) 100%)' }} />
           <div className="text-center animate-fade-in">
             <p className="font-display text-sm md:text-base uppercase tracking-[0.4em] mb-2"
               style={{ color: 'hsl(45 80% 55%)', textShadow: '0 0 15px hsl(45 80% 50% / 0.3)' }}>
