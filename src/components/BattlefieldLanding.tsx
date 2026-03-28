@@ -92,8 +92,8 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
   const playAnnouncement = useCallback(async () => {
     setShowAnnouncement(true);
     setAnnouncementPlaying(true);
-    // Lower music volume during announcement
-    if (musicRef.current) musicRef.current.volume = 0.15;
+    // Smoothly lower music volume during announcement
+    if (musicRef.current) fadeVolume(musicRef.current, 0.08, 2500);
 
     const announcementText = `Welcome, friend. Welcome, stranger. Welcome, citizen of every nation.
 I am the Prophetess Huldah.
@@ -141,7 +141,7 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
         audio.onended = () => {
           setAnnouncementPlaying(false);
           setShowCTA(true);
-          if (musicRef.current) musicRef.current.volume = 0.3;
+          if (musicRef.current) fadeVolume(musicRef.current, 0.3, 2000);
           URL.revokeObjectURL(audioUrl);
         };
         await audio.play();
@@ -151,14 +151,14 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
         setTimeout(() => {
           setAnnouncementPlaying(false);
           setShowCTA(true);
-          if (musicRef.current) musicRef.current.volume = 0.3;
+          if (musicRef.current) fadeVolume(musicRef.current, 0.3, 2000);
         }, 5000);
       }
     } catch {
       setTimeout(() => {
         setAnnouncementPlaying(false);
         setShowCTA(true);
-        if (musicRef.current) musicRef.current.volume = 0.3;
+        if (musicRef.current) fadeVolume(musicRef.current, 0.3, 2000);
       }, 5000);
     }
   }, [isMuted]);
