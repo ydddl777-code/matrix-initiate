@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { Volume2, VolumeX, Play } from "lucide-react";
 import gadThreshingFloor from "@/assets/gad-threshing-floor.jpg";
 import prophetessHuldah from "@/assets/prophetess-huldah.png";
+import threshingFloorBg from "@/assets/threshing-floor-bg.jpg";
 import { AnnouncerSubtitles } from "./AnnouncerSubtitles";
 
 type VideoPhase = "gad" | "competitor";
