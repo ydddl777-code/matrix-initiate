@@ -71,7 +71,8 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
   // Begin sequence when user clicks Ready
   const handleBegin = () => {
     setIsReady(true);
-    setIsMuted(false); // Unmute everything when they press Begin
+    setIsMuted(false);
+    isMutedRef.current = false;
     if (gadVideoRef.current) {
       gadVideoRef.current.muted = false;
       gadVideoRef.current.currentTime = 0;
@@ -188,6 +189,7 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
   const toggleMute = () => {
     setIsMuted((prev) => {
       const next = !prev;
+      isMutedRef.current = next;
       if (musicRef.current) musicRef.current.muted = next;
       if (announcementRef.current) announcementRef.current.muted = next;
       if (iterationCount === 0) {
