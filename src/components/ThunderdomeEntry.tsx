@@ -44,6 +44,12 @@ const opponents = [
   { name: "THE FALSE PROPHET", title: "Balaam's Spirit" },
 ];
 
+// Villain silhouette images — we'll use styled text medallions that rotate
+const villainImages = [
+  gadMilitary1, // placeholder — will use text overlay instead
+  gadMilitary2,
+];
+
 interface ThunderdomeEntryProps {
   onEnter: () => void;
   onExit: () => void;
@@ -53,7 +59,6 @@ interface ThunderdomeEntryProps {
 
 export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }: ThunderdomeEntryProps) => {
   const [opponentIndex, setOpponentIndex] = useState(0);
-
   const [gadPoseIndex, setGadPoseIndex] = useState(0);
 
   useEffect(() => {
@@ -74,28 +79,23 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
 
   return (
     <div className="fixed inset-0 bg-black overflow-hidden">
+      {/* Arena background */}
       <div
         className="absolute inset-0 z-0"
         style={{
-          background: `
-            radial-gradient(ellipse 58% 50% at 50% 56%, hsl(35 44% 24%) 0%, hsl(18 28% 12%) 44%, hsl(0 0% 4%) 100%)
-          `,
+          background: `radial-gradient(ellipse 58% 50% at 50% 56%, hsl(35 44% 24%) 0%, hsl(18 28% 12%) 44%, hsl(0 0% 4%) 100%)`,
         }}
       />
 
+      {/* Grid lines */}
       <div
         className="absolute inset-0 z-[1] pointer-events-none opacity-[0.07]"
         style={{
-          backgroundImage: `repeating-linear-gradient(
-            90deg,
-            transparent,
-            transparent 40px,
-            hsl(32 28% 42% / 0.45) 40px,
-            hsl(32 28% 42% / 0.45) 41px
-          )`,
+          backgroundImage: `repeating-linear-gradient(90deg, transparent, transparent 40px, hsl(32 28% 42% / 0.45) 40px, hsl(32 28% 42% / 0.45) 41px)`,
         }}
       />
 
+      {/* Arena glow */}
       <div
         className="absolute inset-0 z-[2] pointer-events-none"
         style={{
@@ -107,6 +107,7 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
         }}
       />
 
+      {/* Arena circles */}
       <div className="absolute inset-0 z-[3] pointer-events-none flex items-center justify-center">
         <div className="relative" style={{ width: "min(86vw, 86vh)", height: "min(86vw, 86vh)" }}>
           <svg viewBox="0 0 400 400" className="w-full h-full absolute inset-0">
@@ -121,21 +122,19 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
             <circle cx="200" cy="200" r="190" fill="none" stroke="hsl(12 72% 44%)" strokeWidth="0.8" opacity="0.28" />
             <circle cx="200" cy="200" r="160" fill="none" stroke="hsl(45 82% 60%)" strokeWidth="0.5" opacity="0.18" />
             <circle cx="200" cy="200" r="82" fill="none" stroke="hsl(45 82% 60%)" strokeWidth="0.4" opacity="0.22" strokeDasharray="4 4" />
-            <line x1="200" y1="10" x2="200" y2="390" stroke="hsl(45 82% 60%)" strokeWidth="0.2" opacity="0.08" />
-            <line x1="10" y1="200" x2="390" y2="200" stroke="hsl(45 82% 60%)" strokeWidth="0.2" opacity="0.08" />
           </svg>
         </div>
       </div>
 
+      {/* Vignette */}
       <div
         className="absolute inset-0 z-[4] pointer-events-none"
         style={{
-          background: `
-            radial-gradient(ellipse 54% 54% at 50% 48%, transparent 34%, hsl(0 0% 0% / 0.28) 62%, hsl(0 0% 0% / 0.74) 100%)
-          `,
+          background: `radial-gradient(ellipse 54% 54% at 50% 48%, transparent 34%, hsl(0 0% 0% / 0.28) 62%, hsl(0 0% 0% / 0.74) 100%)`,
         }}
       />
 
+      {/* Smoke */}
       <div className="absolute inset-0 z-[5] pointer-events-none">
         <div
           className="absolute w-[62%] h-[40%] top-[18%] left-[19%]"
@@ -147,11 +146,11 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
         />
       </div>
 
+      {/* Tribal banners */}
       <div className="absolute inset-0 z-[6] pointer-events-none hidden md:block">
         {tribalBanners.map((tribe, i) => {
           const isGad = tribe.name === "Gad";
           if (isGad) return null;
-
           const nonGadIndex = i > 6 ? i - 1 : i;
           const startAngle = -60;
           const arcSpan = 300;
@@ -160,24 +159,9 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
           const radiusY = 44;
           const x = 50 + radiusX * Math.cos(angle);
           const y = 50 + radiusY * Math.sin(angle);
-
           return (
-            <div
-              key={tribe.name}
-              className="absolute"
-              style={{
-                left: `${x}%`,
-                top: `${y}%`,
-                transform: "translate(-50%, -50%)",
-              }}
-            >
-              <div
-                className="w-10 h-16 lg:w-12 lg:h-20 overflow-hidden"
-                style={{
-                  opacity: 0.52,
-                  filter: "brightness(0.9) saturate(1.05)",
-                }}
-              >
+            <div key={tribe.name} className="absolute" style={{ left: `${x}%`, top: `${y}%`, transform: "translate(-50%, -50%)" }}>
+              <div className="w-10 h-16 lg:w-12 lg:h-20 overflow-hidden" style={{ opacity: 0.52, filter: "brightness(0.9) saturate(1.05)" }}>
                 <img src={tribe.img} alt={`Banner of ${tribe.name}`} className="w-full h-full object-contain" />
               </div>
             </div>
@@ -185,94 +169,53 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
         })}
       </div>
 
+      {/* Gad banner top-left */}
       <div className="absolute left-[1%] top-[5%] z-[8] pointer-events-none hidden md:block" style={{ width: "80px", height: "140px" }}>
-        <div
-          className="w-full h-full overflow-hidden"
-          style={{
-            opacity: 0.8,
-            filter: "brightness(1.02) saturate(1.08)",
-            maskImage: "linear-gradient(to right, black 60%, transparent 100%)",
-            WebkitMaskImage: "linear-gradient(to right, black 60%, transparent 100%)",
-          }}
-        >
-          <img
-            src={bannerGad}
-            alt="Banner of Gad — His House, His Tribe"
-            className="w-full h-full object-contain drop-shadow-[0_0_18px_hsl(45,82%,60%,0.35)]"
-          />
+        <div className="w-full h-full overflow-hidden" style={{ opacity: 0.8, filter: "brightness(1.02) saturate(1.08)", maskImage: "linear-gradient(to right, black 60%, transparent 100%)", WebkitMaskImage: "linear-gradient(to right, black 60%, transparent 100%)" }}>
+          <img src={bannerGad} alt="Banner of Gad" className="w-full h-full object-contain drop-shadow-[0_0_18px_hsl(45,82%,60%,0.35)]" />
         </div>
       </div>
 
-      <div className="absolute inset-0 z-[7] pointer-events-none hidden md:block">
-        {opponents.map((villain, i) => {
-          const angle = (i * (360 / opponents.length) - 90) * (Math.PI / 180);
-          const radiusX = 36;
-          const radiusY = 34;
-          const x = 50 + radiusX * Math.cos(angle);
-          const y = 50 + radiusY * Math.sin(angle);
-          const isActive = i === opponentIndex;
-
-          return (
-            <div
-              key={villain.name}
-              className="absolute transition-all duration-700"
-              style={{
-                left: `${x}%`,
-                top: `${y}%`,
-                transform: "translate(-50%, -50%)",
-                opacity: isActive ? 1 : 0.45,
-              }}
-            >
-              <div
-                className="w-20 h-20 lg:w-24 lg:h-24 rounded-full border flex items-center justify-center text-center px-3"
-                style={{
-                  borderColor: isActive ? "hsl(45 85% 58% / 0.72)" : "hsl(0 0% 100% / 0.12)",
-                  background: isActive
-                    ? "radial-gradient(circle, hsl(0 0% 12% / 0.92) 0%, hsl(0 0% 3% / 0.98) 100%)"
-                    : "radial-gradient(circle, hsl(0 0% 7% / 0.72) 0%, hsl(0 0% 2% / 0.92) 100%)",
-                  boxShadow: isActive
-                    ? "0 0 28px hsl(45 85% 58% / 0.22), inset 0 0 18px hsl(45 85% 58% / 0.08)"
-                    : "inset 0 0 12px hsl(0 0% 100% / 0.03)",
-                }}
-              >
-                <div>
-                  <p className="font-display text-[10px] lg:text-xs tracking-[0.25em] uppercase" style={{ color: isActive ? "hsl(45 85% 58%)" : "hsl(0 0% 72%)" }}>
-                    {villain.name.split(" ").map((part) => part[0]).join("")}
-                  </p>
-                  <p className="font-terminal text-[8px] lg:text-[9px] mt-1 uppercase tracking-wide leading-tight" style={{ color: isActive ? "hsl(0 0% 96%)" : "hsl(0 0% 60%)" }}>
-                    {villain.title}
-                  </p>
-                </div>
-              </div>
-              {isActive && (
-                <p className="font-terminal text-[8px] text-center mt-1 tracking-wider" style={{ color: "hsl(45 85% 58%)" }}>
-                  {villain.name}
-                </p>
-              )}
+      {/* LEFT PANEL — VILLAINS (bad guys) rotating */}
+      <div className="absolute left-0 top-0 bottom-0 w-[14%] md:w-[18%] z-[10] overflow-hidden">
+        {/* Dark background for villain side */}
+        <div className="absolute inset-0" style={{
+          background: "linear-gradient(90deg, hsl(0 0% 3%) 0%, hsl(0 0% 5% / 0.95) 60%, transparent 100%)",
+        }} />
+        {/* Rotating villain names as large imposing text */}
+        {opponents.map((villain, i) => (
+          <div
+            key={villain.name}
+            className="absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-700"
+            style={{ opacity: i === opponentIndex ? 1 : 0 }}
+          >
+            <div className="text-center px-2">
+              <p className="font-display text-lg md:text-2xl lg:text-3xl uppercase tracking-wider font-bold"
+                style={{ color: "hsl(0 72% 50%)", textShadow: "0 0 30px hsl(0 72% 50% / 0.5), 0 0 60px hsl(0 50% 30% / 0.3)" }}>
+                ?
+              </p>
+              <p className="font-display text-[10px] md:text-xs lg:text-sm uppercase tracking-[0.2em] font-bold mt-4"
+                style={{ color: "hsl(0 60% 55%)", textShadow: "0 0 15px hsl(0 60% 55% / 0.4)" }}>
+                {villain.name}
+              </p>
+              <p className="font-terminal text-[8px] md:text-[10px] mt-1 uppercase tracking-wide"
+                style={{ color: "hsl(0 0% 55%)" }}>
+                {villain.title}
+              </p>
             </div>
-          );
-        })}
-      </div>
-
-      <div className="absolute left-0 top-0 bottom-0 w-[14%] md:w-[16%] z-[10] overflow-hidden pointer-events-none">
-        <img
-          src={gadImage.src}
-          alt={gadImage.alt}
-          className="h-full w-full object-cover object-center"
-          style={{
-            filter: "brightness(0.9) contrast(1.1) sepia(0.05)",
-            maskImage: "linear-gradient(to right, black 55%, transparent 100%)",
-            WebkitMaskImage: "linear-gradient(to right, black 55%, transparent 100%)",
-          }}
-        />
-        <div className="absolute bottom-8 left-3 z-10">
-          <p className="font-display text-xs md:text-sm tracking-[0.3em] uppercase font-bold" style={{ color: "hsl(12 76% 54%)", textShadow: "0 0 10px hsl(12 76% 54% / 0.4)" }}>
-            GAD
+          </div>
+        ))}
+        {/* Label */}
+        <div className="absolute bottom-6 left-0 right-0 z-10 text-center">
+          <p className="font-terminal text-[8px] md:text-[10px] tracking-[0.3em] uppercase"
+            style={{ color: "hsl(0 60% 50% / 0.7)" }}>
+            CHALLENGER
           </p>
         </div>
       </div>
 
-      <div className="absolute right-0 top-0 bottom-0 w-[14%] md:w-[16%] z-[10] overflow-hidden pointer-events-none">
+      {/* RIGHT PANEL — WARRIORS (good guys) rotating images */}
+      <div className="absolute right-0 top-0 bottom-0 w-[14%] md:w-[18%] z-[10] overflow-hidden">
         {gadPoses.map((pose, i) => (
           <img
             key={i}
@@ -281,116 +224,139 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
             className="absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-1000"
             style={{
               opacity: i === gadPoseIndex ? 1 : 0,
-              filter: "brightness(0.9) contrast(1.1) sepia(0.05)",
+              filter: "brightness(0.75) contrast(1.35) saturate(0.85)",
               maskImage: "linear-gradient(to left, black 55%, transparent 100%)",
               WebkitMaskImage: "linear-gradient(to left, black 55%, transparent 100%)",
             }}
           />
         ))}
-        <div className="absolute bottom-8 right-3 z-10">
-          <p className="font-display text-[9px] md:text-xs tracking-[0.2em] uppercase font-bold text-right" style={{ color: "hsl(45 85% 58%)", textShadow: "0 0 10px hsl(45 85% 58% / 0.4)" }}>
+        <div className="absolute bottom-6 right-0 left-0 z-10 text-center">
+          <p className="font-display text-[9px] md:text-xs tracking-[0.2em] uppercase font-bold"
+            style={{ color: "hsl(45 85% 58%)", textShadow: "0 0 10px hsl(45 85% 58% / 0.4)" }}>
             WARRIORS
           </p>
-          <p className="font-terminal text-[8px] md:text-[10px] tracking-[0.25em] uppercase text-right mt-1" style={{ color: "hsl(0 0% 82%)" }}>
+        </div>
+      </div>
+
+      {/* CENTER CONTENT — Gad stationary + simplified text */}
+      <div className="absolute inset-0 z-[20] flex flex-col items-center justify-center p-4">
+        {/* Gad stationary portrait */}
+        <div className="relative mb-2">
+          <img
+            src={gadImage.src}
+            alt={gadImage.alt}
+            className="w-auto max-w-[340px] md:max-w-[420px] lg:max-w-[480px]"
+            style={{
+              height: "auto",
+              maxHeight: "55vh",
+              objectFit: "contain",
+              filter: "brightness(0.75) contrast(1.35) saturate(0.85)",
+              borderRadius: "8px",
+            }}
+          />
+        </div>
+
+        {/* "DO YOU HAVE COURAGE?" — blue tinted box */}
+        <div className="mt-2 px-6 py-2 md:px-10 md:py-3 rounded"
+          style={{
+            background: "linear-gradient(180deg, hsl(210 50% 18% / 0.85) 0%, hsl(210 45% 12% / 0.9) 100%)",
+            border: "1px solid hsl(210 50% 40% / 0.4)",
+            boxShadow: "0 0 20px hsl(210 50% 30% / 0.2)",
+          }}>
+          <p className="font-display text-sm md:text-lg lg:text-xl uppercase tracking-[0.3em] text-center font-bold"
+            style={{ color: "hsl(210 60% 80%)", textShadow: "0 0 15px hsl(210 60% 70% / 0.3)" }}>
+            DO YOU HAVE COURAGE?
+          </p>
+        </div>
+
+        {/* GAD vs VILLAIN matchup */}
+        <div className="mt-3 flex items-center justify-center gap-2 md:gap-4">
+          <p className="font-display text-sm md:text-lg uppercase tracking-wider font-bold"
+            style={{ color: "hsl(12 76% 54%)", textShadow: "0 0 15px hsl(12 76% 54% / 0.35)" }}>
+            GAD
+          </p>
+          <span className="font-display text-base md:text-xl font-bold"
+            style={{ color: "hsl(45 82% 60%)", textShadow: "0 0 20px hsl(45 82% 60% / 0.38)" }}>
+            vs.
+          </span>
+          <p className="font-display text-sm md:text-lg uppercase tracking-wider font-bold"
+            style={{ color: "hsl(0 0% 92%)", textShadow: "0 0 15px hsl(0 0% 100% / 0.18)" }}>
             {current.name}
           </p>
         </div>
-      </div>
 
-      <div className="absolute inset-0 z-[20] flex items-center justify-center p-4">
-        <div className="text-center max-w-2xl w-full">
-          <img src={lionOfJudah} alt="Lion of Judah" className="w-24 h-24 md:w-32 md:h-32 mx-auto mb-4 drop-shadow-[0_0_30px_hsl(45,82%,60%,0.35)]" style={{ objectFit: 'contain' }} />
+        {/* ENTER button — gold inside red box */}
+        <button
+          onClick={onEnter}
+          className="mt-4 md:mt-6 px-12 md:px-20 py-3 md:py-4 font-display text-lg md:text-2xl uppercase tracking-[0.35em]
+                     border-2 transition-all duration-500 cursor-pointer relative overflow-hidden"
+          style={{
+            background: "linear-gradient(180deg, hsl(12 60% 26% / 0.85) 0%, hsl(0 55% 16% / 0.95) 100%)",
+            borderColor: "hsl(12 76% 54%)",
+            color: "hsl(45 82% 60%)",
+            boxShadow: "0 0 25px hsl(12 76% 54% / 0.35), inset 0 0 30px hsl(12 60% 20% / 0.25)",
+            textShadow: "0 0 15px hsl(45 82% 60% / 0.4)",
+            animation: "enter-pulse 2.5s ease-in-out infinite",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.boxShadow = "0 0 50px hsl(12 76% 54% / 0.5), 0 0 100px hsl(12 76% 40% / 0.22), inset 0 0 30px hsl(12 60% 20% / 0.3)";
+            e.currentTarget.style.borderColor = "hsl(45 82% 60%)";
+            e.currentTarget.style.color = "hsl(45 90% 70%)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.boxShadow = "0 0 25px hsl(12 76% 54% / 0.35), inset 0 0 30px hsl(12 60% 20% / 0.25)";
+            e.currentTarget.style.borderColor = "hsl(12 76% 54%)";
+            e.currentTarget.style.color = "hsl(45 82% 60%)";
+          }}
+        >
+          ENTER
+        </button>
 
-          <h1
-            className="font-display text-3xl md:text-5xl lg:text-6xl uppercase tracking-[0.2em] font-bold text-center mx-auto"
-            style={{
-              color: "hsl(12 76% 54%)",
-              textShadow: `
-                0 0 20px hsl(12 76% 54% / 0.5),
-                0 0 60px hsl(12 76% 40% / 0.25),
-                0 2px 4px hsl(0 0% 0% / 0.8)
-              `,
-            }}
-          >
-            THE THRESHING FLOOR
-          </h1>
+        {/* THRESHING FLOOR — below the button */}
+        <p className="mt-3 font-display text-lg md:text-2xl lg:text-3xl uppercase tracking-[0.25em] font-bold text-center"
+          style={{
+            color: "hsl(12 76% 54%)",
+            textShadow: "0 0 20px hsl(12 76% 54% / 0.4), 0 2px 4px hsl(0 0% 0% / 0.8)",
+          }}>
+          THRESHING FLOOR
+        </p>
 
-          <p className="font-ceremonial text-xs md:text-sm mt-2 tracking-[0.4em] uppercase text-center" style={{ color: "hsl(45 82% 60%)", textShadow: "0 0 15px hsl(45 82% 60% / 0.25)" }}>
-            The Truth Does Not Negotiate
-          </p>
-
-          <div className="mt-6 md:mt-10 flex items-center justify-center gap-2 md:gap-4 max-w-xl mx-auto">
-            <p className="font-display text-sm md:text-xl lg:text-2xl uppercase tracking-wider font-bold whitespace-nowrap" style={{ color: "hsl(12 76% 54%)", textShadow: "0 0 15px hsl(12 76% 54% / 0.35)" }}>
-              GAD
-            </p>
-
-            <span className="font-display text-lg md:text-2xl lg:text-3xl font-bold flex-shrink-0" style={{ color: "hsl(45 82% 60%)", textShadow: "0 0 20px hsl(45 82% 60% / 0.38)" }}>
-              vs.
-            </span>
-
-            <p className="font-display text-sm md:text-xl lg:text-2xl uppercase tracking-wider font-bold whitespace-nowrap" style={{ color: "hsl(0 0% 92%)", textShadow: "0 0 15px hsl(0 0% 100% / 0.18)" }}>
-              {current.name}
-            </p>
-          </div>
-
+        {onOpenStorefront && (
           <button
-            onClick={onEnter}
-            className="mt-8 md:mt-12 px-10 md:px-16 py-4 md:py-5 font-display text-base md:text-xl uppercase tracking-[0.3em]
-                       border-2 transition-all duration-500 cursor-pointer group relative overflow-hidden"
+            onClick={onOpenStorefront}
+            className="mt-3 px-8 py-2 font-terminal text-xs uppercase tracking-[0.25em] border rounded transition-all duration-500 hover:brightness-125"
             style={{
-              background: "linear-gradient(180deg, hsl(12 60% 26% / 0.78) 0%, hsl(0 55% 16% / 0.95) 100%)",
-              borderColor: "hsl(12 76% 54%)",
-              color: "hsl(0 0% 95%)",
-              boxShadow: "0 0 25px hsl(12 76% 54% / 0.35), inset 0 0 30px hsl(12 60% 20% / 0.25)",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.boxShadow = "0 0 50px hsl(12 76% 54% / 0.5), 0 0 100px hsl(12 76% 40% / 0.22), inset 0 0 30px hsl(12 60% 20% / 0.3)";
-              e.currentTarget.style.borderColor = "hsl(45 82% 60%)";
-              e.currentTarget.style.background = "linear-gradient(180deg, hsl(12 64% 30% / 0.84) 0%, hsl(0 58% 20% / 0.96) 100%)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.boxShadow = "0 0 25px hsl(12 76% 54% / 0.35), inset 0 0 30px hsl(12 60% 20% / 0.25)";
-              e.currentTarget.style.borderColor = "hsl(12 76% 54%)";
-              e.currentTarget.style.background = "linear-gradient(180deg, hsl(12 60% 26% / 0.78) 0%, hsl(0 55% 16% / 0.95) 100%)";
+              background: "hsl(45 40% 20% / 0.3)",
+              borderColor: "hsl(45 60% 45% / 0.4)",
+              color: "hsl(45 80% 60%)",
             }}
           >
-            ENTER
+            ✦ Music & E-Books ✦
           </button>
+        )}
 
-          {onOpenStorefront && (
-            <button
-              onClick={onOpenStorefront}
-              className="mt-4 px-8 py-3 font-terminal text-xs uppercase tracking-[0.25em] border rounded transition-all duration-500 hover:brightness-125"
+        {/* Mobile villain pills */}
+        <div className="mt-4 flex md:hidden items-center justify-center gap-2 overflow-x-auto pb-2">
+          {opponents.map((v, i) => (
+            <div
+              key={v.name}
+              className="flex-shrink-0 rounded-full border transition-all duration-500 px-3 py-2"
               style={{
-                background: "hsl(45 40% 20% / 0.3)",
-                borderColor: "hsl(45 60% 45% / 0.4)",
-                color: "hsl(45 80% 60%)",
+                borderColor: i === opponentIndex ? "hsl(45 85% 58% / 0.7)" : "hsl(0 0% 100% / 0.12)",
+                background: i === opponentIndex ? "hsl(0 0% 8% / 0.92)" : "hsl(0 0% 5% / 0.72)",
+                opacity: i === opponentIndex ? 1 : 0.55,
               }}
             >
-              ✦ Music & E-Books ✦
-            </button>
-          )}
-
-          <div className="mt-6 flex md:hidden items-center justify-center gap-2 overflow-x-auto pb-2">
-            {opponents.map((v, i) => (
-              <div
-                key={v.name}
-                className="flex-shrink-0 rounded-full border transition-all duration-500 px-3 py-2"
-                style={{
-                  borderColor: i === opponentIndex ? "hsl(45 85% 58% / 0.7)" : "hsl(0 0% 100% / 0.12)",
-                  background: i === opponentIndex ? "hsl(0 0% 8% / 0.92)" : "hsl(0 0% 5% / 0.72)",
-                  opacity: i === opponentIndex ? 1 : 0.55,
-                }}
-              >
-                <span className="font-terminal text-[9px] uppercase tracking-[0.2em] whitespace-nowrap" style={{ color: i === opponentIndex ? "hsl(45 85% 58%)" : "hsl(0 0% 76%)" }}>
-                  {v.name}
-                </span>
-              </div>
-            ))}
-          </div>
+              <span className="font-terminal text-[9px] uppercase tracking-[0.2em] whitespace-nowrap"
+                style={{ color: i === opponentIndex ? "hsl(45 85% 58%)" : "hsl(0 0% 76%)" }}>
+                {v.name}
+              </span>
+            </div>
+          ))}
         </div>
       </div>
 
+      {/* Exit button */}
       <div className="fixed top-4 left-4 z-50">
         <button
           onClick={onExit}
@@ -408,6 +374,10 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
           33% { transform: translateX(20px) translateY(-10px); opacity: 0.7; }
           66% { transform: translateX(-15px) translateY(5px); opacity: 0.4; }
           100% { transform: translateX(0) translateY(0); opacity: 0.5; }
+        }
+        @keyframes enter-pulse {
+          0%, 100% { box-shadow: 0 0 25px hsl(12 76% 54% / 0.35), inset 0 0 30px hsl(12 60% 20% / 0.25); }
+          50% { box-shadow: 0 0 40px hsl(12 76% 54% / 0.5), inset 0 0 40px hsl(12 60% 20% / 0.35); }
         }
       `}</style>
     </div>
