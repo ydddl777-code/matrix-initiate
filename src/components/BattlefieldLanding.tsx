@@ -146,7 +146,7 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
         audio.onended = () => {
           setAnnouncementPlaying(false);
           setShowCTA(true);
-          if (musicRef.current) fadeVolume(musicRef.current, 0.3, 2000);
+          if (musicRef.current) fadeVolume(musicRef.current, 0.65, 2000);
           URL.revokeObjectURL(audioUrl);
         };
         await audio.play();
@@ -156,14 +156,14 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
         setTimeout(() => {
           setAnnouncementPlaying(false);
           setShowCTA(true);
-          if (musicRef.current) fadeVolume(musicRef.current, 0.3, 2000);
+          if (musicRef.current) fadeVolume(musicRef.current, 0.65, 2000);
         }, 5000);
       }
     } catch {
       setTimeout(() => {
         setAnnouncementPlaying(false);
         setShowCTA(true);
-        if (musicRef.current) fadeVolume(musicRef.current, 0.3, 2000);
+        if (musicRef.current) fadeVolume(musicRef.current, 0.65, 2000);
       }, 5000);
     }
   }, [fadeVolume]);
@@ -511,7 +511,7 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
                 e.currentTarget.style.color = 'hsl(0 70% 55%)';
               }}
             >
-              Step Into the Thunderdome
+              Enter the Threshing Floor
             </button>
             <p
               className="font-terminal text-xs md:text-sm mt-4 tracking-[0.3em] uppercase"
@@ -519,7 +519,7 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
                 color: 'hsl(0 0% 70%)',
               }}
             >
-              ▲ Press to enter the Dome ▲
+              ▲ Press to enter ▲
             </p>
             <p
               className="font-display text-sm md:text-lg lg:text-xl mt-4 tracking-[0.3em] uppercase font-bold px-5 md:px-8 py-2 md:py-3 mx-auto inline-block rounded"

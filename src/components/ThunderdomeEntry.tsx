@@ -299,7 +299,7 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
 
       <div className="absolute inset-0 z-[20] flex items-center justify-center p-4">
         <div className="text-center max-w-2xl w-full">
-          <img src={lionOfJudah} alt="Lion of Judah" className="w-16 h-16 md:w-20 md:h-20 mx-auto mb-3 drop-shadow-[0_0_30px_hsl(45,82%,60%,0.35)]" />
+          <img src={lionOfJudah} alt="Lion of Judah" className="w-24 h-24 md:w-32 md:h-32 mx-auto mb-4 drop-shadow-[0_0_30px_hsl(45,82%,60%,0.35)]" style={{ objectFit: 'contain' }} />
 
           <h1
             className="font-display text-3xl md:text-5xl lg:text-6xl uppercase tracking-[0.2em] font-bold text-center mx-auto"
@@ -312,7 +312,7 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
               `,
             }}
           >
-            THUNDERDOME
+            THE THRESHING FLOOR
           </h1>
 
           <p className="font-ceremonial text-xs md:text-sm mt-2 tracking-[0.4em] uppercase text-center" style={{ color: "hsl(45 82% 60%)", textShadow: "0 0 15px hsl(45 82% 60% / 0.25)" }}>
