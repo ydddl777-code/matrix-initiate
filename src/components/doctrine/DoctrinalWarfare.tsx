@@ -162,10 +162,16 @@ export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
         borderColor: 'hsl(0 50% 35% / 0.4)',
         background: 'linear-gradient(180deg, hsl(15 15% 15%) 0%, hsl(15 10% 10%) 100%)',
       }}>
-        <img src={lionLogo} alt="Lion of Judah" className={cn(
-          "drop-shadow-[0_0_20px_hsl(0,70%,50%,0.5)]",
-          isFullScreen ? "w-20 h-20" : "w-28 h-28 md:w-32 md:h-32"
-        )} />
+        <div className={cn(
+          "rounded-full overflow-hidden border-[3px] p-1",
+          isFullScreen ? "w-24 h-24" : "w-36 h-36 md:w-40 md:h-40"
+        )} style={{
+          borderColor: 'hsl(45 80% 50%)',
+          background: 'radial-gradient(circle, hsl(0 0% 100%) 0%, hsl(0 60% 40%) 60%, hsl(45 80% 50%) 100%)',
+          boxShadow: '0 0 25px hsl(45 80% 50% / 0.3), 0 0 50px hsl(0 70% 50% / 0.2)',
+        }}>
+          <img src={lionLogo} alt="Lion of Judah" className="w-full h-full object-cover rounded-full drop-shadow-[0_0_20px_hsl(0,70%,50%,0.5)]" />
+        </div>
         <h2 className={cn(
           "font-ceremonial mt-3 tracking-widest text-center",
           isFullScreen ? "text-3xl md:text-4xl" : "text-xl md:text-2xl"
