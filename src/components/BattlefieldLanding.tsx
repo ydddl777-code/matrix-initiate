@@ -430,14 +430,43 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
       {/* === ANNOUNCER OVERLAY (after videos stop) === */}
       {showAnnouncement && !showCTA && (
         <div className="absolute inset-0 z-[40] flex items-center justify-center p-6">
-          <div className="text-center animate-fade-in max-w-2xl">
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background: `radial-gradient(ellipse 50% 50% at 50% 50%, hsl(0 0% 0% / 0.7) 0%, hsl(0 0% 0% / 0.3) 70%, transparent 100%)`,
-              }}
-            />
-            <p className="font-display text-sm md:text-lg lg:text-xl uppercase tracking-[0.25em] font-bold relative mb-6"
+          {/* Dark cinematic backdrop */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: `radial-gradient(ellipse 60% 60% at 50% 45%, hsl(0 0% 0% / 0.75) 0%, hsl(0 0% 0% / 0.5) 60%, hsl(0 0% 0% / 0.3) 100%)`,
+            }}
+          />
+          <div className="relative text-center animate-fade-in max-w-3xl flex flex-col items-center">
+            {/* Huldah portrait — large and centered */}
+            <div className="relative mb-6">
+              <div
+                className="w-40 h-40 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full overflow-hidden mx-auto"
+                style={{
+                  border: '3px solid hsl(45 80% 55% / 0.6)',
+                  boxShadow: '0 0 60px hsl(45 80% 50% / 0.3), 0 0 120px hsl(0 60% 30% / 0.2)',
+                }}
+              >
+                <img
+                  src={prophetessHuldah}
+                  alt="Prophetess Huldah"
+                  className="w-full h-full object-cover object-top"
+                  style={{ filter: 'brightness(0.85) contrast(1.1) sepia(0.1)' }}
+                />
+              </div>
+              {/* Subtle pulsing ring while speaking */}
+              <div
+                className="absolute inset-0 rounded-full mx-auto"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  border: '2px solid hsl(45 80% 55% / 0.25)',
+                  borderRadius: '50%',
+                  animation: 'pulse-ring 2.5s ease-in-out infinite',
+                }}
+              />
+            </div>
+            <p className="font-display text-sm md:text-lg lg:text-xl uppercase tracking-[0.25em] font-bold relative mb-4"
               style={{ color: 'hsl(45 80% 55%)', textShadow: '0 0 20px hsl(45 80% 50% / 0.4)' }}>
               Prophetess Huldah Speaks
             </p>
