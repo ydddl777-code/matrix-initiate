@@ -41,12 +41,42 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
   const musicRef = useRef<HTMLAudioElement>(null);
 
 
+  // Smooth volume fade helper
+  const fadeVolume = useCallback((audio: HTMLAudioElement, targetVol: number, durationMs = 2000) => {
+    if (fadeIntervalRef.current) clearInterval(fadeIntervalRef.current);
+    const startVol = audio.volume;
+    const steps = 40;
+    const stepTime = durationMs / steps;
+    const volStep = (targetVol - startVol) / steps;
+    let currentStep = 0;
+    fadeIntervalRef.current = setInterval(() => {
+      currentStep++;
+      audio.volume = Math.max(0, Math.min(1, startVol + volStep * currentStep));
+      if (currentStep >= steps) {
+        if (fadeIntervalRef.current) clearInterval(fadeIntervalRef.current);
+        audio.volume = targetVol;
+      }
+    }, stepTime);
+  }, []);
+
   const startMusic = useCallback(() => {
     if (musicRef.current && musicRef.current.paused) {
-      musicRef.current.volume = 0.7;
+      musicRef.current.volume = 0;
       musicRef.current.play().catch(() => {});
+      fadeVolume(musicRef.current, 0.7, 3000); // Fade in over 3 seconds
     }
-  }, []);
+  }, [fadeVolume]);
+
+  // Begin sequence when user clicks Ready
+  const handleBegin = () => {
+    setIsReady(true);
+    setIsMuted(false); // Unmute everything when they press Begin
+    if (gadVideoRef.current) {
+      gadVideoRef.current.muted = false;
+      gadVideoRef.current.currentTime = 0;
+      gadVideoRef.current.play().catch(() => {});
+    }
+  };
 
   const handleGadVideoEnd = () => {
     setVideoPhase("competitor");
