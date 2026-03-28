@@ -43,7 +43,6 @@ export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
       <ThunderdomeEntry
         onEnter={() => setView("thunderdome")}
         onExit={onExit}
-        onOpenStorefront={() => setView("storefront")}
         gadImage={gadImage}
       />
     );
