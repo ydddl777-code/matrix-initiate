@@ -232,7 +232,7 @@ export const DoctrinalWarfare = ({ defaultVoiceId }: DoctrinalWarfareProps) => {
       )} style={{ maxHeight: isFullScreen ? 'none' : '400px' }}>
         {messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center py-12">
-            <Swords className="w-14 h-14 mb-4" style={{ color: 'hsl(45 60% 50% / 0.5)' }} />
+            <img src={lionLogo} alt="Lion of Judah" className="w-20 h-20 md:w-24 md:h-24 mb-4 rounded-full" style={{ boxShadow: '0 0 30px hsl(45 80% 50% / 0.4)' }} />
             <h4 className="font-ceremonial text-lg mb-2" style={{ color: 'hsl(45 70% 55%)' }}>
               THE THRESHING FLOOR AWAITS
             </h4>
