@@ -154,42 +154,34 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
         />
       </div>
 
-      {/* TRIBAL STANDARDS — rectangular flags hanging from ceiling rafters */}
-      <div className="absolute inset-x-0 top-0 z-[6] pointer-events-none hidden md:flex justify-center items-start gap-6 lg:gap-10 pt-14 lg:pt-16">
-        {tribalStandards.map((tribe, i) => (
-          <div
-            key={tribe.name}
-            className="flex flex-col items-center"
-            style={{
-              opacity: 0.35 + (i === 2 ? 0.2 : 0),
-              filter: `brightness(${i === 2 ? 0.6 : 0.4}) saturate(0.7)`,
-            }}
-          >
-            {/* Rafter rod */}
-            <div className="w-10 lg:w-14 h-[2px] rounded-full mb-[2px]"
-              style={{ background: "hsl(30 20% 30% / 0.6)" }} />
-            {/* Hanging cord */}
-            <div className="w-[1px] h-2 lg:h-3" style={{ background: "hsl(30 20% 40% / 0.4)" }} />
-            {/* Rectangular flag */}
-            <div
-              className="w-8 lg:w-12 h-14 lg:h-20 overflow-hidden rounded-sm"
-              style={{
-                boxShadow: "0 4px 20px hsl(0 0% 0% / 0.6)",
-                border: "1px solid hsl(30 20% 25% / 0.3)",
-              }}
-            >
-              <img
-                src={tribe.img}
-                alt={`Standard of ${tribe.name}`}
-                className="w-full h-full object-cover"
-              />
+      {/* TRIBAL STANDARDS — rectangular flags on back wall inside arena circle */}
+      <div className="absolute inset-0 z-[6] pointer-events-none hidden md:flex items-center justify-center">
+        <div className="relative" style={{ width: "min(86vw, 86vh)", height: "min(86vw, 86vh)" }}>
+          {/* Levi — left wall */}
+          <div className="absolute flex flex-col items-center"
+            style={{ top: "22%", left: "18%", transform: "translate(-50%, 0)" }}>
+            <div className="w-8 lg:w-11 h-14 lg:h-20 overflow-hidden rounded-sm"
+              style={{ boxShadow: "0 4px 20px hsl(0 0% 0% / 0.7)", border: "1px solid hsl(30 20% 25% / 0.2)", opacity: 0.3, filter: "brightness(0.4) saturate(0.6)" }}>
+              <img src={tribeLevi} alt="Standard of Levi" className="w-full h-full object-cover" />
             </div>
-            <p className="font-terminal text-[6px] lg:text-[7px] text-center mt-1 uppercase tracking-[0.15em]"
-              style={{ color: "hsl(45 50% 50% / 0.35)" }}>
-              {tribe.name}
-            </p>
           </div>
-        ))}
+          {/* Judah — center back wall */}
+          <div className="absolute flex flex-col items-center"
+            style={{ top: "18%", left: "50%", transform: "translate(-50%, 0)" }}>
+            <div className="w-9 lg:w-13 h-16 lg:h-22 overflow-hidden rounded-sm"
+              style={{ boxShadow: "0 4px 25px hsl(0 0% 0% / 0.7)", border: "1px solid hsl(30 20% 25% / 0.25)", opacity: 0.4, filter: "brightness(0.45) saturate(0.65)" }}>
+              <img src={tribeJudah} alt="Standard of Judah" className="w-full h-full object-cover" />
+            </div>
+          </div>
+          {/* Benjamin — right wall */}
+          <div className="absolute flex flex-col items-center"
+            style={{ top: "22%", right: "18%", transform: "translate(50%, 0)" }}>
+            <div className="w-8 lg:w-11 h-14 lg:h-20 overflow-hidden rounded-sm"
+              style={{ boxShadow: "0 4px 20px hsl(0 0% 0% / 0.7)", border: "1px solid hsl(30 20% 25% / 0.2)", opacity: 0.3, filter: "brightness(0.4) saturate(0.6)" }}>
+              <img src={tribeBenjamin} alt="Standard of Benjamin" className="w-full h-full object-cover" />
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* LEFT PANEL — VILLAINS (challengers) with actual images */}
@@ -360,19 +352,19 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
         </div>
       </div>
 
-      {/* Exit — small arrow, bottom-left corner */}
-      <div className="fixed bottom-4 left-4 z-50">
-        <button
-          onClick={onExit}
-          className="p-2 rounded-full bg-black/50 backdrop-blur-sm border transition-all duration-300 hover:bg-black/70"
-          style={{ borderColor: "hsl(45 82% 60% / 0.2)", color: "hsl(45 82% 60% / 0.6)" }}
-        >
+      {/* Nav arrows — minimal, no labels */}
+      <div className="fixed bottom-6 left-6 z-50">
+        <button onClick={onExit} className="p-2 rounded-full bg-black/50 backdrop-blur-sm border transition-all duration-300 hover:bg-black/70 opacity-60 hover:opacity-100"
+          style={{ borderColor: "hsl(45 60% 40% / 0.3)", color: "hsl(45 80% 55%)" }}>
           <ArrowLeft className="w-4 h-4" />
         </button>
       </div>
-
-      {/* Nav arrows */}
-      <NavArrows onBack={onExit} backLabel="LANDING" onForward={onEnter} forwardLabel="WARFARE" />
+      <div className="fixed bottom-6 right-6 z-50">
+        <button onClick={onEnter} className="p-2 rounded-full bg-black/50 backdrop-blur-sm border transition-all duration-300 hover:bg-black/70 opacity-60 hover:opacity-100"
+          style={{ borderColor: "hsl(45 60% 40% / 0.3)", color: "hsl(45 80% 55%)" }}>
+          <ArrowLeft className="w-4 h-4 rotate-180" />
+        </button>
+      </div>
 
       <style>{`
         @keyframes smoke-drift {
