@@ -25,6 +25,7 @@ const embers = Array.from({ length: 30 }, (_, i) => ({
 
 export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps) => {
   const [isMuted, setIsMuted] = useState(true);
+  const isMutedRef = useRef(true);
   const [isReady, setIsReady] = useState(false); // Gate: user must press "Begin"
   const [videoPhase, setVideoPhase] = useState<VideoPhase>("gad");
   const [iterationCount, setIterationCount] = useState(0);
@@ -137,7 +138,7 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
         const audioUrl = URL.createObjectURL(audioBlob);
         const audio = new Audio(audioUrl);
         announcementRef.current = audio;
-        audio.muted = isMuted;
+        audio.muted = isMutedRef.current; // Use ref for current mute state
         audio.onended = () => {
           setAnnouncementPlaying(false);
           setShowCTA(true);
@@ -161,7 +162,7 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
         if (musicRef.current) fadeVolume(musicRef.current, 0.3, 2000);
       }, 5000);
     }
-  }, [isMuted]);
+  }, [fadeVolume]);
 
   const handleCompetitorVideoEnd = () => {
     setIterationCount((prev) => prev + 1);
