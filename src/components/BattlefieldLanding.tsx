@@ -605,7 +605,7 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
 
       {/* === MUTE BUTTON (only visible after sequence starts) === */}
       {isReady && (
-        <div className="fixed top-4 left-4 z-50">
+        <div className="fixed top-20 md:top-24 left-4 z-50">
           <button
             onClick={toggleMute}
             className="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300"
