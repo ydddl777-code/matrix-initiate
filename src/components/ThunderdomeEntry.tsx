@@ -254,16 +254,20 @@ export const ThunderdomeEntry = ({ onEnter, onExit, gadImage }: ThunderdomeEntry
       </div>
 
       <div className="absolute left-0 top-0 bottom-0 w-[14%] md:w-[16%] z-[10] overflow-hidden pointer-events-none">
-        <img
-          src={gadImage.src}
-          alt={gadImage.alt}
-          className="h-full w-full object-cover object-center transition-opacity duration-1000"
-          style={{
-            filter: "brightness(0.72) contrast(1.15) sepia(0.08)",
-            maskImage: "linear-gradient(to right, black 50%, transparent 100%)",
-            WebkitMaskImage: "linear-gradient(to right, black 50%, transparent 100%)",
-          }}
-        />
+        {gadPoses.map((pose, i) => (
+          <img
+            key={i}
+            src={pose}
+            alt={`Prophet Gad - Pose ${i + 1}`}
+            className="absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-1000"
+            style={{
+              opacity: i === gadPoseIndex ? 1 : 0,
+              filter: "brightness(0.9) contrast(1.1) sepia(0.05)",
+              maskImage: "linear-gradient(to right, black 55%, transparent 100%)",
+              WebkitMaskImage: "linear-gradient(to right, black 55%, transparent 100%)",
+            }}
+          />
+        ))}
         <div className="absolute bottom-8 left-3 z-10">
           <p className="font-display text-xs md:text-sm tracking-[0.3em] uppercase font-bold" style={{ color: "hsl(12 76% 54%)", textShadow: "0 0 10px hsl(12 76% 54% / 0.4)" }}>
             GAD
