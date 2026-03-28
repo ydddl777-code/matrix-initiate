@@ -44,7 +44,7 @@ export const EbookGrid = () => {
 
             {/* Cover Image Area */}
             <div
-              className="aspect-[3/4] flex flex-col items-center justify-center p-3 text-center"
+              className="aspect-[3/4] flex flex-col items-center justify-center p-3 text-center overflow-hidden"
               style={{
                 background: "linear-gradient(135deg, hsl(0 40% 20%) 0%, hsl(15 20% 12%) 100%)",
               }}
@@ -62,7 +62,7 @@ export const EbookGrid = () => {
                 {book.volume}
               </p>
               <h3
-                className="font-ceremonial text-sm md:text-base leading-tight mb-1"
+                className="font-ceremonial text-sm md:text-base leading-tight mb-1 line-clamp-2"
                 style={{ color: "hsl(45 80% 60%)" }}
               >
                 {book.subtitle}
