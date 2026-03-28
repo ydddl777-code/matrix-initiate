@@ -44,7 +44,7 @@ export const EbookGrid = () => {
 
             {/* Cover Image Area */}
             <div
-              className="aspect-[3/4] flex flex-col items-center justify-center p-3 text-center"
+              className="aspect-[3/4] flex flex-col items-center justify-center p-3 text-center overflow-hidden"
               style={{
                 background: "linear-gradient(135deg, hsl(0 40% 20%) 0%, hsl(15 20% 12%) 100%)",
               }}
