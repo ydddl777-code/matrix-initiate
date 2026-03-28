@@ -53,11 +53,19 @@ interface ThunderdomeEntryProps {
 export const ThunderdomeEntry = ({ onEnter, onExit, gadImage }: ThunderdomeEntryProps) => {
   const [opponentIndex, setOpponentIndex] = useState(0);
 
+  const [gadPoseIndex, setGadPoseIndex] = useState(0);
+
   useEffect(() => {
     const interval = setInterval(() => {
       setOpponentIndex((prev) => (prev + 1) % opponents.length);
     }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setGadPoseIndex((prev) => (prev + 1) % gadPoses.length);
+    }, 5000);
     return () => clearInterval(interval);
   }, []);
 
