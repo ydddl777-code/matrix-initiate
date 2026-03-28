@@ -7,7 +7,7 @@ import { VoiceInput } from './VoiceInput';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { cn } from '@/lib/utils';
-import lionOfJudah from '@/assets/lion-of-judah.png';
+import lionLogo from '@/assets/lion-logo.png';
 
 interface DoctrinalWarfareProps {
   defaultVoiceId?: string;
