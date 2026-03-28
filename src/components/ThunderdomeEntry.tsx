@@ -58,14 +58,14 @@ export const ThunderdomeEntry = ({ onEnter, onExit, onOpenStorefront, gadImage }
   useEffect(() => {
     const interval = setInterval(() => {
       setOpponentIndex((prev) => (prev + 1) % opponents.length);
-    }, 5000);
+    }, 20000);
     return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setGadPoseIndex((prev) => (prev + 1) % gadPoses.length);
-    }, 5000);
+    }, 20000);
     return () => clearInterval(interval);
   }, []);
 
