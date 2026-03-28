@@ -501,25 +501,70 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
         </div>
       )}
 
-      {/* === MUTE BUTTON === */}
-      <div className="fixed top-4 left-4 z-50">
-        <button
-          onClick={toggleMute}
-          className="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300"
-          style={{
-            background: 'hsl(0 0% 5% / 0.7)',
-            backdropFilter: 'blur(8px)',
-            border: '1px solid hsl(45 60% 40% / 0.3)',
-          }}
-          title={isMuted ? "Unmute" : "Mute"}
-        >
-          {isMuted ? (
-            <VolumeX className="w-5 h-5" style={{ color: 'hsl(0 60% 50%)' }} />
-          ) : (
-            <Volume2 className="w-5 h-5" style={{ color: 'hsl(45 80% 55%)' }} />
-          )}
-        </button>
-      </div>
+      {/* === READY GATE — shown before sequence starts === */}
+      {!isReady && (
+        <div className="absolute inset-0 z-[45] flex items-center justify-center"
+          style={{ background: 'radial-gradient(ellipse at 50% 50%, hsl(0 0% 0% / 0.85) 0%, hsl(0 0% 0% / 0.95) 100%)' }}>
+          <div className="text-center animate-fade-in">
+            <p className="font-display text-sm md:text-base uppercase tracking-[0.4em] mb-2"
+              style={{ color: 'hsl(45 80% 55%)', textShadow: '0 0 15px hsl(45 80% 50% / 0.3)' }}>
+              The Threshing Floor
+            </p>
+            <p className="font-ceremonial text-xs md:text-sm mb-8 max-w-md mx-auto px-6"
+              style={{ color: 'hsl(0 0% 60%)' }}>
+              A Bible doctrinal debate arena. This experience includes video, music, and narration.
+            </p>
+            <button
+              onClick={handleBegin}
+              className="px-12 md:px-16 py-4 md:py-5 font-display text-lg md:text-xl uppercase tracking-[0.3em]
+                         border-2 transition-all duration-500 cursor-pointer"
+              style={{
+                background: 'linear-gradient(180deg, hsl(25 40% 20% / 0.7) 0%, hsl(15 30% 12% / 0.9) 100%)',
+                borderColor: 'hsl(45 70% 50%)',
+                color: 'hsl(45 80% 60%)',
+                boxShadow: '0 0 25px hsl(45 70% 50% / 0.25)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow = '0 0 50px hsl(45 70% 50% / 0.4)';
+                e.currentTarget.style.borderColor = 'hsl(45 80% 60%)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = '0 0 25px hsl(45 70% 50% / 0.25)';
+                e.currentTarget.style.borderColor = 'hsl(45 70% 50%)';
+              }}
+            >
+              <Play className="w-5 h-5 inline-block mr-3 -mt-0.5" />
+              Begin
+            </button>
+            <p className="font-terminal text-[10px] md:text-xs mt-4 tracking-[0.25em] uppercase"
+              style={{ color: 'hsl(0 0% 45%)' }}>
+              Audio will play when you press Begin
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* === MUTE BUTTON (only visible after sequence starts) === */}
+      {isReady && (
+        <div className="fixed top-4 left-4 z-50">
+          <button
+            onClick={toggleMute}
+            className="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300"
+            style={{
+              background: 'hsl(0 0% 5% / 0.7)',
+              backdropFilter: 'blur(8px)',
+              border: '1px solid hsl(45 60% 40% / 0.3)',
+            }}
+            title={isMuted ? "Unmute" : "Mute"}
+          >
+            {isMuted ? (
+              <VolumeX className="w-5 h-5" style={{ color: 'hsl(0 60% 50%)' }} />
+            ) : (
+              <Volume2 className="w-5 h-5" style={{ color: 'hsl(45 80% 55%)' }} />
+            )}
+          </button>
+        </div>
+      )}
 
       <style>{`
         @keyframes torch-flicker {
