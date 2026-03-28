@@ -663,6 +663,17 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
           0% { height: 4px; }
           100% { height: 16px; }
         }
+
+        @keyframes pulse-ring {
+          0%, 100% { 
+            transform: scale(1);
+            opacity: 0.3;
+          }
+          50% { 
+            transform: scale(1.08);
+            opacity: 0.6;
+          }
+        }
       `}</style>
     </div>
   );
