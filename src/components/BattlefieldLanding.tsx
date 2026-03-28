@@ -1,10 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Volume2, VolumeX } from "lucide-react";
-import pgaiWarrior from "@/assets/pgai-warrior-new.png";
-import pgaiMilitary from "@/assets/pgai-nobg.png";
-import pgaiGeneral from "@/assets/pgai-general.png";
-import pgaiBreastplate from "@/assets/pgai-breastplate.png";
-import pgaiGeneralLight from "@/assets/pgai-general-light.png";
+import gadThreshingFloor from "@/assets/gad-threshing-floor.jpg";
 import prophetessHuldah from "@/assets/prophetess-huldah.png";
 import { AnnouncerSubtitles } from "./AnnouncerSubtitles";
 
@@ -14,13 +10,8 @@ interface BattlefieldLandingProps {
   onEnterSanctuary: () => void;
 }
 
-const warriorImages = [
-  { src: pgaiWarrior, alt: "Prophet Gad - Warrior" },
-  { src: pgaiMilitary, alt: "Prophet Gad - Military" },
-  { src: pgaiGeneral, alt: "Prophet Gad - General" },
-  { src: pgaiBreastplate, alt: "Prophet Gad - Breastplate" },
-  { src: pgaiGeneralLight, alt: "Prophet Gad - Commander" },
-];
+// Single stationary image for Gad — no rotation
+const gadImage = { src: gadThreshingFloor, alt: "Prophet Gad - Threshing Floor" };
 
 // Generate ember particles
 const embers = Array.from({ length: 30 }, (_, i) => ({
@@ -36,7 +27,7 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
   const [isMuted, setIsMuted] = useState(true);
   const [videoPhase, setVideoPhase] = useState<VideoPhase>("gad");
   const [iterationCount, setIterationCount] = useState(0);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  
   const [showCTA, setShowCTA] = useState(false);
   const [showAnnouncement, setShowAnnouncement] = useState(false);
   const [announcementPlaying, setAnnouncementPlaying] = useState(false);
@@ -47,12 +38,6 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
   const competitorVideoRef = useRef<HTMLVideoElement>(null);
   const musicRef = useRef<HTMLAudioElement>(null);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % warriorImages.length);
-    }, 3500);
-    return () => clearInterval(interval);
-  }, []);
 
   const startMusic = useCallback(() => {
     if (musicRef.current && musicRef.current.paused) {
@@ -358,18 +343,18 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
         }}
       />
 
-      {/* === WARRIOR IMAGE — LEFT PANEL (Gad only) === */}
+      {/* === GAD — LEFT PANEL (stationary, no rotation) === */}
       {iterationCount > 0 && (
         <>
           <div className="absolute left-0 top-0 bottom-0 w-[15%] z-[20] overflow-hidden pointer-events-none">
             <img
-              src={warriorImages[currentImageIndex].src}
-              alt={warriorImages[currentImageIndex].alt}
-              className="h-full w-full object-cover object-center transition-opacity duration-1000"
+              src={gadImage.src}
+              alt={gadImage.alt}
+              className="h-full w-full object-cover object-center"
               style={{
-                filter: "brightness(0.4) contrast(1.4) sepia(0.5) hue-rotate(-10deg)",
-                maskImage: "linear-gradient(to right, black 40%, transparent 100%)",
-                WebkitMaskImage: "linear-gradient(to right, black 40%, transparent 100%)",
+                filter: "brightness(0.5) contrast(1.3) sepia(0.2)",
+                maskImage: "linear-gradient(to right, black 50%, transparent 100%)",
+                WebkitMaskImage: "linear-gradient(to right, black 50%, transparent 100%)",
               }}
             />
           </div>
@@ -378,11 +363,11 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
             <img
               src={prophetessHuldah}
               alt="Prophetess Huldah"
-              className="h-full w-full object-cover object-top transition-opacity duration-1000"
+              className="h-full w-full object-cover object-top"
               style={{
-                filter: "brightness(0.4) contrast(1.3) sepia(0.4) hue-rotate(-5deg)",
-                maskImage: "linear-gradient(to left, black 40%, transparent 100%)",
-                WebkitMaskImage: "linear-gradient(to left, black 40%, transparent 100%)",
+                filter: "brightness(0.5) contrast(1.2) sepia(0.15)",
+                maskImage: "linear-gradient(to left, black 50%, transparent 100%)",
+                WebkitMaskImage: "linear-gradient(to left, black 50%, transparent 100%)",
               }}
             />
           </div>
