@@ -62,7 +62,7 @@ export const EbookGrid = () => {
                 {book.volume}
               </p>
               <h3
-                className="font-ceremonial text-sm md:text-base leading-tight mb-1"
+                className="font-ceremonial text-sm md:text-base leading-tight mb-1 line-clamp-2"
                 style={{ color: "hsl(45 80% 60%)" }}
               >
                 {book.subtitle}
