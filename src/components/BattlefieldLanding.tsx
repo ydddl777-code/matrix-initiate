@@ -146,7 +146,7 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
         audio.onended = () => {
           setAnnouncementPlaying(false);
           setShowCTA(true);
-          if (musicRef.current) fadeVolume(musicRef.current, 0.3, 2000);
+          if (musicRef.current) fadeVolume(musicRef.current, 0.65, 2000);
           URL.revokeObjectURL(audioUrl);
         };
         await audio.play();
@@ -156,14 +156,14 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
         setTimeout(() => {
           setAnnouncementPlaying(false);
           setShowCTA(true);
-          if (musicRef.current) fadeVolume(musicRef.current, 0.3, 2000);
+          if (musicRef.current) fadeVolume(musicRef.current, 0.65, 2000);
         }, 5000);
       }
     } catch {
       setTimeout(() => {
         setAnnouncementPlaying(false);
         setShowCTA(true);
-        if (musicRef.current) fadeVolume(musicRef.current, 0.3, 2000);
+        if (musicRef.current) fadeVolume(musicRef.current, 0.65, 2000);
       }, 5000);
     }
   }, [fadeVolume]);
