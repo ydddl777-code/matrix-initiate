@@ -2,17 +2,20 @@ import { useState, useEffect, useRef } from "react";
 import { ArrowLeft } from "lucide-react";
 import { DoctrinalWarfare } from "./doctrine/DoctrinalWarfare";
 import { ThunderdomeEntry } from "./ThunderdomeEntry";
+import { Storefront } from "./storefront/Storefront";
 import gadThreshingFloor from "@/assets/gad-threshing-floor.jpg";
 
 interface SanctuaryInteriorProps {
   onExit: () => void;
 }
 
+type SanctuaryView = "entry" | "thunderdome" | "storefront";
+
 // Single stationary image — Gad does NOT rotate
 const gadImage = { src: gadThreshingFloor, alt: "Prophet Gad - Threshing Floor" };
 
 export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
-  const [hasEntered, setHasEntered] = useState(false);
+  const [view, setView] = useState<SanctuaryView>("entry");
   const musicRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
@@ -33,14 +36,19 @@ export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
     };
   }, []);
 
-  if (!hasEntered) {
+  if (view === "entry") {
     return (
       <ThunderdomeEntry
-        onEnter={() => setHasEntered(true)}
+        onEnter={() => setView("thunderdome")}
         onExit={onExit}
+        onOpenStorefront={() => setView("storefront")}
         gadImage={gadImage}
       />
     );
+  }
+
+  if (view === "storefront") {
+    return <Storefront onBack={() => setView("entry")} />;
   }
 
   return (
@@ -116,7 +124,7 @@ export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
       {/* BACK BUTTON */}
       <div className="fixed top-4 left-4 z-50">
         <button
-          onClick={() => setHasEntered(false)}
+          onClick={() => setView("entry")}
           className="flex items-center gap-2 px-3 py-2 rounded-full bg-black/60 backdrop-blur-sm border transition-all duration-300"
           style={{ borderColor: "hsl(0 70% 45% / 0.3)", color: "hsl(0 70% 50% / 0.7)" }}
         >
