@@ -254,20 +254,16 @@ export const ThunderdomeEntry = ({ onEnter, onExit, gadImage }: ThunderdomeEntry
       </div>
 
       <div className="absolute left-0 top-0 bottom-0 w-[14%] md:w-[16%] z-[10] overflow-hidden pointer-events-none">
-        {gadPoses.map((pose, i) => (
-          <img
-            key={i}
-            src={pose}
-            alt={`Prophet Gad - Pose ${i + 1}`}
-            className="absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-1000"
-            style={{
-              opacity: i === gadPoseIndex ? 1 : 0,
-              filter: "brightness(0.9) contrast(1.1) sepia(0.05)",
-              maskImage: "linear-gradient(to right, black 55%, transparent 100%)",
-              WebkitMaskImage: "linear-gradient(to right, black 55%, transparent 100%)",
-            }}
-          />
-        ))}
+        <img
+          src={gadImage.src}
+          alt={gadImage.alt}
+          className="h-full w-full object-cover object-center"
+          style={{
+            filter: "brightness(0.9) contrast(1.1) sepia(0.05)",
+            maskImage: "linear-gradient(to right, black 55%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(to right, black 55%, transparent 100%)",
+          }}
+        />
         <div className="absolute bottom-8 left-3 z-10">
           <p className="font-display text-xs md:text-sm tracking-[0.3em] uppercase font-bold" style={{ color: "hsl(12 76% 54%)", textShadow: "0 0 10px hsl(12 76% 54% / 0.4)" }}>
             GAD
@@ -276,29 +272,23 @@ export const ThunderdomeEntry = ({ onEnter, onExit, gadImage }: ThunderdomeEntry
       </div>
 
       <div className="absolute right-0 top-0 bottom-0 w-[14%] md:w-[16%] z-[10] overflow-hidden pointer-events-none">
-        <div
-          className="relative h-full w-full"
-          style={{
-            maskImage: "linear-gradient(to left, black 55%, transparent 100%)",
-            WebkitMaskImage: "linear-gradient(to left, black 55%, transparent 100%)",
-            background: `
-              radial-gradient(ellipse 34% 26% at 62% 20%, hsl(0 0% 28% / 0.9) 0%, transparent 100%),
-              radial-gradient(ellipse 28% 38% at 58% 50%, hsl(0 0% 22% / 0.96) 0%, transparent 100%),
-              radial-gradient(ellipse 30% 26% at 56% 79%, hsl(0 0% 18% / 0.96) 0%, transparent 100%),
-              linear-gradient(180deg, hsl(0 0% 16% / 0.96) 0%, hsl(0 0% 6% / 0.98) 100%)
-            `,
-            filter: "brightness(1.2) contrast(1.05)",
-          }}
-        >
-          <div className="absolute inset-y-0 right-[12%] flex items-center justify-center">
-            <span className="font-display text-5xl md:text-7xl" style={{ color: "hsl(45 85% 58% / 0.86)", textShadow: "0 0 30px hsl(45 85% 58% / 0.24)" }}>
-              ?
-            </span>
-          </div>
-        </div>
+        {gadPoses.map((pose, i) => (
+          <img
+            key={i}
+            src={pose}
+            alt={`Warriors of Israel - Pose ${i + 1}`}
+            className="absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-1000"
+            style={{
+              opacity: i === gadPoseIndex ? 1 : 0,
+              filter: "brightness(0.9) contrast(1.1) sepia(0.05)",
+              maskImage: "linear-gradient(to left, black 55%, transparent 100%)",
+              WebkitMaskImage: "linear-gradient(to left, black 55%, transparent 100%)",
+            }}
+          />
+        ))}
         <div className="absolute bottom-8 right-3 z-10">
           <p className="font-display text-[9px] md:text-xs tracking-[0.2em] uppercase font-bold text-right" style={{ color: "hsl(45 85% 58%)", textShadow: "0 0 10px hsl(45 85% 58% / 0.4)" }}>
-            CHALLENGER
+            WARRIORS
           </p>
           <p className="font-terminal text-[8px] md:text-[10px] tracking-[0.25em] uppercase text-right mt-1" style={{ color: "hsl(0 0% 82%)" }}>
             {current.name}
