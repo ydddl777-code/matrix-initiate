@@ -5,7 +5,10 @@ import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-console.log("Bundling...");
+const compositionId = process.argv[2] || "main";
+const outputFile = process.argv[3] || "/mnt/documents/threshing-floor-promo-tiktok.mp4";
+
+console.log(`Rendering composition: ${compositionId} → ${outputFile}`);
 const bundled = await bundle({
   entryPoint: path.resolve(__dirname, "../src/index.ts"),
   webpackOverride: (config) => config,
@@ -20,23 +23,23 @@ const browser = await openBrowser("chrome", {
   chromeMode: "chrome-for-testing",
 });
 
-console.log("Selecting composition...");
 const composition = await selectComposition({
   serveUrl: bundled,
-  id: "main",
+  id: compositionId,
   puppeteerInstance: browser,
 });
 
-console.log("Rendering video...");
+console.log(`Duration: ${composition.durationInFrames} frames (${(composition.durationInFrames / composition.fps).toFixed(1)}s)`);
+
 await renderMedia({
   composition,
   serveUrl: bundled,
   codec: "h264",
-  outputLocation: "/mnt/documents/threshing-floor-promo-tiktok.mp4",
+  outputLocation: outputFile,
   puppeteerInstance: browser,
-  muted: true,
+  muted: false,
   concurrency: 1,
 });
 
-console.log("Done! Video saved to /mnt/documents/threshing-floor-promo-tiktok.mp4");
+console.log(`✅ Done: ${outputFile}`);
 await browser.close({ silent: false });
