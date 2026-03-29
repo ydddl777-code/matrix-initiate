@@ -88,7 +88,7 @@ export const BattlefieldLanding = ({ onEnterSanctuary, musicRef, startMusic, mus
       competitorVideoRef.current.currentTime = 0;
       competitorVideoRef.current.play().catch(() => {});
     }
-    if (iterationCount === 0) {
+    if (!musicStarted) {
       startMusic();
     }
   };
