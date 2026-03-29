@@ -316,3 +316,33 @@
     linear-gradient(90deg, hsl(var(--primary) / 0.08) 1px, transparent 1px);
   background-size: 40px 40px;
 }
+
+/* Volume slider — gold/dark theme */
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: hsl(45 80% 55%);
+  border: 2px solid hsl(45 60% 40%);
+  box-shadow: 0 0 8px hsl(45 80% 55% / 0.5);
+  cursor: pointer;
+}
+.volume-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: hsl(45 80% 55%);
+  border: 2px solid hsl(45 60% 40%);
+  box-shadow: 0 0 8px hsl(45 80% 55% / 0.5);
+  cursor: pointer;
+}
+.volume-slider::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 3px;
+}
+.volume-slider::-moz-range-track {
+  height: 6px;
+  border-radius: 3px;
+}
