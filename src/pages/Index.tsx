@@ -12,6 +12,7 @@ const Index = () => {
   const [musicStarted, setMusicStarted] = useState(false);
 
   const [globalVolume, setGlobalVolume] = useState(0.80);
+  const [prevVolume, setPrevVolume] = useState(0.80);
 
   const startMusic = useCallback(() => {
     if (musicRef.current && musicRef.current.paused) {
