@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { BrandHeader } from "./BrandHeader";
-import gadWelcoming from "@/assets/gad-welcoming-pose.jpg";
+import gadWelcoming from "@/assets/gad-welcoming-real.jpg";
 
 import tribeBenjamin from "@/assets/tribes/benjamin.jpeg";
 import tribeJudah from "@/assets/tribes/judah.jpeg";
