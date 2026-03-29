@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { ArrowLeft } from "lucide-react";
 import { NavArrows } from "./NavArrows";
 import { DoctrinalWarfare } from "./doctrine/DoctrinalWarfare";
 import { BrandHeader } from "./BrandHeader";
 import { ThunderdomeEntry } from "./ThunderdomeEntry";
+import { RisingTableTransition } from "./RisingTableTransition";
 import { Storefront } from "./storefront/Storefront";
 import gadThreshingFloor from "@/assets/gad-threshing-floor.jpg";
 
@@ -12,7 +13,7 @@ interface SanctuaryInteriorProps {
   musicRef?: React.RefObject<HTMLAudioElement>;
 }
 
-type SanctuaryView = "entry" | "thunderdome" | "storefront";
+type SanctuaryView = "entry" | "table-rising" | "thunderdome" | "storefront";
 
 // Single stationary image — Gad does NOT rotate
 const gadImage = { src: gadThreshingFloor, alt: "Prophet Gad - Threshing Floor" };
@@ -20,14 +21,26 @@ const gadImage = { src: gadThreshingFloor, alt: "Prophet Gad - Threshing Floor" 
 export const SanctuaryInterior = ({ onExit, musicRef }: SanctuaryInteriorProps) => {
   const [view, setView] = useState<SanctuaryView>("entry");
 
+  const handleEnterArena = useCallback(() => {
+    setView("table-rising");
+  }, []);
+
+  const handleTransitionComplete = useCallback(() => {
+    setView("thunderdome");
+  }, []);
+
   if (view === "entry") {
     return (
       <ThunderdomeEntry
-        onEnter={() => setView("thunderdome")}
+        onEnter={handleEnterArena}
         onExit={onExit}
         gadImage={gadImage}
       />
     );
+  }
+
+  if (view === "table-rising") {
+    return <RisingTableTransition onComplete={handleTransitionComplete} />;
   }
 
   if (view === "storefront") {
