@@ -40,7 +40,7 @@ export const SanctuaryInterior = ({ onExit, musicRef }: SanctuaryInteriorProps) 
   }
 
   if (view === "table-rising") {
-    return <RisingTableTransition onComplete={handleTransitionComplete} />;
+    return <RisingTableTransition onComplete={handleTransitionComplete} gadImage={gadImage} />;
   }
 
   if (view === "storefront") {
