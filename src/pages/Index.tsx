@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from "react";
-import { Volume2 } from "lucide-react";
+import { Volume2, VolumeX } from "lucide-react";
 import { BattlefieldLanding } from "@/components/BattlefieldLanding";
 import { SanctuaryInterior } from "@/components/SanctuaryInterior";
 
@@ -12,6 +12,7 @@ const Index = () => {
   const [musicStarted, setMusicStarted] = useState(false);
 
   const [globalVolume, setGlobalVolume] = useState(0.80);
+  const [prevVolume, setPrevVolume] = useState(0.80);
 
   const startMusic = useCallback(() => {
     if (musicRef.current && musicRef.current.paused) {
@@ -84,39 +85,56 @@ const Index = () => {
         loop
       />
 
-      {/* Persistent Volume Slider — fades out when idle */}
+      {/* Persistent Volume Slider — compact, doesn't block nav arrows */}
       {musicStarted && (
         <div
-          className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[9999] flex items-center gap-3 px-4 py-2 rounded-full border transition-opacity duration-700"
+          className="fixed bottom-12 left-1/2 -translate-x-1/2 z-[9998] flex items-center gap-2 px-3 py-1.5 rounded-full border transition-opacity duration-700"
           style={{
             background: 'hsla(0, 0%, 0%, 0.75)',
             backdropFilter: 'blur(8px)',
             borderColor: 'hsl(45 60% 40% / 0.35)',
+            pointerEvents: 'auto',
           }}
           onMouseEnter={(e) => { e.currentTarget.style.opacity = '1'; }}
           onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.35'; }}
           ref={(el) => {
             if (el) {
-              // Start faded-out after 3s
               const t = setTimeout(() => { el.style.opacity = '0.35'; }, 3000);
               el.dataset.fadeTimer = String(t);
             }
           }}
         >
-          <Volume2 className="w-4 h-4 shrink-0" style={{ color: globalVolume === 0 ? 'hsl(0 70% 50% / 0.6)' : 'hsl(45 80% 55% / 0.6)' }} />
+          {/* Mute/Unmute button */}
+          <button
+            onClick={() => {
+              if (globalVolume > 0) {
+                setPrevVolume(globalVolume);
+                setGlobalVolume(0);
+              } else {
+                setGlobalVolume(prevVolume || 0.80);
+              }
+            }}
+            className="w-6 h-6 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors"
+            title={globalVolume === 0 ? "Unmute" : "Mute"}
+          >
+            {globalVolume === 0 ? (
+              <VolumeX className="w-3.5 h-3.5" style={{ color: 'hsl(0 70% 55%)' }} />
+            ) : (
+              <Volume2 className="w-3.5 h-3.5" style={{ color: 'hsl(45 80% 55% / 0.7)' }} />
+            )}
+          </button>
           <input
             type="range"
             min="0"
             max="100"
             value={Math.round(globalVolume * 100)}
             onChange={(e) => setGlobalVolume(Number(e.target.value) / 100)}
-            className="volume-slider w-32 md:w-48 h-1.5 cursor-pointer appearance-none rounded-full"
+            className="volume-slider w-24 md:w-36 h-1.5 cursor-pointer appearance-none rounded-full"
             style={{
               background: `linear-gradient(to right, hsl(45 80% 55%) ${globalVolume * 100}%, hsl(0 0% 20%) ${globalVolume * 100}%)`,
             }}
           />
-          <Volume2 className="w-4 h-4 shrink-0" style={{ color: 'hsl(45 80% 55% / 0.6)' }} />
-          <span className="font-terminal text-[10px] w-8 text-center" style={{ color: 'hsl(45 80% 55% / 0.5)' }}>
+          <span className="font-terminal text-[9px] w-7 text-center" style={{ color: 'hsl(45 80% 55% / 0.5)' }}>
             {Math.round(globalVolume * 100)}%
           </span>
         </div>
