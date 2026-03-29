@@ -17,27 +17,8 @@ type SanctuaryView = "entry" | "thunderdome" | "storefront";
 // Single stationary image — Gad does NOT rotate
 const gadImage = { src: gadThreshingFloor, alt: "Prophet Gad - Threshing Floor" };
 
-export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
+export const SanctuaryInterior = ({ onExit, musicRef }: SanctuaryInteriorProps) => {
   const [view, setView] = useState<SanctuaryView>("entry");
-  const musicRef = useRef<HTMLAudioElement>(null);
-
-  useEffect(() => {
-    if (musicRef.current) {
-      musicRef.current.volume = 0.15;
-    }
-    const handleAudioStart = () => {
-      if (musicRef.current) musicRef.current.volume = 0.075;
-    };
-    const handleAudioEnd = () => {
-      if (musicRef.current) musicRef.current.volume = 0.15;
-    };
-    window.addEventListener("pgai-audio-start", handleAudioStart);
-    window.addEventListener("pgai-audio-end", handleAudioEnd);
-    return () => {
-      window.removeEventListener("pgai-audio-start", handleAudioStart);
-      window.removeEventListener("pgai-audio-end", handleAudioEnd);
-    };
-  }, []);
 
   if (view === "entry") {
     return (
@@ -55,7 +36,6 @@ export const SanctuaryInterior = ({ onExit }: SanctuaryInteriorProps) => {
 
   return (
     <div className="fixed inset-0 bg-black overflow-hidden">
-      <audio ref={musicRef} src="/audio/warning-in-the-dark.mp3" loop preload="auto" />
       <BrandHeader />
 
       {/* Thunderdome Ring + Spotlight */}
