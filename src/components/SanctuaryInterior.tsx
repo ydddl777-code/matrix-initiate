@@ -22,7 +22,7 @@ export const SanctuaryInterior = ({ onExit, musicRef }: SanctuaryInteriorProps) 
   const [view, setView] = useState<SanctuaryView>("entry");
 
   const handleEnterArena = useCallback(() => {
-    setView("table-rising");
+    setView("thunderdome");
   }, []);
 
   const handleTransitionComplete = useCallback(() => {
