@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { BrandHeader } from "./BrandHeader";
+import gadWelcoming from "@/assets/gad-welcoming-pose.jpg";
 
 import tribeBenjamin from "@/assets/tribes/benjamin.jpeg";
 import tribeJudah from "@/assets/tribes/judah.jpeg";
@@ -174,8 +175,8 @@ export const RisingTableTransition = ({ onComplete, gadImage }: RisingTableTrans
             height: "90%",
           }}>
             <img
-              src={gadImage.src}
-              alt={gadImage.alt}
+              src={gadWelcoming}
+              alt="Prophet Gad welcoming you to the table"
               className="w-full h-full object-cover object-top"
               style={{
                 filter: "brightness(0.8) contrast(1.25) saturate(0.85)",
