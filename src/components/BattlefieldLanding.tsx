@@ -8,12 +8,14 @@ import threshingFloorOval from "@/assets/threshing-floor-oval.png";
 import lionLogo from "@/assets/lion-logo.png";
 import breastplateLogo from "@/assets/breastplate-logo.png";
 import { BrandHeader } from "./BrandHeader";
-import { AnnouncerSubtitles } from "./AnnouncerSubtitles";
 
 type VideoPhase = "gad" | "competitor";
 
 interface BattlefieldLandingProps {
   onEnterSanctuary: () => void;
+  musicRef: React.RefObject<HTMLAudioElement>;
+  startMusic: () => void;
+  musicStarted: boolean;
 }
 
 // Single stationary image for Gad — no rotation
@@ -29,7 +31,7 @@ const embers = Array.from({ length: 30 }, (_, i) => ({
   drift: -30 + Math.random() * 60,
 }));
 
-export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps) => {
+export const BattlefieldLanding = ({ onEnterSanctuary, musicRef, startMusic, musicStarted }: BattlefieldLandingProps) => {
   const [isMuted, setIsMuted] = useState(true);
   const isMutedRef = useRef(true);
   const [isReady, setIsReady] = useState(false); // Gate: user must press "Begin"
@@ -45,7 +47,7 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
 
   const gadVideoRef = useRef<HTMLVideoElement>(null);
   const competitorVideoRef = useRef<HTMLVideoElement>(null);
-  const musicRef = useRef<HTMLAudioElement>(null);
+  // musicRef is now passed from parent
 
 
   // Smooth volume fade helper
@@ -66,13 +68,7 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
     }, stepTime);
   }, []);
 
-  const startMusic = useCallback(() => {
-    if (musicRef.current && musicRef.current.paused) {
-      musicRef.current.volume = 0;
-      musicRef.current.play().catch(() => {});
-      fadeVolume(musicRef.current, 0.7, 3000); // Fade in over 3 seconds
-    }
-  }, [fadeVolume]);
+  // startMusic is now passed from parent
 
   // Begin sequence when user clicks Ready
   const handleBegin = () => {
@@ -92,17 +88,15 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
       competitorVideoRef.current.currentTime = 0;
       competitorVideoRef.current.play().catch(() => {});
     }
-    if (iterationCount === 0) {
+    if (!musicStarted) {
       startMusic();
     }
   };
 
   const playAnnouncement = useCallback(async () => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     setShowAnnouncement(true);
     setAnnouncementPlaying(true);
-    // Smoothly lower music volume during announcement
-    if (musicRef.current) fadeVolume(musicRef.current, 0.35, 2500);
+    // No ducking — keep music at constant volume
 
     const announcementText = `Welcome, friend. Welcome, stranger. Welcome, citizen of every nation.
 I am the Prophetess Huldah.
@@ -149,9 +143,7 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
         audio.muted = isMutedRef.current; // Use ref for current mute state
         audio.onended = () => {
           setAnnouncementPlaying(false);
-          if (musicRef.current) {
-            musicRef.current.pause();
-          }
+          // Music keeps playing — don't pause it
           URL.revokeObjectURL(audioUrl);
           // Auto-transition to Threshing Floor after speech
           onEnterSanctuary();
@@ -162,18 +154,16 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
         // Fallback: just show CTA after a delay if TTS fails
         setTimeout(() => {
           setAnnouncementPlaying(false);
-          if (musicRef.current) musicRef.current.pause();
           onEnterSanctuary();
         }, 5000);
       }
     } catch {
       setTimeout(() => {
         setAnnouncementPlaying(false);
-        if (musicRef.current) musicRef.current.pause();
         onEnterSanctuary();
       }, 5000);
     }
-  }, [fadeVolume, onEnterSanctuary]);
+  }, [onEnterSanctuary]);
 
   const handleCompetitorVideoEnd = () => {
     setIterationCount((prev) => prev + 1);
@@ -212,7 +202,6 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
 
   return (
     <div className="fixed inset-0 bg-black overflow-hidden">
-      <audio ref={musicRef} src="/audio/warning-in-the-dark.mp3" loop preload="auto" />
 
       {/* === ARENA FLOOR TEXTURE === */}
       <div
@@ -479,7 +468,7 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
               style={{ color: 'hsl(45 80% 55%)', textShadow: '0 0 20px hsl(45 80% 50% / 0.4)' }}>
               Prophetess Huldah Speaks
             </p>
-            <AnnouncerSubtitles isPlaying={announcementPlaying} startTime={announcementStartTime} />
+            {/* Subtitles removed */}
           </div>
         </div>
       )}
