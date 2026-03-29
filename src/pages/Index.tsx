@@ -76,7 +76,7 @@ const Index = () => {
       />
       <audio
         ref={instrumentalRef}
-        src="/audio/thunder-road-gospel.mp3"
+        src="/audio/warning-in-the-dark-instrumental.flac"
         preload="auto"
         loop
       />
