@@ -8,12 +8,14 @@ import threshingFloorOval from "@/assets/threshing-floor-oval.png";
 import lionLogo from "@/assets/lion-logo.png";
 import breastplateLogo from "@/assets/breastplate-logo.png";
 import { BrandHeader } from "./BrandHeader";
-import { AnnouncerSubtitles } from "./AnnouncerSubtitles";
 
 type VideoPhase = "gad" | "competitor";
 
 interface BattlefieldLandingProps {
   onEnterSanctuary: () => void;
+  musicRef: React.RefObject<HTMLAudioElement>;
+  startMusic: () => void;
+  musicStarted: boolean;
 }
 
 // Single stationary image for Gad — no rotation
