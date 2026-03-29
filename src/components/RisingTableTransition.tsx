@@ -1,206 +1,221 @@
 import { useState, useEffect } from "react";
-import lionLogo from "@/assets/lion-logo.png";
+import { BrandHeader } from "./BrandHeader";
+
+import tribeBenjamin from "@/assets/tribes/benjamin.jpeg";
+import tribeJudah from "@/assets/tribes/judah.jpeg";
+import tribeLevi from "@/assets/tribes/levi.jpeg";
 
 interface RisingTableTransitionProps {
   onComplete: () => void;
+  gadImage: { src: string; alt: string };
 }
 
-export const RisingTableTransition = ({ onComplete }: RisingTableTransitionProps) => {
-  const [phase, setPhase] = useState<"idle" | "rising" | "settling" | "fadeout">("idle");
+export const RisingTableTransition = ({ onComplete, gadImage }: RisingTableTransitionProps) => {
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    // Start rising after a brief beat
-    const t1 = setTimeout(() => setPhase("rising"), 150);
-    // Table settles at peak
-    const t2 = setTimeout(() => setPhase("settling"), 1600);
-    // Fade out to chat
-    const t3 = setTimeout(() => setPhase("fadeout"), 2400);
-    // Complete transition
-    const t4 = setTimeout(() => onComplete(), 3200);
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); };
+    // Fade in the raised-table scene
+    const t1 = setTimeout(() => setVisible(true), 100);
+    // After holding for 3 seconds, transition to chat
+    const t2 = setTimeout(() => onComplete(), 3500);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
   }, [onComplete]);
-
-  const isRisen = phase === "rising" || phase === "settling" || phase === "fadeout";
-  const isSettled = phase === "settling" || phase === "fadeout";
-  const isFading = phase === "fadeout";
 
   return (
     <div
-      className="fixed inset-0 z-[200] flex items-center justify-center overflow-hidden transition-opacity duration-700"
-      style={{
-        background: "hsl(0 0% 3%)",
-        opacity: isFading ? 0 : 1,
-      }}
+      className="fixed inset-0 bg-black overflow-hidden transition-opacity duration-700"
+      style={{ opacity: visible ? 1 : 0 }}
     >
-      {/* Ambient arena glow */}
-      <div className="absolute inset-0 pointer-events-none" style={{
+      <BrandHeader />
+
+      {/* Same arena background as ThunderdomeEntry */}
+      <div className="absolute inset-0 z-0" style={{
+        background: `radial-gradient(ellipse 58% 50% at 50% 56%, hsl(35 44% 24%) 0%, hsl(18 28% 12%) 44%, hsl(0 0% 4%) 100%)`,
+      }} />
+
+      {/* Grid lines */}
+      <div className="absolute inset-0 z-[1] pointer-events-none opacity-[0.07]" style={{
+        backgroundImage: `repeating-linear-gradient(90deg, transparent, transparent 40px, hsl(32 28% 42% / 0.45) 40px, hsl(32 28% 42% / 0.45) 41px)`,
+      }} />
+
+      {/* Arena glow */}
+      <div className="absolute inset-0 z-[2] pointer-events-none" style={{
         background: `
-          radial-gradient(ellipse 50% 40% at 50% 55%, hsl(35 44% 18% / 0.4) 0%, transparent 100%),
-          radial-gradient(ellipse 30% 50% at 50% 50%, hsl(12 72% 30% / 0.15) 0%, transparent 100%)
+          radial-gradient(ellipse 28% 38% at 50% 45%, hsl(45 82% 74% / 0.24) 0%, transparent 100%),
+          radial-gradient(ellipse 48% 58% at 50% 48%, hsl(12 72% 50% / 0.1) 0%, transparent 100%)
         `,
       }} />
 
-      {/* Overhead spotlight that intensifies as table rises */}
-      <div
-        className="absolute pointer-events-none transition-all duration-[1400ms] ease-out"
-        style={{
-          width: "40vw",
-          height: "60vh",
-          top: "-10%",
-          left: "30%",
-          background: `radial-gradient(ellipse at 50% 0%, hsl(45 70% 70% / ${isRisen ? 0.25 : 0.06}) 0%, transparent 70%)`,
-        }}
-      />
+      {/* Vignette */}
+      <div className="absolute inset-0 z-[4] pointer-events-none" style={{
+        background: `radial-gradient(ellipse 54% 54% at 50% 48%, transparent 34%, hsl(0 0% 0% / 0.28) 62%, hsl(0 0% 0% / 0.74) 100%)`,
+      }} />
 
-      {/* The oval table */}
-      <div
-        className="relative transition-all ease-[cubic-bezier(0.22,1,0.36,1)]"
-        style={{
-          width: "min(75vw, 520px)",
-          height: "min(50vw, 340px)",
-          transitionDuration: isRisen ? "1400ms" : "0ms",
-          transform: isRisen
-            ? `perspective(900px) rotateX(${isSettled ? "28deg" : "32deg"}) translateY(${isSettled ? "-8vh" : "-6vh"}) scale(${isSettled ? 1.02 : 1})`
-            : "perspective(900px) rotateX(55deg) translateY(12vh) scale(0.9)",
-        }}
-      >
-        {/* Table shadow on the ground — grows as it rises */}
-        <div
-          className="absolute transition-all duration-[1400ms] ease-out"
-          style={{
-            width: "120%",
-            height: "40%",
-            bottom: isRisen ? "-60%" : "-15%",
-            left: "-10%",
-            background: `radial-gradient(ellipse at 50% 50%, hsl(0 0% 0% / ${isRisen ? 0.7 : 0.3}) 0%, transparent 70%)`,
-            filter: `blur(${isRisen ? 30 : 10}px)`,
-          }}
-        />
-
-        {/* Center pedestal / leg */}
-        <div
-          className="absolute left-1/2 -translate-x-1/2 transition-all duration-[1400ms] ease-out"
-          style={{
-            width: "8%",
-            bottom: isRisen ? "-55%" : "-10%",
-            height: isRisen ? "55%" : "10%",
-            background: `linear-gradient(180deg, hsl(0 0% 22%) 0%, hsl(0 0% 12%) 100%)`,
-            borderRadius: "4px",
-            boxShadow: "inset -4px 0 8px hsl(0 0% 0% / 0.5), 2px 0 6px hsl(0 0% 0% / 0.4)",
-          }}
-        />
-
-        {/* Oval table surface */}
-        <div
-          className="absolute inset-0 rounded-[50%] overflow-hidden"
-          style={{
-            background: `
-              radial-gradient(ellipse 80% 70% at 50% 40%, hsl(25 15% 22%) 0%, hsl(20 12% 14%) 60%, hsl(15 10% 10%) 100%)
-            `,
-            border: "2px solid hsl(45 60% 40% / 0.35)",
-            boxShadow: `
-              0 0 40px hsl(45 60% 40% / ${isRisen ? 0.2 : 0.08}),
-              inset 0 0 60px hsl(0 0% 0% / 0.5),
-              0 ${isRisen ? 20 : 4}px ${isRisen ? 60 : 15}px hsl(0 0% 0% / ${isRisen ? 0.6 : 0.3})
-            `,
-            transition: "box-shadow 1400ms ease-out",
-          }}
-        >
-          {/* Surface texture — faint granite lines */}
-          <div className="absolute inset-0 opacity-[0.06]" style={{
-            backgroundImage: `
-              repeating-linear-gradient(45deg, transparent, transparent 8px, hsl(0 0% 50% / 0.3) 8px, hsl(0 0% 50% / 0.3) 9px),
-              repeating-linear-gradient(-45deg, transparent, transparent 12px, hsl(0 0% 40% / 0.2) 12px, hsl(0 0% 40% / 0.2) 13px)
-            `,
-          }} />
-
-          {/* Decorative ring on table edge */}
-          <div className="absolute inset-[6%] rounded-[50%]" style={{
-            border: "1px solid hsl(45 50% 45% / 0.2)",
-          }} />
-
-          {/* Inner ring */}
-          <div className="absolute inset-[12%] rounded-[50%]" style={{
-            border: "1px dashed hsl(45 50% 45% / 0.12)",
-          }} />
-
-          {/* Center emblem — Lion of Judah */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div
-              className="rounded-full overflow-hidden transition-all duration-[1400ms]"
-              style={{
-                width: isRisen ? "22%" : "18%",
-                height: isRisen ? "32%" : "26%",
-                opacity: isRisen ? 0.7 : 0.3,
-                boxShadow: `0 0 ${isRisen ? 30 : 10}px hsl(45 80% 50% / ${isRisen ? 0.4 : 0.15})`,
-                border: "1.5px solid hsl(45 70% 50% / 0.4)",
-              }}
-            >
-              <img src={lionLogo} alt="Lion of Judah" className="w-full h-full object-cover" />
+      {/* Tribal standards on back wall — same as arena */}
+      <div className="absolute inset-0 z-[6] pointer-events-none hidden md:flex items-center justify-center">
+        <div className="relative" style={{ width: "min(86vw, 86vh)", height: "min(86vw, 86vh)" }}>
+          <div className="absolute flex flex-col items-center"
+            style={{ top: "22%", left: "18%", transform: "translate(-50%, 0)" }}>
+            <div className="w-8 lg:w-11 h-14 lg:h-20 overflow-hidden rounded-sm"
+              style={{ boxShadow: "0 4px 20px hsl(0 0% 0% / 0.7)", border: "1px solid hsl(30 20% 25% / 0.2)", opacity: 0.3, filter: "brightness(0.4) saturate(0.6)" }}>
+              <img src={tribeLevi} alt="Standard of Levi" className="w-full h-full object-cover" />
             </div>
           </div>
+          <div className="absolute flex flex-col items-center"
+            style={{ top: "18%", left: "50%", transform: "translate(-50%, 0)" }}>
+            <div className="w-9 lg:w-13 h-16 lg:h-22 overflow-hidden rounded-sm"
+              style={{ boxShadow: "0 4px 25px hsl(0 0% 0% / 0.7)", border: "1px solid hsl(30 20% 25% / 0.25)", opacity: 0.4, filter: "brightness(0.45) saturate(0.65)" }}>
+              <img src={tribeJudah} alt="Standard of Judah" className="w-full h-full object-cover" />
+            </div>
+          </div>
+          <div className="absolute flex flex-col items-center"
+            style={{ top: "22%", right: "18%", transform: "translate(50%, 0)" }}>
+            <div className="w-8 lg:w-11 h-14 lg:h-20 overflow-hidden rounded-sm"
+              style={{ boxShadow: "0 4px 20px hsl(0 0% 0% / 0.7)", border: "1px solid hsl(30 20% 25% / 0.2)", opacity: 0.3, filter: "brightness(0.4) saturate(0.6)" }}>
+              <img src={tribeBenjamin} alt="Standard of Benjamin" className="w-full h-full object-cover" />
+            </div>
+          </div>
+        </div>
+      </div>
 
-          {/* Scroll prop (left side of table) */}
-          <div
-            className="absolute transition-opacity duration-[1000ms]"
-            style={{
-              top: "28%",
-              left: "12%",
-              width: "18%",
-              height: "8%",
-              opacity: isSettled ? 0.5 : 0,
-              background: `linear-gradient(90deg, hsl(35 40% 55%) 0%, hsl(35 30% 40%) 50%, hsl(35 40% 55%) 100%)`,
+      {/* CENTER — The raised oval table with pedestal leg */}
+      <div className="absolute inset-0 z-[10] flex items-center justify-center">
+        <div className="relative" style={{ width: "min(70vw, 500px)", height: "min(55vh, 400px)" }}>
+
+          {/* Pedestal leg — single thick center column */}
+          <div className="absolute left-1/2 -translate-x-1/2 z-[1]" style={{
+            width: "10%",
+            height: "28%",
+            bottom: "8%",
+            background: `linear-gradient(180deg, hsl(0 0% 25%) 0%, hsl(0 0% 15%) 50%, hsl(0 0% 10%) 100%)`,
+            borderRadius: "6px",
+            boxShadow: "inset -6px 0 12px hsl(0 0% 0% / 0.6), 4px 0 10px hsl(0 0% 0% / 0.4), 0 8px 20px hsl(0 0% 0% / 0.5)",
+          }} />
+
+          {/* Pedestal base — wider disc at the bottom */}
+          <div className="absolute left-1/2 -translate-x-1/2 z-[1]" style={{
+            width: "22%",
+            height: "4%",
+            bottom: "7%",
+            background: `linear-gradient(180deg, hsl(0 0% 20%) 0%, hsl(0 0% 10%) 100%)`,
+            borderRadius: "50%",
+            boxShadow: "0 4px 15px hsl(0 0% 0% / 0.6)",
+          }} />
+
+          {/* Shadow on the ground beneath table */}
+          <div className="absolute left-1/2 -translate-x-1/2 z-[0]" style={{
+            width: "80%",
+            height: "8%",
+            bottom: "3%",
+            background: `radial-gradient(ellipse at 50% 50%, hsl(0 0% 0% / 0.6) 0%, transparent 70%)`,
+            filter: "blur(8px)",
+          }} />
+
+          {/* The oval table surface — elevated, seen at slight angle */}
+          <div className="absolute z-[2]" style={{
+            left: "5%",
+            right: "5%",
+            top: "20%",
+            height: "42%",
+            borderRadius: "50%",
+            background: `
+              radial-gradient(ellipse 80% 70% at 50% 45%, hsl(25 15% 22%) 0%, hsl(20 12% 16%) 55%, hsl(15 10% 11%) 100%)
+            `,
+            border: "2px solid hsl(45 60% 40% / 0.3)",
+            boxShadow: `
+              0 0 30px hsl(45 60% 40% / 0.15),
+              inset 0 0 50px hsl(0 0% 0% / 0.4),
+              0 15px 40px hsl(0 0% 0% / 0.5)
+            `,
+            transform: "perspective(800px) rotateX(25deg)",
+          }}>
+            {/* Surface texture */}
+            <div className="absolute inset-0 rounded-[50%] opacity-[0.05]" style={{
+              backgroundImage: `
+                repeating-linear-gradient(45deg, transparent, transparent 8px, hsl(0 0% 50% / 0.3) 8px, hsl(0 0% 50% / 0.3) 9px)
+              `,
+            }} />
+
+            {/* Decorative ring */}
+            <div className="absolute inset-[8%] rounded-[50%]" style={{
+              border: "1px solid hsl(45 50% 45% / 0.18)",
+            }} />
+
+            {/* Inner dashed ring */}
+            <div className="absolute inset-[15%] rounded-[50%]" style={{
+              border: "1px dashed hsl(45 50% 45% / 0.1)",
+            }} />
+
+            {/* Scroll on Gad's side */}
+            <div className="absolute" style={{
+              top: "30%", left: "14%",
+              width: "16%", height: "10%",
+              background: `linear-gradient(90deg, hsl(35 40% 50%) 0%, hsl(35 30% 38%) 50%, hsl(35 40% 50%) 100%)`,
               borderRadius: "50% / 100%",
-              boxShadow: "0 2px 8px hsl(0 0% 0% / 0.5)",
-            }}
-          />
+              boxShadow: "0 2px 6px hsl(0 0% 0% / 0.5)",
+              opacity: 0.5,
+            }} />
 
-          {/* Bible prop (right side — challenger's) */}
-          <div
-            className="absolute transition-opacity duration-[1000ms]"
-            style={{
-              bottom: "25%",
-              right: "14%",
-              width: "14%",
-              height: "18%",
-              opacity: isSettled ? 0.45 : 0,
+            {/* Bible / book on challenger's side */}
+            <div className="absolute" style={{
+              bottom: "22%", right: "16%",
+              width: "12%", height: "16%",
               background: `linear-gradient(180deg, hsl(15 30% 20%) 0%, hsl(10 25% 14%) 100%)`,
               borderRadius: "2px",
-              border: "1px solid hsl(45 50% 40% / 0.3)",
-              boxShadow: "0 2px 8px hsl(0 0% 0% / 0.5)",
-            }}
-          />
+              border: "1px solid hsl(45 50% 40% / 0.25)",
+              boxShadow: "0 2px 6px hsl(0 0% 0% / 0.5)",
+              opacity: 0.4,
+            }} />
+          </div>
 
-          {/* Hourglass timer (side of table) */}
-          <div
-            className="absolute transition-opacity duration-[1200ms] flex flex-col items-center"
-            style={{
-              top: "20%",
-              right: "6%",
-              opacity: isSettled ? 0.4 : 0,
-            }}
-          >
-            <div style={{
-              width: "6px",
-              height: "16px",
-              background: "linear-gradient(180deg, hsl(45 60% 50%) 0%, hsl(35 40% 35%) 40%, hsl(45 60% 50%) 100%)",
-              clipPath: "polygon(0 0, 100% 0, 60% 50%, 100% 100%, 0 100%, 40% 50%)",
+          {/* GAD — on the right side of the table, facing camera */}
+          <div className="absolute right-[-8%] bottom-[5%] z-[5]" style={{
+            width: "30%",
+            height: "90%",
+          }}>
+            <img
+              src={gadImage.src}
+              alt={gadImage.alt}
+              className="w-full h-full object-cover object-top"
+              style={{
+                filter: "brightness(0.8) contrast(1.25) saturate(0.85)",
+                maskImage: "linear-gradient(to left, black 50%, transparent 95%)",
+                WebkitMaskImage: "linear-gradient(to left, black 50%, transparent 95%)",
+              }}
+            />
+          </div>
+
+          {/* Challenger silhouette — back to camera, left side */}
+          <div className="absolute left-[-8%] bottom-[5%] z-[5]" style={{
+            width: "28%",
+            height: "85%",
+          }}>
+            <div className="w-full h-full" style={{
+              background: `
+                radial-gradient(ellipse 60% 20% at 50% 12%, hsl(0 0% 12%) 0%, transparent 100%),
+                radial-gradient(ellipse 40% 50% at 50% 45%, hsl(0 0% 8%) 0%, transparent 100%),
+                radial-gradient(ellipse 50% 25% at 50% 80%, hsl(0 0% 10%) 0%, transparent 100%)
+              `,
+              filter: "brightness(0.6)",
+              maskImage: "linear-gradient(to right, black 50%, transparent 95%)",
+              WebkitMaskImage: "linear-gradient(to right, black 50%, transparent 95%)",
             }} />
           </div>
         </div>
       </div>
 
-      {/* Status text */}
-      <div
-        className="absolute bottom-[15%] left-1/2 -translate-x-1/2 transition-opacity duration-700"
-        style={{ opacity: isRisen && !isFading ? 1 : 0 }}
-      >
-        <p className="font-display text-sm md:text-base tracking-[0.4em] uppercase"
+      {/* "WELCOME" text from Gad */}
+      <div className="absolute bottom-[12%] left-1/2 -translate-x-1/2 z-[20] text-center">
+        <p className="font-display text-base md:text-lg tracking-[0.35em] uppercase"
           style={{
             color: "hsl(45 80% 55%)",
             textShadow: "0 0 20px hsl(45 80% 55% / 0.3)",
           }}>
-          {isSettled ? "THE TABLE IS SET" : "PREPARING THE THRESHING FLOOR"}
+          WELCOME TO THE TABLE
+        </p>
+        <p className="font-terminal text-[10px] mt-2 tracking-widest"
+          style={{ color: "hsl(45 60% 45% / 0.5)" }}>
+          THE THRESHING FLOOR IS SET
         </p>
       </div>
     </div>
