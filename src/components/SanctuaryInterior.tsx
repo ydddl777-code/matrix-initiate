@@ -9,6 +9,7 @@ import gadThreshingFloor from "@/assets/gad-threshing-floor.jpg";
 
 interface SanctuaryInteriorProps {
   onExit: () => void;
+  musicRef?: React.RefObject<HTMLAudioElement>;
 }
 
 type SanctuaryView = "entry" | "thunderdome" | "storefront";

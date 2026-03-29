@@ -472,7 +472,7 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
               style={{ color: 'hsl(45 80% 55%)', textShadow: '0 0 20px hsl(45 80% 50% / 0.4)' }}>
               Prophetess Huldah Speaks
             </p>
-            <AnnouncerSubtitles isPlaying={announcementPlaying} startTime={announcementStartTime} />
+            {/* Subtitles removed */}
           </div>
         </div>
       )}
