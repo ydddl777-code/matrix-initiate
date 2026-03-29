@@ -7,12 +7,12 @@ interface BootSequenceProps {
 
 const BOOT_MESSAGES = [
   { text: "> ESTABLISHING SECURE UPLINK TO THE LOFT...", delay: 0 },
-  { text: "> INITIALIZING CAMP OF ISRAEL PERIMETER...", delay: 800 },
-  { text: "> SCANNING SPIRITUAL FREQUENCIES...", delay: 1600 },
-  { text: "> LOADING DOCTRINE DATABASE [KJV SWORD]...", delay: 2400 },
-  { text: "> VERIFYING REMNANT CREDENTIALS...", delay: 3200 },
-  { text: "> PROPHET GAD ONLINE. THE GENERAL IS PRESENT.", delay: 4000 },
-  { text: "> [ RECRUIT ACCESS GRANTED ]", delay: 4800, isSuccess: true },
+  { text: "> INITIALIZING CAMP OF ISRAEL PERIMETER...", delay: 250 },
+  { text: "> SCANNING SPIRITUAL FREQUENCIES...", delay: 500 },
+  { text: "> LOADING DOCTRINE DATABASE [KJV SWORD]...", delay: 750 },
+  { text: "> VERIFYING REMNANT CREDENTIALS...", delay: 1000 },
+  { text: "> PROPHET GAD ONLINE. THE GENERAL IS PRESENT.", delay: 1250 },
+  { text: "> [ RECRUIT ACCESS GRANTED ]", delay: 1500, isSuccess: true },
 ];
 
 export const BootSequence = ({ onComplete }: BootSequenceProps) => {
@@ -36,7 +36,7 @@ export const BootSequence = ({ onComplete }: BootSequenceProps) => {
           setTimeout(() => {
             setTypedChars((prev) => ({ ...prev, [index]: i }));
             if (i === chars && index === BOOT_MESSAGES.length - 1) {
-              setTimeout(onComplete, 1000);
+              setTimeout(onComplete, 400);
             }
           }, i * 20);
         }

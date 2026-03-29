@@ -81,24 +81,39 @@ const Index = () => {
         loop
       />
 
-      {/* Persistent Volume Slider */}
+      {/* Persistent Volume Slider — fades out when idle */}
       {musicStarted && (
-        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[9999] flex items-center gap-3 px-4 py-2 rounded-full bg-black/80 backdrop-blur-sm border border-battlefield-gold/30">
-          <VolumeX className="w-4 h-4 text-battlefield-gold/60 shrink-0" />
+        <div
+          className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[9999] flex items-center gap-3 px-4 py-2 rounded-full border transition-opacity duration-700"
+          style={{
+            background: 'hsla(0, 0%, 0%, 0.75)',
+            backdropFilter: 'blur(8px)',
+            borderColor: 'hsl(45 60% 40% / 0.35)',
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.opacity = '1'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.35'; }}
+          ref={(el) => {
+            if (el) {
+              // Start faded-out after 3s
+              const t = setTimeout(() => { el.style.opacity = '0.35'; }, 3000);
+              el.dataset.fadeTimer = String(t);
+            }
+          }}
+        >
+          <VolumeX className="w-4 h-4 shrink-0" style={{ color: 'hsl(45 80% 55% / 0.6)' }} />
           <input
             type="range"
             min="0"
             max="100"
             value={Math.round(globalVolume * 100)}
             onChange={(e) => setGlobalVolume(Number(e.target.value) / 100)}
-            className="w-32 md:w-48 h-1.5 accent-[hsl(45,80%,55%)] cursor-pointer"
+            className="volume-slider w-32 md:w-48 h-1.5 cursor-pointer appearance-none rounded-full"
             style={{
-              background: `linear-gradient(to right, hsl(45 80% 55%) ${globalVolume * 100}%, hsl(0 0% 25%) ${globalVolume * 100}%)`,
-              borderRadius: '4px',
+              background: `linear-gradient(to right, hsl(45 80% 55%) ${globalVolume * 100}%, hsl(0 0% 20%) ${globalVolume * 100}%)`,
             }}
           />
-          <Volume2 className="w-4 h-4 text-battlefield-gold/60 shrink-0" />
-          <span className="font-terminal text-[10px] text-battlefield-gold/50 w-8 text-center">
+          <Volume2 className="w-4 h-4 shrink-0" style={{ color: 'hsl(45 80% 55% / 0.6)' }} />
+          <span className="font-terminal text-[10px] w-8 text-center" style={{ color: 'hsl(45 80% 55% / 0.5)' }}>
             {Math.round(globalVolume * 100)}%
           </span>
         </div>
