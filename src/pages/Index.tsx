@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from "react";
-import { Volume2, VolumeX } from "lucide-react";
+import { Volume2 } from "lucide-react";
 import { BattlefieldLanding } from "@/components/BattlefieldLanding";
 import { SanctuaryInterior } from "@/components/SanctuaryInterior";
 
@@ -103,7 +103,7 @@ const Index = () => {
             }
           }}
         >
-          <VolumeX className="w-4 h-4 shrink-0" style={{ color: 'hsl(45 80% 55% / 0.6)' }} />
+          <Volume2 className="w-4 h-4 shrink-0" style={{ color: globalVolume === 0 ? 'hsl(0 70% 50% / 0.6)' : 'hsl(45 80% 55% / 0.6)' }} />
           <input
             type="range"
             min="0"
