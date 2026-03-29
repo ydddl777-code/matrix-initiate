@@ -11,7 +11,7 @@ const Index = () => {
   const instrumentalRef = useRef<HTMLAudioElement>(null);
   const [musicStarted, setMusicStarted] = useState(false);
 
-  const [globalVolume, setGlobalVolume] = useState(0.85);
+  const [globalVolume, setGlobalVolume] = useState(0.80);
 
   const startMusic = useCallback(() => {
     if (musicRef.current && musicRef.current.paused) {
@@ -39,23 +39,26 @@ const Index = () => {
       musicRef.current.currentTime = 0;
     }
     if (instrumentalRef.current) {
-      instrumentalRef.current.volume = globalVolume;
+      // Start instrumental at 80% — same energy as the vocal track
+      instrumentalRef.current.volume = 0.80;
       instrumentalRef.current.play().catch(() => {});
-      // Gradually fade instrumental to 20% over 30 seconds
-      let vol = globalVolume;
-      const targetVol = 0.20;
-      const fadeInterval = setInterval(() => {
-        vol -= (globalVolume - targetVol) / 60;
-        if (vol <= targetVol) {
-          vol = targetVol;
-          clearInterval(fadeInterval);
-        }
-        if (instrumentalRef.current) {
-          instrumentalRef.current.volume = vol;
-        }
-      }, 500);
+      // After 2.5 minutes (150s), gradually fade to 50% over 30 seconds
+      setTimeout(() => {
+        let vol = 0.80;
+        const targetVol = 0.50;
+        const fadeInterval = setInterval(() => {
+          vol -= (0.80 - targetVol) / 60; // 60 steps over 30s
+          if (vol <= targetVol) {
+            vol = targetVol;
+            clearInterval(fadeInterval);
+          }
+          if (instrumentalRef.current) {
+            instrumentalRef.current.volume = vol;
+          }
+        }, 500);
+      }, 150000); // 2.5 minutes delay before fade
     }
-  }, [globalVolume]);
+  }, []);
 
   const handleEnterSanctuary = () => {
     setZone("sanctuary");
