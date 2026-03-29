@@ -143,9 +143,7 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
         audio.muted = isMutedRef.current; // Use ref for current mute state
         audio.onended = () => {
           setAnnouncementPlaying(false);
-          if (musicRef.current) {
-            musicRef.current.pause();
-          }
+          // Music keeps playing — don't pause it
           URL.revokeObjectURL(audioUrl);
           // Auto-transition to Threshing Floor after speech
           onEnterSanctuary();
@@ -156,18 +154,16 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
         // Fallback: just show CTA after a delay if TTS fails
         setTimeout(() => {
           setAnnouncementPlaying(false);
-          if (musicRef.current) musicRef.current.pause();
           onEnterSanctuary();
         }, 5000);
       }
     } catch {
       setTimeout(() => {
         setAnnouncementPlaying(false);
-        if (musicRef.current) musicRef.current.pause();
         onEnterSanctuary();
       }, 5000);
     }
-  }, [fadeVolume, onEnterSanctuary]);
+  }, [onEnterSanctuary]);
 
   const handleCompetitorVideoEnd = () => {
     setIterationCount((prev) => prev + 1);

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { NavArrows } from "./NavArrows";
 import { DoctrinalWarfare } from "./doctrine/DoctrinalWarfare";
