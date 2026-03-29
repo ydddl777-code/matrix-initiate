@@ -31,7 +31,7 @@ const embers = Array.from({ length: 30 }, (_, i) => ({
   drift: -30 + Math.random() * 60,
 }));
 
-export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps) => {
+export const BattlefieldLanding = ({ onEnterSanctuary, musicRef, startMusic, musicStarted }: BattlefieldLandingProps) => {
   const [isMuted, setIsMuted] = useState(true);
   const isMutedRef = useRef(true);
   const [isReady, setIsReady] = useState(false); // Gate: user must press "Begin"
@@ -47,7 +47,7 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
 
   const gadVideoRef = useRef<HTMLVideoElement>(null);
   const competitorVideoRef = useRef<HTMLVideoElement>(null);
-  const musicRef = useRef<HTMLAudioElement>(null);
+  // musicRef is now passed from parent
 
 
   // Smooth volume fade helper
@@ -68,13 +68,7 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
     }, stepTime);
   }, []);
 
-  const startMusic = useCallback(() => {
-    if (musicRef.current && musicRef.current.paused) {
-      musicRef.current.volume = 0;
-      musicRef.current.play().catch(() => {});
-      fadeVolume(musicRef.current, 0.7, 3000); // Fade in over 3 seconds
-    }
-  }, [fadeVolume]);
+  // startMusic is now passed from parent
 
   // Begin sequence when user clicks Ready
   const handleBegin = () => {
@@ -100,11 +94,9 @@ export const BattlefieldLanding = ({ onEnterSanctuary }: BattlefieldLandingProps
   };
 
   const playAnnouncement = useCallback(async () => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     setShowAnnouncement(true);
     setAnnouncementPlaying(true);
-    // Smoothly lower music volume during announcement
-    if (musicRef.current) fadeVolume(musicRef.current, 0.35, 2500);
+    // No ducking — keep music at constant volume
 
     const announcementText = `Welcome, friend. Welcome, stranger. Welcome, citizen of every nation.
 I am the Prophetess Huldah.
@@ -214,7 +206,6 @@ So enter in peace — and let every claim be weighed by the word of the Most Hig
 
   return (
     <div className="fixed inset-0 bg-black overflow-hidden">
-      <audio ref={musicRef} src="/audio/warning-in-the-dark.mp3" loop preload="auto" />
 
       {/* === ARENA FLOOR TEXTURE === */}
       <div
