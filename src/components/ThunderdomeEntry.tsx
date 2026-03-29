@@ -232,17 +232,17 @@ export const ThunderdomeEntry = ({ onEnter, onExit, gadImage }: ThunderdomeEntry
           />
         </div>
 
-        {/* Matchup — CHALLENGER vs GAD (correct sides) */}
-        <div className="mt-3 flex items-center justify-center gap-2 md:gap-4">
-          <p className="font-display text-sm md:text-lg uppercase tracking-wider font-bold"
+        {/* Matchup — CHALLENGER vs GAD */}
+        <div className="mt-1 flex items-center justify-center gap-2 md:gap-3">
+          <p className="font-display text-xs md:text-sm uppercase tracking-wider font-bold"
             style={{ color: "hsl(0 60% 50%)", textShadow: "0 0 15px hsl(0 60% 50% / 0.35)" }}>
             {current.name}
           </p>
-          <span className="font-display text-base md:text-xl font-bold"
+          <span className="font-display text-sm md:text-base font-bold"
             style={{ color: "hsl(45 82% 60%)", textShadow: "0 0 20px hsl(45 82% 60% / 0.38)" }}>
             vs.
           </span>
-          <p className="font-display text-sm md:text-lg uppercase tracking-wider font-bold"
+          <p className="font-display text-xs md:text-sm uppercase tracking-wider font-bold"
             style={{ color: "hsl(12 76% 54%)", textShadow: "0 0 15px hsl(12 76% 54% / 0.35)" }}>
             GAD
           </p>
@@ -251,25 +251,23 @@ export const ThunderdomeEntry = ({ onEnter, onExit, gadImage }: ThunderdomeEntry
         {/* ENTER button */}
         <button
           onClick={onEnter}
-          className="mt-4 md:mt-6 px-12 md:px-20 py-3 md:py-4 font-display text-lg md:text-2xl uppercase tracking-[0.35em]
-                     border-2 transition-all duration-500 cursor-pointer relative overflow-hidden"
+          className="mt-2 md:mt-3 px-8 md:px-12 py-2 md:py-2.5 font-display text-sm md:text-base uppercase tracking-[0.3em]
+                     border transition-all duration-500 cursor-pointer relative overflow-hidden"
           style={{
             background: "linear-gradient(180deg, hsl(12 60% 26% / 0.85) 0%, hsl(0 55% 16% / 0.95) 100%)",
             borderColor: "hsl(12 76% 54%)",
             color: "hsl(45 82% 60%)",
-            boxShadow: "0 0 25px hsl(12 76% 54% / 0.35), inset 0 0 30px hsl(12 60% 20% / 0.25)",
-            textShadow: "0 0 15px hsl(45 82% 60% / 0.4)",
+            boxShadow: "0 0 20px hsl(12 76% 54% / 0.3), inset 0 0 20px hsl(12 60% 20% / 0.2)",
+            textShadow: "0 0 12px hsl(45 82% 60% / 0.4)",
             animation: "enter-pulse 2.5s ease-in-out infinite",
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.boxShadow = "0 0 50px hsl(12 76% 54% / 0.5), 0 0 100px hsl(12 76% 40% / 0.22), inset 0 0 30px hsl(12 60% 20% / 0.3)";
+            e.currentTarget.style.boxShadow = "0 0 40px hsl(12 76% 54% / 0.45), inset 0 0 25px hsl(12 60% 20% / 0.25)";
             e.currentTarget.style.borderColor = "hsl(45 82% 60%)";
-            e.currentTarget.style.color = "hsl(45 90% 70%)";
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.boxShadow = "0 0 25px hsl(12 76% 54% / 0.35), inset 0 0 30px hsl(12 60% 20% / 0.25)";
+            e.currentTarget.style.boxShadow = "0 0 20px hsl(12 76% 54% / 0.3), inset 0 0 20px hsl(12 60% 20% / 0.2)";
             e.currentTarget.style.borderColor = "hsl(12 76% 54%)";
-            e.currentTarget.style.color = "hsl(45 82% 60%)";
           }}
         >
           ENTER
