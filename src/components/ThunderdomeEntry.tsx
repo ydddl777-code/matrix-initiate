@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
 import { BrandHeader } from "./BrandHeader";
 
@@ -40,19 +40,6 @@ interface ThunderdomeEntryProps {
 export const ThunderdomeEntry = ({ onEnter, onExit, gadImage }: ThunderdomeEntryProps) => {
   const [opponentIndex, setOpponentIndex] = useState(0);
   const [gadPoseIndex, setGadPoseIndex] = useState(0);
-  const musicRef = useRef<HTMLAudioElement>(null);
-
-  useEffect(() => {
-    if (musicRef.current) {
-      musicRef.current.volume = 0.07;
-      musicRef.current.play().catch(() => {});
-    }
-    return () => {
-      if (musicRef.current) {
-        musicRef.current.pause();
-      }
-    };
-  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -72,7 +59,6 @@ export const ThunderdomeEntry = ({ onEnter, onExit, gadImage }: ThunderdomeEntry
 
   return (
     <div className="fixed inset-0 bg-black overflow-hidden">
-      <audio ref={musicRef} src="/audio/warning-in-the-dark.mp3" loop preload="auto" />
       <BrandHeader />
 
       {/* Arena background */}
