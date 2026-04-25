@@ -27,4 +27,12 @@ export const BrandHeader = () => {
       </span>
 
       <div className="rounded-full overflow-hidden border-2 p-0.5 w-12 h-12 md:w-16 md:h-16" style={{
-        borderColor
+        borderColor: 'hsl(45 80% 50%)',
+        background: 'radial-gradient(circle, hsl(0 0% 100%) 0%, hsl(0 60% 40%) 60%, hsl(45 80% 50%) 100%)',
+        boxShadow: '0 0 15px hsl(45 80% 50% / 0.3), 0 0 30px hsl(0 70% 50% / 0.2)',
+      }}>
+        <img src={breastplateLogo} alt="12-Gemstone Breastplate" className="w-full h-full object-cover rounded-full drop-shadow-[0_0_12px_hsl(0,70%,50%,0.5)]" />
+      </div>
+    </div>
+  );
+};
